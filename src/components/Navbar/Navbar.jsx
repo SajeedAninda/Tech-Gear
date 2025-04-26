@@ -15,7 +15,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className=''>
+    <div>
       <div className='h-[14vh] bg-white w-[1200px] mx-auto flex items-center justify-between'>
         <Link
           href={'/'}
@@ -40,17 +40,20 @@ const Navbar = () => {
           </p>
         </div>
 
-        <div className='customs flex gap-6 items-center'>
-          <div className='flex items-center gap-4'>
+        <div className='customs flex gap-6 items-center relative'>
+          <div className='flex items-center gap-4 overflow-hidden'>
             <input
-              className={`w-[240px] rounded-xl bg-[#E5E5E5] py-2 px-6 ${
-                !showSearch ? 'hidden' : ''
+              className={`absolute right-20 top-1/2 -translate-y-1/2 w-[240px] rounded-lg bg-[#E5E5E5] py-2 px-6 transition-all duration-500 ease-in-out ${
+                showSearch ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'
               }`}
               type='text'
               name='search'
               placeholder='Search for Gears'
             />
-            <GrSearch onClick={handleShowSearch} className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer' />
+            <GrSearch
+              onClick={handleShowSearch}
+              className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer relative z-10'
+            />
           </div>
           <IoPerson className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer' />
           <RiShoppingCart2Fill className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer' />
