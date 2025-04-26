@@ -1,11 +1,12 @@
-import React from 'react';
+import React from 'react'
+import Navbar from '../Navbar/Navbar'
 
 const Homepage = () => {
-    return (
-        <div>
-            
-        </div>
-    );
-};
+  return (
+    <>
+      <Navbar></Navbar>
+    </>
+  )
+}
 
-export default Homepage;
+export default Homepage
