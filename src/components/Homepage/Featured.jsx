@@ -6,6 +6,7 @@ import earbuds from '../../images/earbuds.png'
 import gaming from '../../images/gaming.png'
 import headphone from '../../images/headphone.png'
 import smartwatch from '../../images/smartwatch.png'
+import smartphone from '../../images/smartphone.png'
 import portableSpeaker from '../../images/portable_speaker.png'
 import Image from 'next/image'
 
@@ -17,12 +18,12 @@ const Featured = () => {
           Featured Categories
         </h1>
 
-        <div className='mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
+        <div className='mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10'>
           {/* SMARTPHONES  */}
           <div className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
             <Image
               className='group-hover:scale-110 transition duration-300'
-              src={camera}
+              src={smartphone}
               width={700}
               alt='Camera Image'
             />
@@ -109,16 +110,16 @@ const Featured = () => {
             </h3>
           </div>
 
-          {/* ACCESSORIES  */}
+          {/* Smartwatches  */}
           <div className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
             <Image
               className='group-hover:scale-110 transition duration-300'
-              src={portableSpeaker}
+              src={smartwatch}
               width={700}
               alt='Camera Image'
             />
             <h3 className='text-[#111111] text-[22px] text-center font-bold group-hover:scale-120 transition duration-300'>
-              Accessories
+              Smartwatches
             </h3>
           </div>
         </div>
