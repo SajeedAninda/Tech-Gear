@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../Navbar/Navbar'
 import Banner from './Banner'
 import Featured from './Featured'
+import CuttingEdge from './CuttingEdge'
 
 const Homepage = () => {
   return (
@@ -9,6 +10,7 @@ const Homepage = () => {
       <Navbar></Navbar>
       <Banner></Banner>
       <Featured></Featured>
+      <CuttingEdge></CuttingEdge>
     </>
   )
 }
