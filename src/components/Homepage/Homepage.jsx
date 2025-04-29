@@ -3,6 +3,7 @@ import Navbar from '../Navbar/Navbar'
 import Banner from './Banner'
 import Featured from './Featured'
 import CuttingEdge from './CuttingEdge'
+import NewArrival from './NewArrival'
 
 const Homepage = () => {
   return (
@@ -11,6 +12,7 @@ const Homepage = () => {
       <Banner></Banner>
       <Featured></Featured>
       <CuttingEdge></CuttingEdge>
+      <NewArrival></NewArrival>
     </>
   )
 }
