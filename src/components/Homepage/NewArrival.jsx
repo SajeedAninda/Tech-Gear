@@ -11,72 +11,72 @@ const NewArrival = () => {
       price: 30000,
       discount: 6.25,
       tagline: 'Latest',
-      photo: 'https://www.mobiledokan.com/media/honor-200-black-official-image.webp',
+      photo:
+        'https://www.mobiledokan.com/media/honor-200-black-official-image.webp',
       rating: 4
     },
     {
       name: 'Sony WH-1000XM5 Headphones',
-      price: 349.99,
+      price: 15000,
       discount: 10,
       tagline: 'Best Seller',
-      photo: 'https://electronics.sony.com/content/dam/sony/global/images/products/wh-1000xm5/wh-1000xm5-b.jpg',
+      photo:
+        'https://m.media-amazon.com/images/I/51FgbLyCYOL._AC_UF1000,1000_QL80_.jpg',
       rating: 4.8
     },
     {
       name: 'Apple Watch Series 9',
-      price: 399.99,
+      price: 28000,
       discount: 5,
       tagline: 'Latest',
-      photo: 'https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/MKU93_VW_34FR+watch-45-alum-silver-nc-9s_VW_34FR_WF_CO_GEO_US?wid=2000&hei=2000&fmt=jpeg&qlt=95&.v=1693182461181',
+      photo:
+        'https://i5.walmartimages.com/seo/Apple-Watch-Series-9-With-Blood-Oxygen-GPS-Cellular-45mm-Graphite-Stainless-Steel-Case-with-Midnight-Sport-Band-M-L_72b9364e-dc83-45cc-80ed-1d5f1be4f85c.0e0762e34262398a32979e764d982f84.jpeg',
       rating: 4.6
     },
     {
       name: 'JBL Flip 6 Portable Speaker',
-      price: 129.95,
+      price: 18000,
       discount: 15,
       tagline: 'Most Popular',
-      photo: 'https://www.jbl.com/on/demandware.static/-/Sites-masterCatalog_Harman/default/dw3e5e1a2f/JBL_FLIP6_HERO_BLACK_1605x1605px.png',
+      photo:
+        'https://www.startech.com.bd/image/cache/catalog/portable-speaker/Jbl/jbl-flip-6/flip-6-black-001-500x500.webp',
       rating: 4.7
     },
     {
       name: 'Canon EOS M50 Mark II Camera',
-      price: 649.99,
+      price: 49000,
       discount: 12,
       tagline: 'Best Seller',
-      photo: 'https://www.usa.canon.com/internet/wcm/connect/us/2f4c1b3b-3d8e-4e1e-b2c0-9c1e4f8e0b3e/eos-m50-mark-ii-ef-m-15-45mm-is-stm-kit-black-front.png?MOD=AJPERES&CVID=',
+      photo:
+        'https://media.ldlc.com/r1600/ld/products/00/05/81/63/LD0005816350_1.jpg',
       rating: 4.5
     },
     {
       name: 'Samsung Galaxy Buds 2 Pro',
-      price: 229.99,
+      price: 27000,
       discount: 20,
       tagline: 'Newcomer',
-      photo: 'https://images.samsung.com/is/image/samsung/p6pim/ca/galaxy-buds2-pro/graphite/galaxy-buds2-pro-graphite-01.jpg',
+      photo:
+        'https://images.samsung.com/bd/galaxy-buds2-pro/feature//galaxy-buds2-pro-kv-mo.jpg',
       rating: 4.4
     },
     {
       name: 'Fitbit Charge 6',
-      price: 159.95,
+      price: 19000,
       discount: 8,
       tagline: 'Most Popular',
-      photo: 'https://store.google.com/product/images/fitbit_charge_6/fitbit_charge_6_black.png',
+      photo:
+        'https://diamu.com.bd/wp-content/uploads/2022/11/Fitbit-Charge-4.jpg',
       rating: 4.2
     },
     {
       name: 'Logitech G502 HERO Gaming Mouse',
-      price: 49.99,
+      price: 6200,
       discount: 18,
       tagline: 'Best Seller',
-      photo: 'https://resource.logitechg.com/w_1200,h_630,c_limit,q_auto,f_auto,dpr_auto/d_transparent.gif/content/dam/gaming/en/products/g502-hero/g502-hero-gallery-1.png?v=1',
+      photo:
+        'https://resource.logitechg.com/w_1200,h_630,c_limit,q_auto,f_auto,dpr_auto/d_transparent.gif/content/dam/gaming/en/products/g502-hero/g502-hero-gallery-1.png?v=1',
       rating: 4.8
-    },
-    {
-      name: 'Anker Soundcore Life Q30 Headphones',
-      price: 79.99,
-      discount: 25,
-      tagline: 'Newcomer',
-      photo: 'https://d2211byn0pk9fi.cloudfront.net/spree/products/123456/original/Life_Q30_Black.png?1604051234',
-      rating: 4.3
     }
   ]
 
@@ -85,7 +85,7 @@ const NewArrival = () => {
       <div className='my-20 w-[1200px] mx-auto'>
         <h1 className='text-[#111111] text-[26px] font-bold'>New Arrivals</h1>
 
-        <div className='mt-10 flex flex-wrap gap-10'>
+        <div className='mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10'>
           {products.map((product, index) => (
             <div
               key={index}
@@ -123,7 +123,11 @@ const NewArrival = () => {
               </div>
 
               <div className='mt-3 flex justify-center'>
-                <Rating style={{ maxWidth: 140 }} value={product.rating} readOnly />
+                <Rating
+                  style={{ maxWidth: 140 }}
+                  value={product.rating}
+                  readOnly
+                />
               </div>
 
               <div className='flex items-center gap-3 mt-4'>
