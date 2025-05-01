@@ -89,45 +89,48 @@ const NewArrival = () => {
           {products.map((product, index) => (
             <div
               key={index}
-              className='w-[280px] bg-[#E5E5E5] shadow-lg rounded-lg p-4 group cursor-pointer hover:shadow-2xl transition duration-300 relative'
+              className='w-[280px] bg-[#E5E5E5] shadow-lg rounded-lg p-4 group cursor-pointer hover:shadow-2xl transition duration-300 relative flex flex-col justify-between'
             >
-              <div className='bg-gradient-to-r from-[#111111] to-[#747373] w-[60px] h-[40px] rounded-br-2xl text-white absolute top-0 left-0 flex justify-center items-center font-bold'>
-                {Math.round(product.discount)}%
-              </div>
+              <div>
+                <div className='bg-gradient-to-r from-[#111111] to-[#747373] w-[60px] h-[40px] rounded-br-2xl text-white absolute top-0 left-0 flex justify-center items-center font-bold'>
+                  {Math.round(product.discount)}%
+                </div>
 
-              <div className='bg-gradient-to-r from-[#111111] to-[#747373] w-[100px] text-[14px] h-[40px] rounded-bl-2xl text-white absolute top-0 right-0 flex text-center justify-center items-center font-semibold'>
-                {product.tagline}
-              </div>
+                <div className='bg-gradient-to-r from-[#111111] to-[#747373] w-[100px] text-[14px] h-[40px] rounded-bl-2xl text-white absolute top-0 right-0 flex text-center justify-center items-center font-semibold'>
+                  {product.tagline}
+                </div>
 
-              <div className='p-4 rounded-lg bg-white group-hover:scale-105 transition duration-300'>
-                <Image
-                  className='w-full h-[200px] object-contain'
-                  src={product.photo}
-                  width={300}
-                  height={300}
-                  alt={product.name}
-                />
-              </div>
+                <div className='p-4 rounded-lg bg-white group-hover:scale-105 transition duration-300'>
+                  <Image
+                    className='w-full h-[200px] object-contain'
+                    src={product.photo}
+                    width={300}
+                    height={300}
+                    alt={product.name}
+                  />
+                </div>
 
-              <h3 className='text-[#111111] text-[18px] mt-5 text-center font-bold'>
-                {product.name}
-              </h3>
+                <h3 className='text-[#111111] text-[18px] mt-5 text-center font-bold min-h-[48px] line-clamp-2'>
+                  {product.name}
+                </h3>
 
-              <div className='mt-3 flex justify-center gap-3 items-center'>
-                <p className='text-[#111111] text-[16px] font-semibold'>
-                  ৳ {product.price.toLocaleString()}
-                </p>
-                <p className='text-[#555] text-[16px] font-semibold line-through'>
-                  ৳ {(product.price / (1 - product.discount / 100)).toFixed(0)}
-                </p>
-              </div>
+                <div className='mt-3 flex justify-center gap-3 items-center'>
+                  <p className='text-[#111111] text-[16px] font-semibold'>
+                    ৳ {product.price.toLocaleString()}
+                  </p>
+                  <p className='text-[#555] text-[16px] font-semibold line-through'>
+                    ৳{' '}
+                    {(product.price / (1 - product.discount / 100)).toFixed(0)}
+                  </p>
+                </div>
 
-              <div className='mt-3 flex justify-center'>
-                <Rating
-                  style={{ maxWidth: 140 }}
-                  value={product.rating}
-                  readOnly
-                />
+                <div className='mt-3 flex justify-center'>
+                  <Rating
+                    style={{ maxWidth: 140 }}
+                    value={product.rating}
+                    readOnly
+                  />
+                </div>
               </div>
 
               <div className='flex items-center gap-3 mt-4'>
