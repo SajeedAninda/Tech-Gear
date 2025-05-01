@@ -5,6 +5,7 @@ import Featured from './Featured'
 import CuttingEdge from './CuttingEdge'
 import NewArrival from './NewArrival'
 import WhyTechGear from '../WhyTechGear'
+import HotProducts from './HotProducts'
 
 const Homepage = () => {
   return (
@@ -15,6 +16,7 @@ const Homepage = () => {
       <CuttingEdge></CuttingEdge>
       <NewArrival></NewArrival>
       <WhyTechGear></WhyTechGear>
+      <HotProducts></HotProducts>
     </>
   )
 }
