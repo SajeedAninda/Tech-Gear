@@ -9,7 +9,7 @@ const Register = () => {
     return (
         <div className='bg-gradient-to-r from-[#111111] to-[#616161] min-h-screen flex items-center'>
             <div className='w-[1200px] mx-auto flex rounded-2xl overflow-hidden shadow-lg py-12'>
-                <div className='w-[50%] bg-white px-12 md:px-24 py-16'>
+                <div className='w-[50%] bg-white px-12 md:px-24 py-16 rounded-l-2xl'>
                     <div className='mt-8'>
                         <h2 className='text-3xl text-[#111111] font-bold'>Register</h2>
                         <p className='mt-3 text-[#111111]'>Please fill the form to complete your Registration</p>
@@ -24,7 +24,7 @@ const Register = () => {
                 </div>
 
                 <div className='w-[50%] hidden lg:inline-block'>
-                    <Image className='w-full object-cover h-full' src={registerImg} alt='login image'></Image>
+                    <Image className='w-full object-cover h-full rounded-r-2xl' src={registerImg} alt='login image'></Image>
                 </div>
             </div>
         </div>

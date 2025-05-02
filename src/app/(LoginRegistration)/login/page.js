@@ -8,7 +8,7 @@ import Link from 'next/link';
 
 const Login = () => {
     return (
-        <div className='bg-gradient-to-r from-[#111111] to-[#616161] min-h-screen flex items-center'> 
+        <div className='bg-gradient-to-r from-[#616161] to-[#111111] min-h-screen flex items-center'> 
             <div className='w-[1200px] mx-auto flex rounded-2xl overflow-hidden shadow-lg py-12'>
                 {/* Image Section */}
                 <div className='relative w-[50%]'>
