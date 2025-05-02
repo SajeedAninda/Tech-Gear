@@ -3,6 +3,7 @@ import React from 'react';
 import loginImg from "../../../images/loginImg.jpg";
 import logo from "../../../images/tech_gear_logo.png";
 import LoginForm from '@/components/Login/LoginForm';
+import SocialLogin from '@/components/SocialLogin/SocialLogin';
 
 const Login = () => {
     return (
@@ -26,6 +27,9 @@ const Login = () => {
                         Please Login to continue browsing and purchase your desired Gear
                     </p>
                     <LoginForm />
+
+                    <p className='text-center mt-6 font-semibold text-[#111111]'>Or Login as With</p>
+                    <SocialLogin></SocialLogin>
                 </div>
             </div>
         </div>
