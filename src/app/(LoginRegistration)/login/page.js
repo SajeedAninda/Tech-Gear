@@ -4,6 +4,7 @@ import loginImg from "../../../images/loginImg.jpg";
 import logo from "../../../images/tech_gear_logo.png";
 import LoginForm from '@/components/Login/LoginForm';
 import SocialLogin from '@/components/SocialLogin/SocialLogin';
+import Link from 'next/link';
 
 const Login = () => {
     return (
@@ -30,6 +31,8 @@ const Login = () => {
 
                     <p className='text-center mt-6 font-semibold text-[#111111]'>Or Login as With</p>
                     <SocialLogin></SocialLogin>
+
+                    <p className='text-center mt-6 text-[#111111]'>Don't have any Account? <Link className='text-[#111111] font-bold hover:underline' href={"/register"}>Register</Link></p>
                 </div>
             </div>
         </div>
