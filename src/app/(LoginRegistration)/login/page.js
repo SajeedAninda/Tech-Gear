@@ -2,6 +2,7 @@ import Image from 'next/image';
 import React from 'react';
 import loginImg from "../../../images/loginImg.jpg";
 import logo from "../../../images/tech_gear_logo.png";
+import LoginForm from '@/components/Login/LoginForm';
 
 const Login = () => {
     return (
@@ -21,6 +22,8 @@ const Login = () => {
                         <Image className='w-[100px]' src={logo} alt='logo'></Image>
                         <h1 className='text-[#111111] font-bold text-[30px]'>Welcome Back!</h1>
                         <p className='text-[#111111] mt-3 font-medium text-[16px]'>Please Login to continue browsing and purchase your desired Gear</p>
+
+                        <LoginForm></LoginForm>
                     </div>
                 </div>
 
