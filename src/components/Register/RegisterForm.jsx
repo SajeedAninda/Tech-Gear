@@ -1,10 +1,14 @@
 'use client'
 import React, { useState } from 'react'
 import { FaUpload } from 'react-icons/fa'
+import useAxiosInstance from '../Hooks/useAxiosInstance'
+import useAuth from '../Hooks/useAuth'
 
 const RegisterForm = () => {
   const [selectedImage, setSelectedImage] = useState(null)
   const [preview, setPreview] = useState(null)
+  let axiosInstance = useAxiosInstance()
+  let { signUp } = useAuth()
 
   const handleImageChange = e => {
     const file = e.target.files[0]
