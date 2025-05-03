@@ -3,6 +3,8 @@ import React, { useState } from 'react'
 import { FaUpload } from 'react-icons/fa'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
 import useAuth from '../Hooks/useAuth'
+import toast from 'react-hot-toast'
+import axios from 'axios'
 
 const RegisterForm = () => {
   const [selectedImage, setSelectedImage] = useState(null)
@@ -12,24 +14,65 @@ const RegisterForm = () => {
 
   const handleImageChange = e => {
     const file = e.target.files[0]
-
-    if (file) {
-      if (file.type.startsWith('image/')) {
-        setSelectedImage(file)
-      } else {
-        setSelectedImage(null)
-        toast.error('Please upload a valid image')
-      }
+    if (file && file.type.startsWith('image/')) {
+      setSelectedImage(file)
+      setPreview(URL.createObjectURL(file))
+    } else {
+      setSelectedImage(null)
+      setPreview(null)
+      toast.error('Please upload a valid image')
     }
   }
 
-  const handleRegister = e => {
+  let handleRegister = async e => {
     e.preventDefault()
     let fullName = e.target.name.value
     let email = e.target.email.value
     let password = e.target.password.value
 
-    console.log(fullName,email,password)
+    if (!selectedImage) {
+      return toast.error('Please upload an image')
+    }
+
+    if (password.length < 6) {
+      return toast.error('Password must be at least 6 characters!')
+    }
+    if (!/[A-Z]/.test(password)) {
+      return toast.error('Password must contain at least one capital letter!')
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      return toast.error(
+        'Password must contain at least one special character!'
+      )
+    }
+
+    let loadingToast = toast.loading('Registering...')
+
+    try {
+      let formData = new FormData()
+      formData.append('image', selectedImage)
+      let imgBBRes = await axios.post(
+        'https://api.imgbb.com/1/upload?key=cbd289d81c381c05afbab416f87e8637',
+        formData
+      )
+      let imageUrl = imgBBRes.data.data.display_url
+
+      let userCredential = await signUp(email, password)
+      let user = userCredential.user
+
+      let userDetails = { name: fullName, email, imageUrl }
+      let res = await axiosInstance.post('/registerUser', userDetails)
+
+      if (res.data.insertedId) {
+        toast.dismiss(loadingToast)
+        toast.success('Registration Successful. Please Login')
+        // navigate('/login')
+      }
+    } catch (error) {
+      console.error(error)
+      toast.dismiss(loadingToast)
+      toast.error(error.message)
+    }
   }
 
   return (
