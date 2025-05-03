@@ -1,8 +1,38 @@
+'use client'
 import React from 'react'
+import useAuth from '../Hooks/useAuth'
+import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 
 const LoginForm = () => {
+  let { signIn } = useAuth()
+  let router = useRouter()
+
+  let handleLogin = e => {
+    e.preventDefault()
+    let email = e.target.email.value
+    let password = e.target.password.value
+    let loadingToast = toast.loading('Logging In...')
+    signIn(email, password)
+      .then(userCredential => {
+        const user = userCredential.user
+        console.log(user)
+        toast.dismiss(loadingToast)
+        toast.success('Logged In Successfully!')
+        router.push('/')
+      })
+      .catch(error => {
+        let errorCode = error.code
+        console.log(errorCode)
+        if (errorCode === 'auth/invalid-credential') {
+          toast.dismiss(loadingToast)
+          return toast.error('Invalid Username or Password')
+        }
+      })
+  }
+
   return (
-    <form className='mt-6'>
+    <form onSubmit={handleLogin} className='mt-6'>
       <div>
         <label className='text-md font-medium'>
           Email<span className='text-red-500'>*</span>
@@ -29,7 +59,7 @@ const LoginForm = () => {
         ></input>
       </div>
 
-      <button className='flex justify-center cursor-pointer w-full px-10 py-2 mt-10 gap-2 items-center shadow-xl text-lg text-white hover:text-gray-300 bg-[#111111]  backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-emerald-500 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10  overflow-hidden border-2 rounded-full group'>
+      <button type='submit' className='flex justify-center cursor-pointer w-full px-10 py-2 mt-10 gap-2 items-center shadow-xl text-lg text-white hover:text-gray-300 bg-[#111111]  backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-emerald-500 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10  overflow-hidden border-2 rounded-full group'>
         Login
         <svg
           className='w-8 h-8  group-hover:rotate-90 group-hover:bg-gray-50 text-gray-50 ease-linear duration-300 rounded-full border border-gray-700 group-hover:border-none p-2 rotate-45'
