@@ -5,12 +5,15 @@ import useAxiosInstance from '../Hooks/useAxiosInstance'
 import useAuth from '../Hooks/useAuth'
 import toast from 'react-hot-toast'
 import axios from 'axios'
+import { Router } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 const RegisterForm = () => {
   const [selectedImage, setSelectedImage] = useState(null)
   const [preview, setPreview] = useState(null)
   let axiosInstance = useAxiosInstance()
   let { signUp } = useAuth()
+  let router = useRouter()
 
   const handleImageChange = e => {
     const file = e.target.files[0]
@@ -66,7 +69,7 @@ const RegisterForm = () => {
       if (res.data.insertedId) {
         toast.dismiss(loadingToast)
         toast.success('Registration Successful. Please Login')
-        // navigate('/login')
+        router.push('/login')
       }
     } catch (error) {
       console.error(error)
@@ -146,7 +149,10 @@ const RegisterForm = () => {
         </label>
       </div>
 
-      <button type='submit' className='flex justify-center cursor-pointer w-full px-10 py-2 mt-10 gap-2 items-center shadow-xl text-lg text-white hover:text-gray-300 bg-[#111111]  backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-emerald-500 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10  overflow-hidden border-2 rounded-full group'>
+      <button
+        type='submit'
+        className='flex justify-center cursor-pointer w-full px-10 py-2 mt-10 gap-2 items-center shadow-xl text-lg text-white hover:text-gray-300 bg-[#111111]  backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-emerald-500 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10  overflow-hidden border-2 rounded-full group'
+      >
         Register
         <svg
           className='w-8 h-8  group-hover:rotate-90 group-hover:bg-gray-50 text-gray-50 ease-linear duration-300 rounded-full border border-gray-700 group-hover:border-none p-2 rotate-45'
