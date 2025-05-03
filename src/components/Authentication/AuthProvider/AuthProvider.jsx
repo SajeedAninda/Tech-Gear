@@ -1,4 +1,5 @@
-import React, { createContext, useEffect } from 'react'
+'use client'
+import React, { createContext, useEffect, useState } from 'react'
 import {
   createUserWithEmailAndPassword,
   getAuth,
