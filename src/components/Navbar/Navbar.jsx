@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { GrSearch } from 'react-icons/gr'
 import { IoPerson } from 'react-icons/io5'
 import { RiShoppingCart2Fill } from 'react-icons/ri'
+import useCurrentUser from '../Hooks/useCurrentUser'
 
 const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false)
@@ -14,6 +15,8 @@ const Navbar = () => {
     setShowSearch(!showSearch)
   }
 
+  const { userData } = useCurrentUser()
+  console.log(userData)
   return (
     <div>
       <div className='h-[14vh] bg-white w-[1200px] mx-auto flex items-center justify-between'>
