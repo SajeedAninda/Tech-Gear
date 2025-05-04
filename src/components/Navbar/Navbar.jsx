@@ -61,7 +61,17 @@ const Navbar = () => {
               className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer relative z-10'
             />
           </div>
-          <IoPerson className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer' />
+          <div>
+            {userData ? (
+              <div>
+                <Image className='rounded-full w-[30px] cursor-pointer hover:opacity-65' src={userData?.imageUrl} width={20} height={24} alt='User Image'></Image>
+              </div>
+            ) : (
+              <Link href={'/login'}>
+                <IoPerson className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer' />
+              </Link>
+            )}
+          </div>
           <RiShoppingCart2Fill className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer' />
         </div>
       </div>
