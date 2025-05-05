@@ -98,12 +98,12 @@ const Navbar = () => {
             </p>
 
             {/* Main Dropdown */}
-            <div className='absolute top-5 left-0 mt-2 z-50 opacity-0 invisible peer-hover:visible peer-hover:opacity-100 hover:visible hover:opacity-100 transition duration-300 ease-in-out'>
+            <div className='absolute top-5 -left-5 mt-2 z-50 opacity-0 invisible peer-hover:visible peer-hover:opacity-100 hover:visible hover:opacity-100 transition duration-300 ease-in-out'>
               <div className='bg-white  shadow-2xl rounded-md w-[300px] flex flex-col gap-2 py-2'>
                 {Object.entries(gadgetData).map(([gadget, brands]) => (
                   <div key={gadget} className='relative group'>
                     <p className='font-bold text-[#111] mb-2 whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-200 hover:bg-[#111111] hover:text-white'>
-                      {gadget}
+                    <Link href={`/${gadget}`}>{gadget}</Link>
                     </p>
 
                     {/* Submenu */}
@@ -115,7 +115,7 @@ const Navbar = () => {
                               key={i}
                               className='font-bold text-[#111] mb-2 whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-200 hover:bg-[#111111] hover:text-white'
                             >
-                              {brand}
+                              <Link href={`/${gadget}/${brand}`}>{brand}</Link>
                             </li>
                           ))}
                         </ul>
