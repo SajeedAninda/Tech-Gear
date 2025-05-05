@@ -7,6 +7,7 @@ import { GrSearch } from 'react-icons/gr'
 import { IoPerson } from 'react-icons/io5'
 import { RiShoppingCart2Fill } from 'react-icons/ri'
 import useCurrentUser from '../Hooks/useCurrentUser'
+import { RiArrowDropDownLine } from 'react-icons/ri'
 
 const gadgetData = {
   Smartphones: [
@@ -93,8 +94,9 @@ const Navbar = () => {
           </p>
 
           <div className='relative'>
-            <p className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer peer'>
+            <p className='text-[#111111] flex items-center text-[18px] font-semibold hover:opacity-65 cursor-pointer peer'>
               Shop
+              <RiArrowDropDownLine className='text-[25px] animate-bounce' />
             </p>
 
             {/* Main Dropdown */}
@@ -103,7 +105,7 @@ const Navbar = () => {
                 {Object.entries(gadgetData).map(([gadget, brands]) => (
                   <div key={gadget} className='relative group'>
                     <p className='font-bold text-[#111] mb-2 whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-200 hover:bg-[#111111] hover:text-white'>
-                    <Link href={`/${gadget}`}>{gadget}</Link>
+                      <Link href={`/${gadget}`}>{gadget}</Link>
                     </p>
 
                     {/* Submenu */}
