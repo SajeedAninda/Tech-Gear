@@ -8,6 +8,8 @@ import { IoPerson } from 'react-icons/io5'
 import { RiShoppingCart2Fill } from 'react-icons/ri'
 import useCurrentUser from '../Hooks/useCurrentUser'
 import { RiArrowDropDownLine } from 'react-icons/ri'
+import { IoIosArrowForward } from "react-icons/io";
+
 
 const gadgetData = {
   Smartphones: [
@@ -104,8 +106,12 @@ const Navbar = () => {
               <div className='bg-white  shadow-2xl rounded-md w-[300px] flex flex-col gap-2 py-2'>
                 {Object.entries(gadgetData).map(([gadget, brands]) => (
                   <div key={gadget} className='relative group'>
-                    <p className='font-bold text-[#111] mb-2 whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-200 hover:bg-[#111111] hover:text-white'>
+                    <p className='font-bold text-[#111] mb-2 whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-200 hover:bg-[#111111] hover:text-white flex items-center'>
                       <Link href={`/${gadget}`}>{gadget}</Link>
+                      {
+                                brands.length > 0 &&
+                                <IoIosArrowForward className='text-[20px]'/>
+                              }
                     </p>
 
                     {/* Submenu */}
