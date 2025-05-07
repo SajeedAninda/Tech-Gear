@@ -63,7 +63,7 @@ const RegisterForm = () => {
       let userCredential = await signUp(email, password)
       let user = userCredential.user
 
-      let userDetails = { name: fullName, email, imageUrl }
+      let userDetails = { name: fullName, email, imageUrl, role: 'user' }
       let res = await axiosInstance.post('/registerUser', userDetails)
 
       if (res.data.insertedId) {
