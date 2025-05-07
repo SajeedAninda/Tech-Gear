@@ -8,8 +8,7 @@ import { IoPerson } from 'react-icons/io5'
 import { RiShoppingCart2Fill } from 'react-icons/ri'
 import useCurrentUser from '../Hooks/useCurrentUser'
 import { RiArrowDropDownLine } from 'react-icons/ri'
-import { IoIosArrowForward } from "react-icons/io";
-
+import { IoIosArrowForward } from 'react-icons/io'
 
 const gadgetData = {
   Smartphones: [
@@ -108,10 +107,9 @@ const Navbar = () => {
                   <div key={gadget} className='relative group'>
                     <p className='font-bold text-[#111] mb-2 whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-200 hover:bg-[#111111] hover:text-white flex items-center'>
                       <Link href={`/${gadget}`}>{gadget}</Link>
-                      {
-                                brands.length > 0 &&
-                                <IoIosArrowForward className='text-[20px]'/>
-                              }
+                      {brands.length > 0 && (
+                        <IoIosArrowForward className='text-[20px]' />
+                      )}
                     </p>
 
                     {/* Submenu */}
@@ -141,6 +139,16 @@ const Navbar = () => {
           <p className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer'>
             Contact
           </p>
+
+          {userData?.role === 'user' ? (
+            <p className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer'>
+              Profile
+            </p>
+          ) : (
+            <Link href={"/adminPanel"} className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer'>
+              Admin Panel
+            </Link>
+          )}
         </div>
 
         <div className='customs flex gap-6 items-center relative'>
