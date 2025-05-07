@@ -6,9 +6,9 @@ const AdminPanelLayout = ({ children }) => {
     return (
         <div>
             <Toaster />
-            <div className='flex justify-between'>
-                <div className='w-[25%]'><AdminSidebar></AdminSidebar></div>
-                <div className='w-[75%]'>{children}</div>
+            <div className='flex justify-between w-screen bg-gradient-to-r from-[#616161] to-[#111111]  p-10 h-screen'>
+                <div className='w-[20%]'><AdminSidebar></AdminSidebar></div>
+                <div className='w-[80%]'>{children}</div>
             </div>
         </div>
     );
