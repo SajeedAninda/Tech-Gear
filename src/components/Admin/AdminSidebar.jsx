@@ -16,7 +16,7 @@ const AdminSidebar = () => {
     { href: '/adminPanel', label: 'Dashboard', icon: <MdOutlineDashboard /> },
     { href: '/orders', label: 'Orders', icon: <BsBorderStyle /> },
     { href: '/products', label: 'Products', icon: <AiFillProduct /> },
-    { href: '/add-product', label: 'Add Products', icon: <MdFormatListBulletedAdd /> },
+    { href: '/add-product', label: 'Add Product', icon: <MdFormatListBulletedAdd /> },
     { href: '/users', label: 'Users', icon: <ImUsers /> },
     { href: '/settings', label: 'Settings', icon: <IoSettings /> },
   ]
