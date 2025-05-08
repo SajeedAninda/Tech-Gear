@@ -4,14 +4,17 @@ import { Toaster } from 'react-hot-toast';
 
 const AdminPanelLayout = ({ children }) => {
     return (
-        <div>
+        <div className="flex min-h-screen bg-gradient-to-r from-[#616161] to-[#111111] p-10">
             <Toaster />
-            <div className='flex justify-between w-screen bg-gradient-to-r from-[#616161] to-[#111111]  p-10 h-screen'>
-                <div className='w-[20%]'><AdminSidebar></AdminSidebar></div>
-                <div className='w-[80%]'>{children}</div>
+            <div className="flex w-full">
+                <div className="w-[20%] flex-grow h-full">
+                    <AdminSidebar />
+                </div>
+                <div className="w-[80%] h-full">{children}</div>
             </div>
         </div>
     );
 };
+
 
 export default AdminPanelLayout;
