@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
+import { FaUpload } from 'react-icons/fa'
 
 const gadgetData = {
   Smartphones: [
@@ -70,12 +71,26 @@ const gadgetData = {
 const AddProduct = () => {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedBrand, setSelectedBrand] = useState('')
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [preview, setPreview] = useState(null)
   const axiosInstance = useAxiosInstance()
   let currentTime = new Date()
 
   const handleCategoryChange = e => {
     setSelectedCategory(e.target.value)
     setSelectedBrand('')
+  }
+
+  const handleImageChange = e => {
+    const file = e.target.files[0]
+    if (file && file.type.startsWith('image/')) {
+      setSelectedImage(file)
+      setPreview(URL.createObjectURL(file))
+    } else {
+      setSelectedImage(null)
+      setPreview(null)
+      toast.error('Please upload a valid image')
+    }
   }
 
   const handleAddProduct = async e => {
@@ -141,7 +156,6 @@ const AddProduct = () => {
             />
           </div>
         </div>
-
         <div>
           <h2 className='text-[20px] font-bold'>Product Category</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
@@ -190,7 +204,7 @@ const AddProduct = () => {
             </select>
           </div>
         </div>
-
+        {/* PRICING AND GENERAL  */}
         <div>
           <h2 className='text-[20px] font-bold'>Pricing and General</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
@@ -241,7 +255,98 @@ const AddProduct = () => {
             />
           </div>
         </div>
+        {/* PRODUCT IMAGE UPLOADING */}
+        <div>
+          <h2 className='text-[20px] font-bold'>Product Image Upload</h2>
+          <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+            {/* Image Upload Section 1*/}
+            <div className='mt-6'>
+              <input
+                type='file'
+                id='fileInput'
+                className='hidden'
+                accept='image/*'
+                onChange={handleImageChange}
+              />
+              <label htmlFor='fileInput' className='cursor-pointer'>
+                <div className='w-full border-2 border-dotted border-gray-400 p-10 rounded-lg flex flex-col justify-center items-center gap-3 hover:bg-gray-200 transition-all duration-200'>
+                  {preview ? (
+                    <img
+                      src={preview}
+                      alt='Preview'
+                      className='w-20 h-20 object-cover rounded-full'
+                    />
+                  ) : (
+                    <>
+                      <p className='text-gray-500 font-semibold'>
+                        Upload Product Image 1
+                      </p>
+                      <FaUpload className='text-gray-500' />
+                    </>
+                  )}
+                </div>
+              </label>
+            </div>
 
+            {/* Image Upload Section 2*/}
+            <div className='mt-6'>
+              <input
+                type='file'
+                id='fileInput'
+                className='hidden'
+                accept='image/*'
+                onChange={handleImageChange}
+              />
+              <label htmlFor='fileInput' className='cursor-pointer'>
+                <div className='w-full border-2 border-dotted border-gray-400 p-10 rounded-lg flex flex-col justify-center items-center gap-3 hover:bg-gray-200 transition-all duration-200'>
+                  {preview ? (
+                    <img
+                      src={preview}
+                      alt='Preview'
+                      className='w-20 h-20 object-cover rounded-full'
+                    />
+                  ) : (
+                    <>
+                      <p className='text-gray-500 font-semibold'>
+                        Upload Product Image 2
+                      </p>
+                      <FaUpload className='text-gray-500' />
+                    </>
+                  )}
+                </div>
+              </label>
+            </div>
+
+            {/* Image Upload Section 3*/}
+            <div className='mt-6'>
+              <input
+                type='file'
+                id='fileInput'
+                className='hidden'
+                accept='image/*'
+                onChange={handleImageChange}
+              />
+              <label htmlFor='fileInput' className='cursor-pointer'>
+                <div className='w-full border-2 border-dotted border-gray-400 p-10 rounded-lg flex flex-col justify-center items-center gap-3 hover:bg-gray-200 transition-all duration-200'>
+                  {preview ? (
+                    <img
+                      src={preview}
+                      alt='Preview'
+                      className='w-20 h-20 object-cover rounded-full'
+                    />
+                  ) : (
+                    <>
+                      <p className='text-gray-500 font-semibold'>
+                        Upload Product Image 3
+                      </p>
+                      <FaUpload className='text-gray-500' />
+                    </>
+                  )}
+                </div>
+              </label>
+            </div>
+          </div>
+        </div>
         <button
           type='submit'
           className='flex justify-center hover:bg-[#2e2e2e] w-full cursor-pointer px-10 py-2 mt-10 gap-2 items-center shadow-xl text-lg text-white hover:text-gray-300 bg-[#111111]  backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-emerald-500 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10  overflow-hidden border-2 rounded-full group'
