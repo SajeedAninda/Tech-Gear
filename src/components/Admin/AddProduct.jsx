@@ -78,13 +78,38 @@ const AddProduct = () => {
     setSelectedBrand('')
   }
 
-  const handleAddProduct = e => {
+  const handleAddProduct = async e => {
     e.preventDefault()
+    const form = e.target
+    const name = form.name.value
+    const shortDesc = form.shortDesc.value
+    const longDesc = form.longDesc.value
+    const price = parseFloat(form.price.value)
+    const discount = parseFloat(form.discount.value) || 0
+    const tagline = form.tagline.value
+    const rating = parseFloat(form.rating.value) || 0
+    const category = selectedCategory
+    const brand = selectedBrand
+
+    const productData = {
+      name,
+      shortDesc,
+      longDesc,
+      price,
+      discount,
+      tagline,
+      rating,
+      category,
+      brand,
+      createdAt: currentTime
+    }
+
+    console.log(productData)
   }
 
   return (
     <div className='mt-6'>
-      <form onclick={handleAddProduct} className='space-y-5'>
+      <form onSubmit={handleAddProduct} className='space-y-5'>
         <div>
           <h2 className='text-[20px] font-bold'>General Information</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
