@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
 import { FaUpload } from 'react-icons/fa'
+import toast from 'react-hot-toast'
 
 const gadgetData = {
   Smartphones: [
@@ -71,24 +72,26 @@ const gadgetData = {
 const AddProduct = () => {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedBrand, setSelectedBrand] = useState('')
-  const [selectedImage, setSelectedImage] = useState(null)
-  const [preview, setPreview] = useState(null)
+  const [selectedImages, setSelectedImages] = useState([null, null, null])
+  const [previews, setPreviews] = useState([null, null, null])
   const axiosInstance = useAxiosInstance()
-  let currentTime = new Date()
+  const currentTime = new Date()
 
   const handleCategoryChange = e => {
     setSelectedCategory(e.target.value)
     setSelectedBrand('')
   }
 
-  const handleImageChange = e => {
+  const handleImageChange = (e, index) => {
     const file = e.target.files[0]
     if (file && file.type.startsWith('image/')) {
-      setSelectedImage(file)
-      setPreview(URL.createObjectURL(file))
+      const updatedImages = [...selectedImages]
+      const updatedPreviews = [...previews]
+      updatedImages[index] = file
+      updatedPreviews[index] = URL.createObjectURL(file)
+      setSelectedImages(updatedImages)
+      setPreviews(updatedPreviews)
     } else {
-      setSelectedImage(null)
-      setPreview(null)
       toast.error('Please upload a valid image')
     }
   }
@@ -116,10 +119,12 @@ const AddProduct = () => {
       rating,
       category,
       brand,
-      createdAt: currentTime
+      createdAt: currentTime,
+      productImage: selectedImages
     }
 
-    console.log(productData)
+    console.log('Product Info:', productData)
+    console.log('Selected Images:', selectedImages)
   }
 
   return (
@@ -128,61 +133,52 @@ const AddProduct = () => {
         <div>
           <h2 className='text-[20px] font-bold'>General Information</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
-            {/* PRODUCT NAME  */}
             <input
               type='text'
               name='name'
               placeholder='Product Name'
-              className='border py-2 px-3 rounded-lg placeholder:text-[#111111]'
+              className='border py-2 px-3 rounded-lg'
               required
             />
-            {/* SHORT DESCRIPTION */}
             <input
               type='text'
               name='shortDesc'
               placeholder='Short Description'
-              className='border py-2 px-3 rounded-lg placeholder:text-[#111111]'
+              className='border py-2 px-3 rounded-lg'
               required
             />
           </div>
-
-          {/* LONG DESCRIPTION  */}
           <div className='mt-3'>
             <textarea
               name='longDesc'
               placeholder='Brief Description'
-              className='border py-2 px-3 rounded-lg placeholder:text-[#111111] w-full'
+              className='border py-2 px-3 rounded-lg w-full'
               rows='5'
             />
           </div>
         </div>
+
         <div>
           <h2 className='text-[20px] font-bold'>Product Category</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
-            {/* Category Dropdown */}
             <select
               name='category'
-              className='border py-2 px-3 rounded-lg text-[#111111] bg-white'
+              className='border py-2 px-3 rounded-lg bg-white'
               required
               value={selectedCategory}
               onChange={handleCategoryChange}
             >
               <option value=''>Choose Product Category</option>
               {Object.keys(gadgetData).map(category => (
-                <option
-                  key={category}
-                  value={category}
-                  className='bg-[#111111] text-white'
-                >
+                <option key={category} value={category}>
                   {category}
                 </option>
               ))}
             </select>
 
-            {/* Brand Dropdown */}
             <select
               name='brand'
-              className={`border py-2 px-3 rounded-lg text-[#111111] bg-white ${
+              className={`border py-2 px-3 rounded-lg bg-white ${
                 !selectedCategory ? 'opacity-50 cursor-not-allowed' : ''
               }`}
               value={selectedBrand}
@@ -193,18 +189,14 @@ const AddProduct = () => {
               <option value=''>Choose Brand</option>
               {selectedCategory &&
                 gadgetData[selectedCategory]?.map(brand => (
-                  <option
-                    key={brand}
-                    value={brand}
-                    className='bg-[#111111] text-white'
-                  >
+                  <option key={brand} value={brand}>
                     {brand}
                   </option>
                 ))}
             </select>
           </div>
         </div>
-        {/* PRICING AND GENERAL  */}
+
         <div>
           <h2 className='text-[20px] font-bold'>Pricing and General</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
@@ -212,38 +204,27 @@ const AddProduct = () => {
               type='number'
               name='price'
               placeholder='Price'
-              className='border py-2 px-3 rounded-lg placeholder:text-[#111111]'
+              className='border py-2 px-3 rounded-lg'
               required
             />
             <input
               type='number'
               name='discount'
               placeholder='Discount %'
-              className='border py-2 px-3 rounded-lg placeholder:text-[#111111]'
+              className='border py-2 px-3 rounded-lg'
             />
             <select
               name='tagline'
-              className='border py-2 px-3 rounded-lg text-[#111111] bg-white transition duration-300 focus:ring-2 focus:ring-[#111111]'
+              className='border py-2 px-3 rounded-lg bg-white'
               required
             >
               <option value=''>Choose Product Tagline</option>
-              <option value='latest' className='bg-[#111111] text-white'>
-                Latest
-              </option>
-              <option value='best-seller' className='bg-[#111111] text-white'>
-                Best Seller
-              </option>
-              <option value='most-popular' className='bg-[#111111] text-white'>
-                Most Popular
-              </option>
-              <option value='new-comer' className='bg-[#111111] text-white'>
-                New Comer
-              </option>
-              <option value='hot-product' className='bg-[#111111] text-white'>
-                Hot Product
-              </option>
+              <option value='latest'>Latest</option>
+              <option value='best-seller'>Best Seller</option>
+              <option value='most-popular'>Most Popular</option>
+              <option value='new-comer'>New Comer</option>
+              <option value='hot-product'>Hot Product</option>
             </select>
-
             <input
               type='number'
               name='rating'
@@ -251,116 +232,63 @@ const AddProduct = () => {
               min='0'
               max='5'
               step='0.1'
-              className='border py-2 px-3 rounded-lg placeholder:text-[#111111]'
+              className='border py-2 px-3 rounded-lg'
             />
           </div>
         </div>
-        {/* PRODUCT IMAGE UPLOADING */}
+
         <div>
           <h2 className='text-[20px] font-bold'>Product Image Upload</h2>
           <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
-            {/* Image Upload Section 1*/}
-            <div className='mt-6'>
-              <input
-                type='file'
-                id='fileInput'
-                className='hidden'
-                accept='image/*'
-                onChange={handleImageChange}
-              />
-              <label htmlFor='fileInput' className='cursor-pointer'>
-                <div className='w-full border-2 border-dotted border-gray-400 p-10 rounded-lg flex flex-col justify-center items-center gap-3 hover:bg-gray-200 transition-all duration-200'>
-                  {preview ? (
-                    <img
-                      src={preview}
-                      alt='Preview'
-                      className='w-20 h-20 object-cover rounded-full'
-                    />
-                  ) : (
-                    <>
-                      <p className='text-gray-500 font-semibold'>
-                        Upload Product Image 1
-                      </p>
-                      <FaUpload className='text-gray-500' />
-                    </>
-                  )}
-                </div>
-              </label>
-            </div>
-
-            {/* Image Upload Section 2*/}
-            <div className='mt-6'>
-              <input
-                type='file'
-                id='fileInput'
-                className='hidden'
-                accept='image/*'
-                onChange={handleImageChange}
-              />
-              <label htmlFor='fileInput' className='cursor-pointer'>
-                <div className='w-full border-2 border-dotted border-gray-400 p-10 rounded-lg flex flex-col justify-center items-center gap-3 hover:bg-gray-200 transition-all duration-200'>
-                  {preview ? (
-                    <img
-                      src={preview}
-                      alt='Preview'
-                      className='w-20 h-20 object-cover rounded-full'
-                    />
-                  ) : (
-                    <>
-                      <p className='text-gray-500 font-semibold'>
-                        Upload Product Image 2
-                      </p>
-                      <FaUpload className='text-gray-500' />
-                    </>
-                  )}
-                </div>
-              </label>
-            </div>
-
-            {/* Image Upload Section 3*/}
-            <div className='mt-6'>
-              <input
-                type='file'
-                id='fileInput'
-                className='hidden'
-                accept='image/*'
-                onChange={handleImageChange}
-              />
-              <label htmlFor='fileInput' className='cursor-pointer'>
-                <div className='w-full border-2 border-dotted border-gray-400 p-10 rounded-lg flex flex-col justify-center items-center gap-3 hover:bg-gray-200 transition-all duration-200'>
-                  {preview ? (
-                    <img
-                      src={preview}
-                      alt='Preview'
-                      className='w-20 h-20 object-cover rounded-full'
-                    />
-                  ) : (
-                    <>
-                      <p className='text-gray-500 font-semibold'>
-                        Upload Product Image 3
-                      </p>
-                      <FaUpload className='text-gray-500' />
-                    </>
-                  )}
-                </div>
-              </label>
-            </div>
+            {[0, 1, 2].map(index => (
+              <div className='mt-6' key={index}>
+                <input
+                  type='file'
+                  id={`fileInput${index}`}
+                  className='hidden'
+                  accept='image/*'
+                  onChange={e => handleImageChange(e, index)}
+                />
+                <label htmlFor={`fileInput${index}`} className='cursor-pointer'>
+                  <div className='w-full border-2 border-dotted border-gray-400 p-4 rounded-lg flex flex-col justify-center items-center gap-3 hover:bg-gray-200 transition-all duration-200'>
+                    {previews[index] ? (
+                      <img
+                        src={previews[index]}
+                        alt={`Preview ${index + 1}`}
+                        className='w-40 h-40 object-cover rounded-lg'
+                      />
+                    ) : (
+                      <>
+                        <p className='text-gray-500 font-semibold'>
+                          Upload Product Image {index + 1}
+                        </p>
+                        <FaUpload className='text-gray-500' />
+                      </>
+                    )}
+                  </div>
+                </label>
+              </div>
+            ))}
           </div>
         </div>
+
         <button
           type='submit'
-          className='flex justify-center hover:bg-[#2e2e2e] w-full cursor-pointer px-10 py-2 mt-10 gap-2 items-center shadow-xl text-lg text-white hover:text-gray-300 bg-[#111111]  backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-emerald-500 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10  overflow-hidden border-2 rounded-full group'
+          className='relative z-10 overflow-hidden border-2 rounded-full group flex justify-center items-center w-full px-10 py-2 mt-10 text-lg text-white bg-[#111111] hover:bg-[#2e2e2e]'
         >
           Add Product
           <svg
-            className='w-8 h-8  group-hover:rotate-90 group-hover:bg-gray-50 text-gray-50 ease-linear duration-300 rounded-full border border-gray-700 group-hover:border-none p-2 rotate-45'
-            viewBox='0 0 16 19'
-            xmlns='http://www.w3.org/2000/svg'
+            className='w-6 h-6 ml-2 transition-transform duration-300 group-hover:rotate-90'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='2'
+            viewBox='0 0 24 24'
           >
             <path
-              d='M7 18C7 18.5523 7.44772 19 8 19C8.55228 19 9 18.5523 9 18H7ZM8.70711 0.292893C8.31658 -0.0976311 7.68342 -0.0976311 7.29289 0.292893L0.928932 6.65685C0.538408 7.04738 0.538408 7.68054 0.928932 8.07107C1.31946 8.46159 1.95262 8.46159 2.34315 8.07107L8 2.41421L13.6569 8.07107C14.0474 8.46159 14.6805 8.46159 15.0711 8.07107C15.4616 7.68054 15.4616 7.04738 15.0711 6.65685L8.70711 0.292893ZM9 18L9 1H7L7 18H9Z'
-              className='fill-gray-800 group-hover:fill-gray-800'
-            ></path>
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M17 8l4 4m0 0l-4 4m4-4H3'
+            />
           </svg>
         </button>
       </form>
