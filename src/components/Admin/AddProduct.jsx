@@ -109,27 +109,67 @@ const AddProduct = () => {
     const category = selectedCategory
     const brand = selectedBrand
 
-    const productData = {
-      name,
-      shortDesc,
-      longDesc,
-      price,
-      discount,
-      tagline,
-      rating,
-      category,
-      brand,
-      createdAt: currentTime,
-      productImage: selectedImages
+    if (!selectedImages.filter(Boolean).length) {
+      return toast.error('Please upload at least one image')
     }
 
-    console.log('Product Info:', productData)
-    console.log('Selected Images:', selectedImages)
+    const loadingToast = toast.loading('Adding Product...')
+
+    try {
+      const uploadedImageUrls = await Promise.all(
+        selectedImages.map(async image => {
+          if (!image) return null
+          const formData = new FormData()
+          formData.append('image', image)
+          const res = await axiosInstance.post(
+            'https://api.imgbb.com/1/upload?key=cbd289d81c381c05afbab416f87e8637',
+            formData
+          )
+          return res.data.data.display_url
+        })
+      )
+
+      const filteredUrls = uploadedImageUrls.filter(Boolean)
+
+      const productData = {
+        name,
+        shortDesc,
+        longDesc,
+        price,
+        discount,
+        tagline,
+        rating,
+        category,
+        brand,
+        createdAt: currentTime,
+        productImages: filteredUrls
+      }
+
+      const response = await axiosInstance.post('/addProducts', productData)
+
+      toast.dismiss(loadingToast)
+
+      if (response.data.insertedId) {
+        toast.success('Product added successfully!')
+        form.reset()
+        setSelectedCategory('')
+        setSelectedBrand('')
+        setSelectedImages([null, null, null])
+        setPreviews([null, null, null])
+      } else {
+        toast.error('Failed to add product')
+      }
+    } catch (err) {
+      toast.dismiss(loadingToast)
+      console.error(err)
+      toast.error('Error uploading images or saving product')
+    }
   }
 
   return (
     <div className='mt-6'>
       <form onSubmit={handleAddProduct} className='space-y-5'>
+        {/* General Info */}
         <div>
           <h2 className='text-[20px] font-bold'>General Information</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
@@ -148,16 +188,16 @@ const AddProduct = () => {
               required
             />
           </div>
-          <div className='mt-3'>
-            <textarea
-              name='longDesc'
-              placeholder='Brief Description'
-              className='border py-2 px-3 rounded-lg w-full'
-              rows='5'
-            />
-          </div>
+          <textarea
+            name='longDesc'
+            placeholder='Brief Description'
+            className='border py-2 px-3 rounded-lg w-full mt-3'
+            rows='5'
+            required
+          />
         </div>
 
+        {/* Category & Brand */}
         <div>
           <h2 className='text-[20px] font-bold'>Product Category</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
@@ -175,7 +215,6 @@ const AddProduct = () => {
                 </option>
               ))}
             </select>
-
             <select
               name='brand'
               className={`border py-2 px-3 rounded-lg bg-white ${
@@ -197,6 +236,7 @@ const AddProduct = () => {
           </div>
         </div>
 
+        {/* Pricing */}
         <div>
           <h2 className='text-[20px] font-bold'>Pricing and General</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
@@ -212,6 +252,7 @@ const AddProduct = () => {
               name='discount'
               placeholder='Discount %'
               className='border py-2 px-3 rounded-lg'
+              required
             />
             <select
               name='tagline'
@@ -233,10 +274,12 @@ const AddProduct = () => {
               max='5'
               step='0.1'
               className='border py-2 px-3 rounded-lg'
+              required
             />
           </div>
         </div>
 
+        {/* Image Upload */}
         <div>
           <h2 className='text-[20px] font-bold'>Product Image Upload</h2>
           <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
@@ -272,6 +315,7 @@ const AddProduct = () => {
           </div>
         </div>
 
+        {/* Submit */}
         <button
           type='submit'
           className='relative z-10 overflow-hidden border-2 rounded-full group flex justify-center items-center w-full px-10 py-2 mt-10 text-lg text-white bg-[#111111] hover:bg-[#2e2e2e]'
