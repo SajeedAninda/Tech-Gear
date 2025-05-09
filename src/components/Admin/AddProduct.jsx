@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from 'react'
+import useAxiosInstance from '../Hooks/useAxiosInstance'
 
 const gadgetData = {
   Smartphones: [
@@ -69,15 +70,21 @@ const gadgetData = {
 const AddProduct = () => {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedBrand, setSelectedBrand] = useState('')
+  const axiosInstance = useAxiosInstance()
+  let currentTime = new Date()
 
   const handleCategoryChange = e => {
     setSelectedCategory(e.target.value)
     setSelectedBrand('')
   }
 
+  const handleAddProduct = e => {
+    e.preventDefault()
+  }
+
   return (
     <div className='mt-6'>
-      <form className='space-y-5'>
+      <form onclick={handleAddProduct} className='space-y-5'>
         <div>
           <h2 className='text-[20px] font-bold'>General Information</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
