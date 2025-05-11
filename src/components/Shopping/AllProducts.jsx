@@ -117,10 +117,52 @@ const AllProducts = () => {
               <option value='low-to-high'>Price: Low to High</option>
               <option value='high-to-low'>Price: High to Low</option>
             </select>
-            <IoIosArrowDown className='absolute right-5 bottom-3'/>
+            <IoIosArrowDown className='absolute right-5 bottom-3' />
           </div>
         </div>
+
+        {/* Tagline  */}
+        <div className='mt-6'>
+          <h3 className='text-md font-semibold text-[#111] mb-3'>Sort By</h3>
+          <div className='mt-2 ml-4 space-y-2'>
+            {['Newcomer', 'Best Seller', 'Most Popular', 'Latest'].map(tag => (
+              <label
+                key={tag}
+                className='flex items-center space-x-2 cursor-pointer'
+              >
+                <input
+                  type='checkbox'
+                  className='h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500'
+                />
+                <span className='text-gray-700'>{tag}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Rating */}
+      <div className="mt-6">
+        <h3 className="text-md font-semibold text-text-[#111] mb-2">Rating</h3>
+        <ul className="space-y-2">
+          {[1, 2, 3, 4, 5].map(rating => (
+            <label key={rating} className="flex items-center space-x-2 cursor-pointer">
+              <input 
+                type="radio" 
+                name="rating" 
+                className="h-4 w-4 text-[#111] border-gray-300 focus:ring-[#111]"
+              />
+              <span className="text-text-[#111]">
+                {rating} {Array(rating).fill('★').join('')}
+              </span>
+            </label>
+          ))}
+        </ul>
       </div>
+      </div>
+
+
+
+      
 
       {/* PRODUCTS TAB  */}
       <div className='products w-[75%]'>
