@@ -3,13 +3,94 @@ import useAllProducts from '../Hooks/useAllProducts'
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import Image from 'next/image'
+import { GrSearch } from 'react-icons/gr'
 
 const AllProducts = () => {
+  const gadgetData = {
+    Smartphones: [
+      'Apple',
+      'Samsung',
+      'Xiaomi',
+      'OnePlus',
+      'Google',
+      'Oppo',
+      'Vivo',
+      'Motorola',
+      'Realme',
+      'Nokia',
+      'Asus',
+      'Sony',
+      'Huawei',
+      'Tecno',
+      'Infinix'
+    ],
+    Laptops: [
+      'Dell',
+      'HP',
+      'Lenovo',
+      'Apple',
+      'Asus',
+      'Acer',
+      'Microsoft',
+      'MSI',
+      'Razer',
+      'Samsung'
+    ],
+    Headphones: [
+      'Sony',
+      'Bose',
+      'Sennheiser',
+      'JBL',
+      'Beats by Dre',
+      'Skullcandy',
+      'Audio-Technica'
+    ],
+    Camera: ['Canon', 'Nikon', 'Sony', 'Fujifilm', 'Panasonic'],
+    Earbuds: [
+      'Apple',
+      'Samsung',
+      'OnePlus',
+      'Sony',
+      'JBL',
+      'Realme',
+      'Oppo',
+      'Nothing',
+      'Bose',
+      'Beats'
+    ],
+    Gaming: [],
+    Speakers: ['JBL', 'Bose', 'Sony', 'Marshall', 'Harman Kardon'],
+    Smartwatches: [
+      'Apple',
+      'Samsung',
+      'Garmin',
+      'Fitbit',
+      'Huawei',
+      'Amazfit',
+      'Fossil'
+    ]
+  }
+
   let { products } = useAllProducts()
+
   return (
     <div className='w-full flex justify-between gap-10 mt-10'>
-      <div className='filter w-[25%]'></div>
+      <div className='filter w-[25%]'>
+        <h3 className='text-[#111111] text-[26px] font-bold'>Products</h3>
 
+        {/* Search */}
+        <div className='mt-6 relative'>
+          <h3 className='text-md font-semibold text-[#111] mb-2'>Search</h3>
+          <GrSearch className='text-[#111] text-[20px] absolute top-[44px] left-3'></GrSearch>
+          <input
+            type='text'
+            placeholder='Search by product name...'
+            className='w-full pl-10 pr-4 py-2 border border-[#111] rounded-md focus:outline-none focus:ring-2  placeholder:text-[#111]'
+          />
+        </div>
+      </div>
+
+      {/* PRODUCTS TAB  */}
       <div className='products w-[75%]'>
         <h3 className='text-[#111111] text-[26px] font-bold'>Products</h3>
 
