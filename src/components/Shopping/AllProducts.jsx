@@ -4,6 +4,7 @@ import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import Image from 'next/image'
 import { GrSearch } from 'react-icons/gr'
+import { IoIosArrowDown } from 'react-icons/io'
 
 const AllProducts = () => {
   const gadgetData = {
@@ -107,7 +108,18 @@ const AllProducts = () => {
           </div>
         </div>
 
-        
+        {/* Sort By */}
+        <div className='mt-6'>
+          <h3 className='text-md font-semibold text-[#111] mb-3'>Sort By</h3>
+          <div className='relative'>
+            <select className='w-full px-4 py-2 border border-gray-300 rounded-md text-[#111] focus:outline-none focus:ring-2 focus:ring-[#111] focus:border-[#111] appearance-none cursor-pointer'>
+              <option value='default'>Default</option>
+              <option value='low-to-high'>Price: Low to High</option>
+              <option value='high-to-low'>Price: High to Low</option>
+            </select>
+            <IoIosArrowDown className='absolute right-5 bottom-3'/>
+          </div>
+        </div>
       </div>
 
       {/* PRODUCTS TAB  */}
