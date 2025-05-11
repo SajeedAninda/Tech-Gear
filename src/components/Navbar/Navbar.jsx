@@ -95,10 +95,10 @@ const Navbar = () => {
           </p>
 
           <div className='relative'>
-            <p className='text-[#111111] flex items-center text-[18px] font-semibold hover:opacity-65 cursor-pointer peer'>
+            <Link href={'/shop'} className='text-[#111111] flex items-center text-[18px] font-semibold hover:opacity-65 cursor-pointer peer'>
               Shop
               <RiArrowDropDownLine className='text-[25px] animate-bounce' />
-            </p>
+            </Link>
 
             {/* Main Dropdown */}
             <div className='absolute top-5 -left-5 mt-2 z-50 opacity-0 invisible peer-hover:visible peer-hover:opacity-100 hover:visible hover:opacity-100 transition duration-300 ease-in-out'>
