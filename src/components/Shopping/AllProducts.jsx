@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import useAllProducts from '../Hooks/useAllProducts'
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
@@ -72,12 +72,20 @@ const AllProducts = () => {
     ]
   }
 
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedBrand, setSelectedBrand] = useState('')
+
+  const handleCategoryChange = e => {
+    setSelectedCategory(e.target.value)
+    setSelectedBrand('')
+  }
+
   let { products } = useAllProducts()
 
   return (
     <div className='w-full flex justify-between gap-10 mt-10'>
       <div className='filter w-[25%]'>
-        <h3 className='text-[#111111] text-[26px] font-bold'>Products</h3>
+        <h3 className='text-[#111111] text-[26px] font-bold'>Filters</h3>
 
         {/* Search */}
         <div className='mt-6 relative'>
@@ -121,6 +129,58 @@ const AllProducts = () => {
           </div>
         </div>
 
+        {/* Category & Brand */}
+        <div>
+          <h3 className='text-md font-semibold text-[#111] mt-3'>
+            Product Category
+          </h3>
+          <div className='relative mt-2'>
+            <select
+              name='category'
+              className='w-full px-4 py-2 border border-gray-300 rounded-md text-[#111] focus:outline-none focus:ring-2 focus:ring-[#111] focus:border-[#111] appearance-none cursor-pointer'
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+            >
+              <option value=''>Choose Product Category</option>
+              {Object.keys(gadgetData).map(category => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            <IoIosArrowDown className='absolute right-5 bottom-3' />
+          </div>
+
+          {/* Brand Select  */}
+          <div>
+            <h3 className='text-md font-semibold text-[#111] mt-3'>
+              Brand
+            </h3>
+
+            <div className='relative'>
+                <select
+              name='brand'
+              className={`w-full mt-2 px-4 py-2 border border-gray-300 rounded-md text-[#111] focus:outline-none focus:ring-2 focus:ring-[#111] focus:border-[#111] appearance-none cursor-pointer bg-white ${
+                !selectedCategory ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              value={selectedBrand}
+              onChange={e => setSelectedBrand(e.target.value)}
+              disabled={!selectedCategory}
+              required
+            >
+              <option value=''>Choose Brand</option>
+              {selectedCategory &&
+                gadgetData[selectedCategory]?.map(brand => (
+                  <option key={brand} value={brand}>
+                    {brand}
+                  </option>
+                ))}
+            </select>
+            <IoIosArrowDown className='absolute right-5 bottom-3' />
+            </div>
+          </div>
+        </div>
+
         {/* Tagline  */}
         <div className='mt-6'>
           <h3 className='text-md font-semibold text-[#111] mb-3'>Sort By</h3>
@@ -141,28 +201,29 @@ const AllProducts = () => {
         </div>
 
         {/* Rating */}
-      <div className="mt-6">
-        <h3 className="text-md font-semibold text-text-[#111] mb-2">Rating</h3>
-        <ul className="space-y-2">
-          {[1, 2, 3, 4, 5].map(rating => (
-            <label key={rating} className="flex items-center space-x-2 cursor-pointer">
-              <input 
-                type="radio" 
-                name="rating" 
-                className="h-4 w-4 text-[#111] border-gray-300 focus:ring-[#111]"
-              />
-              <span className="text-text-[#111]">
-                {rating} {Array(rating).fill('★').join('')}
-              </span>
-            </label>
-          ))}
-        </ul>
+        <div className='mt-6'>
+          <h3 className='text-md font-semibold text-text-[#111] mb-2'>
+            Rating
+          </h3>
+          <ul className='space-y-2'>
+            {[1, 2, 3, 4, 5].map(rating => (
+              <label
+                key={rating}
+                className='flex items-center space-x-2 cursor-pointer'
+              >
+                <input
+                  type='radio'
+                  name='rating'
+                  className='h-4 w-4 text-[#111] border-gray-300 focus:ring-[#111]'
+                />
+                <span className='text-text-[#111]'>
+                  {rating} {Array(rating).fill('★').join('')}
+                </span>
+              </label>
+            ))}
+          </ul>
+        </div>
       </div>
-      </div>
-
-
-
-      
 
       {/* PRODUCTS TAB  */}
       <div className='products w-[75%]'>
