@@ -79,6 +79,7 @@ const AllProducts = () => {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedBrand, setSelectedBrand] = useState('')
   const [selectedTags, setSelectedTags] = useState([])
+  const [selectedRatings, setSelectedRatings] = useState([])
 
   const handleCategoryChange = e => {
     setSelectedCategory(e.target.value)
@@ -244,21 +245,26 @@ const AllProducts = () => {
         </div>
         {/* Rating */}
         <div className='mt-6'>
-          <h3 className='text-md font-semibold text-text-[#111] mb-2'>
-            Rating
-          </h3>
-          <ul className='space-y-2'>
+          <h3 className='text-md font-semibold text-[#111] mb-2'>Rating</h3>
+          <ul className='space-y-2 ml-4'>
             {[1, 2, 3, 4, 5].map(rating => (
               <label
                 key={rating}
                 className='flex items-center space-x-2 cursor-pointer'
               >
                 <input
-                  type='radio'
-                  name='rating'
+                  type='checkbox'
+                  checked={selectedRatings.includes(rating)}
+                  onChange={() =>
+                    setSelectedRatings(prev =>
+                      prev.includes(rating)
+                        ? prev.filter(r => r !== rating)
+                        : [...prev, rating]
+                    )
+                  }
                   className='h-4 w-4 text-[#111] border-gray-300 focus:ring-[#111]'
                 />
-                <span className='text-text-[#111]'>
+                <span className='text-[#111]'>
                   {rating} {Array(rating).fill('★').join('')}
                 </span>
               </label>
