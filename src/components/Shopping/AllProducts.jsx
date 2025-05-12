@@ -78,6 +78,7 @@ const AllProducts = () => {
   const [sortOption, setSortOption] = useState('default')
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedBrand, setSelectedBrand] = useState('')
+  const [selectedTags, setSelectedTags] = useState([])
 
   const handleCategoryChange = e => {
     setSelectedCategory(e.target.value)
@@ -226,6 +227,14 @@ const AllProducts = () => {
               >
                 <input
                   type='checkbox'
+                  checked={selectedTags.includes(tag)}
+                  onChange={() =>
+                    setSelectedTags(prev =>
+                      prev.includes(tag)
+                        ? prev.filter(t => t !== tag)
+                        : [...prev, tag]
+                    )
+                  }
                   className='h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500'
                 />
                 <span className='text-gray-700'>{tag}</span>
