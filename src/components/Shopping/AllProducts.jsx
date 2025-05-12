@@ -5,6 +5,8 @@ import '@smastrom/react-rating/style.css'
 import Image from 'next/image'
 import { GrSearch } from 'react-icons/gr'
 import { IoIosArrowDown } from 'react-icons/io'
+import useAxiosInstance from '../Hooks/useAxiosInstance'
+import { useQuery } from '@tanstack/react-query'
 
 const AllProducts = () => {
   const gadgetData = {
@@ -72,6 +74,20 @@ const AllProducts = () => {
     ]
   }
 
+  let axiosInstance = useAxiosInstance()
+
+  const {
+    data: products,
+    isLoading: isProductsLoading,
+    refetch
+  } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const response = await axiosInstance.get(`/allProducts`)
+      return response.data
+    }
+  })
+
   const [searchValue, setSearchValue] = useState('')
   const [minPrice, setMinPrice] = useState(0)
   const [maxPrice, setMaxPrice] = useState(200000)
@@ -86,7 +102,16 @@ const AllProducts = () => {
     setSelectedBrand('')
   }
 
-  let { products } = useAllProducts()
+  console.log(
+    searchValue,
+    minPrice,
+    maxPrice,
+    sortOption,
+    selectedCategory,
+    selectedBrand,
+    selectedTags,
+    selectedRatings
+  )
 
   return (
     <div className='w-full flex justify-between gap-10 mt-10'>
@@ -276,6 +301,7 @@ const AllProducts = () => {
       {/* PRODUCTS TAB  */}
       <div className='products w-[75%]'>
         <h3 className='text-[#111111] text-[26px] font-bold'>Products</h3>
+        <h3 className='text-[#111111] text-[16px] font-semibold mt-3'>{products?.length} Products in Total</h3>
 
         <div className='mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10'>
           {products?.map((product, index) => (
