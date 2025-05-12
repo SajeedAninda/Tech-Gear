@@ -73,6 +73,8 @@ const AllProducts = () => {
   }
 
   const [searchValue, setSearchValue] = useState('')
+  const [minPrice, setMinPrice] = useState(0)
+  const [maxPrice, setMaxPrice] = useState(200000)
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedBrand, setSelectedBrand] = useState('')
 
@@ -87,11 +89,10 @@ const AllProducts = () => {
     <div className='w-full flex justify-between gap-10 mt-10'>
       <div className='filter w-[25%]'>
         <h3 className='text-[#111111] text-[26px] font-bold'>Filters</h3>
-
         {/* Search */}
         <div className='mt-6 relative'>
           <h3 className='text-md font-semibold text-[#111] mb-3'>Search</h3>
-          <GrSearch className='text-[#111] text-[20px] absolute top-[44px] left-3'></GrSearch>
+          <GrSearch className='text-[#111] text-[20px] absolute top-[48px] left-3'></GrSearch>
           <input
             onChange={e => {
               setSearchValue(e.target.value)
@@ -101,25 +102,51 @@ const AllProducts = () => {
             className='w-full pl-10 pr-4 py-2 border border-[#111] rounded-md focus:outline-none focus:ring-2  placeholder:text-[#111]'
           />
         </div>
-
         {/* Price Range */}
         <div className='mt-6'>
           <h3 className='text-md font-semibold text-[#111] mb-3'>
             Price Range
           </h3>
-          <div className='flex items-center gap-4'>
-            <input
-              type='range'
-              min='0'
-              max='200000'
-              className='w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#111]'
-            />
-            <span className='text-sm text-[#111] whitespace-nowrap'>
-              $0 - $200000
-            </span>
+          <div className='flex flex-col gap-4'>
+            <div className='flex items-center gap-4'>
+              <span className='text-sm text-[#111] whitespace-nowrap'>
+                Min:
+              </span>
+              <input
+                type='range'
+                min='0'
+                max={maxPrice}
+                value={minPrice}
+                onChange={e => setMinPrice(Number(e.target.value))}
+                className='w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#111]'
+              />
+              <span className='text-sm text-[#111] whitespace-nowrap'>
+                ৳{minPrice}
+              </span>
+            </div>
+
+            <div className='flex items-center gap-4'>
+              <span className='text-sm text-[#111] whitespace-nowrap'>
+                Max:
+              </span>
+              <input
+                type='range'
+                min={minPrice}
+                max='200000'
+                value={maxPrice}
+                onChange={e => setMaxPrice(Number(e.target.value))}
+                className='w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#111]'
+              />
+              <span className='text-sm text-[#111] whitespace-nowrap'>
+                ৳{maxPrice}
+              </span>
+            </div>
+
+            <p className='text-sm text-[#111]'>
+              Selected Range: ${minPrice} - ${maxPrice}
+            </p>
           </div>
         </div>
-
         {/* Sort By */}
         <div className='mt-6'>
           <h3 className='text-md font-semibold text-[#111] mb-3'>Sort By</h3>
@@ -132,7 +159,6 @@ const AllProducts = () => {
             <IoIosArrowDown className='absolute right-5 bottom-3' />
           </div>
         </div>
-
         {/* Category & Brand */}
         <div>
           <h3 className='text-md font-semibold text-[#111] mt-3'>
@@ -182,7 +208,6 @@ const AllProducts = () => {
             </div>
           </div>
         </div>
-
         {/* Tagline  */}
         <div className='mt-6'>
           <h3 className='text-md font-semibold text-[#111] mb-3'>Sort By</h3>
@@ -201,7 +226,6 @@ const AllProducts = () => {
             ))}
           </div>
         </div>
-
         {/* Rating */}
         <div className='mt-6'>
           <h3 className='text-md font-semibold text-text-[#111] mb-2'>
