@@ -72,6 +72,7 @@ const AllProducts = () => {
     ]
   }
 
+  const [searchValue, setSearchValue] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedBrand, setSelectedBrand] = useState('')
 
@@ -92,6 +93,9 @@ const AllProducts = () => {
           <h3 className='text-md font-semibold text-[#111] mb-3'>Search</h3>
           <GrSearch className='text-[#111] text-[20px] absolute top-[44px] left-3'></GrSearch>
           <input
+            onChange={e => {
+              setSearchValue(e.target.value)
+            }}
             type='text'
             placeholder='Search by product name...'
             className='w-full pl-10 pr-4 py-2 border border-[#111] rounded-md focus:outline-none focus:ring-2  placeholder:text-[#111]'
@@ -153,30 +157,28 @@ const AllProducts = () => {
 
           {/* Brand Select  */}
           <div>
-            <h3 className='text-md font-semibold text-[#111] mt-3'>
-              Brand
-            </h3>
+            <h3 className='text-md font-semibold text-[#111] mt-3'>Brand</h3>
 
             <div className='relative'>
-                <select
-              name='brand'
-              className={`w-full mt-2 px-4 py-2 border border-gray-300 rounded-md text-[#111] focus:outline-none focus:ring-2 focus:ring-[#111] focus:border-[#111] appearance-none cursor-pointer bg-white ${
-                !selectedCategory ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              value={selectedBrand}
-              onChange={e => setSelectedBrand(e.target.value)}
-              disabled={!selectedCategory}
-              required
-            >
-              <option value=''>Choose Brand</option>
-              {selectedCategory &&
-                gadgetData[selectedCategory]?.map(brand => (
-                  <option key={brand} value={brand}>
-                    {brand}
-                  </option>
-                ))}
-            </select>
-            <IoIosArrowDown className='absolute right-5 bottom-3' />
+              <select
+                name='brand'
+                className={`w-full mt-2 px-4 py-2 border border-gray-300 rounded-md text-[#111] focus:outline-none focus:ring-2 focus:ring-[#111] focus:border-[#111] appearance-none cursor-pointer bg-white ${
+                  !selectedCategory ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                value={selectedBrand}
+                onChange={e => setSelectedBrand(e.target.value)}
+                disabled={!selectedCategory}
+                required
+              >
+                <option value=''>Choose Brand</option>
+                {selectedCategory &&
+                  gadgetData[selectedCategory]?.map(brand => (
+                    <option key={brand} value={brand}>
+                      {brand}
+                    </option>
+                  ))}
+              </select>
+              <IoIosArrowDown className='absolute right-5 bottom-3' />
             </div>
           </div>
         </div>
