@@ -75,6 +75,7 @@ const AllProducts = () => {
   const [searchValue, setSearchValue] = useState('')
   const [minPrice, setMinPrice] = useState(0)
   const [maxPrice, setMaxPrice] = useState(200000)
+  const [sortOption, setSortOption] = useState('default')
   const [selectedCategory, setSelectedCategory] = useState('')
   const [selectedBrand, setSelectedBrand] = useState('')
 
@@ -151,12 +152,18 @@ const AllProducts = () => {
         <div className='mt-6'>
           <h3 className='text-md font-semibold text-[#111] mb-3'>Sort By</h3>
           <div className='relative'>
-            <select className='w-full px-4 py-2 border border-gray-300 rounded-md text-[#111] focus:outline-none focus:ring-2 focus:ring-[#111] focus:border-[#111] appearance-none cursor-pointer'>
+            <select
+              value={sortOption}
+              onChange={e => {
+                setSortOption(e.target.value)
+              }}
+              className='w-full px-4 py-2 border border-gray-300 rounded-md text-[#111] focus:outline-none focus:ring-2 focus:ring-[#111] focus:border-[#111] appearance-none cursor-pointer'
+            >
               <option value='default'>Default</option>
               <option value='low-to-high'>Price: Low to High</option>
               <option value='high-to-low'>Price: High to Low</option>
             </select>
-            <IoIosArrowDown className='absolute right-5 bottom-3' />
+            <IoIosArrowDown className='absolute right-5 bottom-3 pointer-events-none' />
           </div>
         </div>
         {/* Category & Brand */}
@@ -210,7 +217,7 @@ const AllProducts = () => {
         </div>
         {/* Tagline  */}
         <div className='mt-6'>
-          <h3 className='text-md font-semibold text-[#111] mb-3'>Sort By</h3>
+          <h3 className='text-md font-semibold text-[#111] mb-3'>Tagline</h3>
           <div className='mt-2 ml-4 space-y-2'>
             {['Newcomer', 'Best Seller', 'Most Popular', 'Latest'].map(tag => (
               <label
