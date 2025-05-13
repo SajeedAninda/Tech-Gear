@@ -423,18 +423,17 @@ const AllProducts = () => {
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className='p-2 rounded-md border disabled:opacity-50 hover:bg-gray-100 transition'
+                  className='p-2 rounded-md cursor-pointer hover:opacity-70 border disabled:opacity-50 hover:bg-gray-100 transition'
                 >
                   <IoIosArrowBack />
                 </button>
 
-                {/* Always show first page */}
                 <button
                   onClick={() => handlePageChange(1)}
                   className={`w-10 h-10 rounded-md ${
                     currentPage === 1
-                      ? 'bg-[#111] text-white'
-                      : 'border hover:bg-gray-100'
+                      ? 'bg-[#111] text-white cursor-pointer hover:opacity-70'
+                      : 'border cursor-pointer hover:opacity-70'
                   }`}
                 >
                   1
@@ -458,8 +457,8 @@ const AllProducts = () => {
                           onClick={() => handlePageChange(page)}
                           className={`w-10 h-10 rounded-md ${
                             currentPage === page
-                              ? 'bg-[#111] text-white'
-                              : 'border hover:bg-gray-100'
+                              ? 'bg-[#111] text-white cursor-pointer hover:opacity-70'
+                              : 'border cursor-pointer hover:opacity-70'
                           }`}
                         >
                           {page}
@@ -481,8 +480,8 @@ const AllProducts = () => {
                     }
                     className={`w-10 h-10 rounded-md ${
                       currentPage === productsData.pagination.totalPages
-                        ? 'bg-[#111] text-white'
-                        : 'border hover:bg-gray-100'
+                        ? 'bg-[#111] text-white cursor-pointer hover:opacity-70'
+                        : 'border cursor-pointer hover:opacity-70over:bg-gray-100'
                     }`}
                   >
                     {productsData.pagination.totalPages}
@@ -492,7 +491,7 @@ const AllProducts = () => {
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage === productsData.pagination.totalPages}
-                  className='p-2 rounded-md border disabled:opacity-50 hover:bg-gray-100 transition'
+                  className='p-2 rounded-md border disabled:opacity-50 cursor-pointer hover:opacity-70 transition'
                 >
                   <IoIosArrowForward />
                 </button>
