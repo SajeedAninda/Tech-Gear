@@ -6,10 +6,13 @@ import { FaSearch } from 'react-icons/fa'
 import { RiDeleteBinFill } from 'react-icons/ri'
 import { MdEditSquare } from 'react-icons/md'
 import Link from 'next/link'
+import Swal from 'sweetalert2'
+import toast from 'react-hot-toast'
 
 const Products = () => {
   const { products, isProductsLoading, refetch } = useAllProducts()
-  let [searchText, setSearchText] = useState('')
+  const [searchText, setSearchText] = useState('')
+  const axiosInstance = useAxiosInstance()
 
   let filteredProducts
 
@@ -17,10 +20,38 @@ const Products = () => {
     filteredProducts = products
   } else {
     filteredProducts = products?.filter(
-      course =>
-        course?.name.toLowerCase().includes(searchText.toLowerCase()) ||
-        course?.brand.toLowerCase().includes(searchText.toLowerCase())
+      product =>
+        product?.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        product?.brand.toLowerCase().includes(searchText.toLowerCase())
     )
+  }
+
+  let handleDeleteProduct = id => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Once Deleted, you cannot revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#111111',
+      cancelButtonColor: '#ed4747',
+      confirmButtonText: 'Yes, Delete!'
+    }).then(result => {
+      if (result.isConfirmed) {
+        axiosInstance
+          .delete(`/deleteProduct/${id}`)
+          .then(res => {
+            if (res.data.deletedCount > 0) {
+              refetch()
+              console.log(res.data)
+              toast.success('Product Deleted Succesfully')
+            }
+          })
+          .catch(error => {
+            console.error('Error :', error)
+            toast.error('Error', 'Failed to delete Product')
+          })
+      }
+    })
   }
 
   return (
@@ -38,7 +69,7 @@ const Products = () => {
           }}
           className='w-full border-2 border-[#111111] rounded-lg py-3 px-4 text-[#111111] font-semibold placeholder:font-semibold'
           type='text'
-          placeholder='Search By Course or University Name'
+          placeholder='Search By Product or Brand Name'
         />
         <FaSearch className='text-xl absolute right-5 bottom-4 text-[#111111] cursor-pointer' />
       </div>
@@ -74,7 +105,7 @@ const Products = () => {
           <div key={index} className=''>
             <div className='bg-[#F7FFF7] border-b-2 border-[#111111] grid grid-cols-12 px-2 md:px-6 py-4 items-center'>
               <div className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-1 text-center'>
-                {index+1}
+                {index + 1}
               </div>
               <div className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-1 text-center flex justify-center'>
                 <img
@@ -101,7 +132,7 @@ const Products = () => {
               </Link>
 
               <div
-                // onClick={() => handleDeleteCourse(course?._id)}
+                onClick={() => handleDeleteProduct(product?._id)}
                 className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-1 text-center flex justify-center'
               >
                 <RiDeleteBinFill className='text-[12px] md:text-base lg:text-3xl cursor-pointer font-bold text-[#ed4747]' />
