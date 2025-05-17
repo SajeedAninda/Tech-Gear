@@ -5,7 +5,7 @@ const page = ({ params }) => {
     return (
         <div className='bg-white rounded-r-2xl px-10 py-8 h-fit'>
             <h3 className='text-[#111111] text-[30px] font-bold'>Update Product</h3>
-            <UpdateProduct params={params}></UpdateProduct>
+            <UpdateProduct></UpdateProduct>
         </div>
     )
 };
