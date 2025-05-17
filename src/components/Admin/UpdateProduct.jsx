@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
 import { useQuery } from '@tanstack/react-query'
@@ -100,6 +100,18 @@ const UpdateProduct = () => {
 
   const [selectedImages, setSelectedImages] = useState([null, null, null])
   const [previews, setPreviews] = useState([null, null, null])
+
+  useEffect(() => {
+    if (productDetails?.productImages) {
+      const initialPreviews = [...previews];
+      productDetails.productImages.forEach((imgUrl, index) => {
+        if (index < 3) {
+          initialPreviews[index] = imgUrl;
+        }
+      });
+      setPreviews(initialPreviews);
+    }
+  }, [productDetails]);
 
   const handleCategoryChange = e => {
     setSelectedCategory(e.target.value)
@@ -244,40 +256,37 @@ const UpdateProduct = () => {
         </div>
 
         {/* Image Upload */}
-        <div>
-          <h2 className='text-[20px] font-bold'>Product Image Upload</h2>
-          <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
-            {[0, 1, 2].map(index => (
-              <div className='mt-6' key={index}>
-                <input
-                  type='file'
-                  id={`fileInput${index}`}
-                  className='hidden'
-                  accept='image/*'
-                  onChange={e => handleImageChange(e, index)}
-                />
-                <label htmlFor={`fileInput${index}`} className='cursor-pointer'>
-                  <div className='w-full border-2 border-dotted border-gray-400 p-4 rounded-lg flex flex-col justify-center items-center gap-3 hover:bg-gray-200 transition-all duration-200'>
-                    {previews[index] ? (
-                      <img
-                        src={previews[index]}
-                        alt={`Preview ${index + 1}`}
-                        className='w-40 h-40 object-cover rounded-lg'
-                      />
-                    ) : (
-                      <div>
-                        <p className='text-gray-500 font-semibold'>
-                          Upload Product Image {index + 1}
-                        </p>
-                        <FaUpload className='text-gray-500' />
-                      </div>
-                    )}
-                  </div>
-                </label>
+         <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+    {[0, 1, 2].map((index) => (
+      <div className='mt-6' key={index}>
+        <input
+          type='file'
+          id={`fileInput${index}`}
+          className='hidden'
+          accept='image/*'
+          onChange={(e) => handleImageChange(e, index)}
+        />
+        <label htmlFor={`fileInput${index}`} className='cursor-pointer'>
+          <div className='w-full border-2 border-dotted border-gray-400 p-4 rounded-lg flex flex-col justify-center items-center gap-3 hover:bg-gray-200 transition-all duration-200'>
+            {previews[index] ? (
+              <img
+                src={previews[index]}
+                alt={`Preview ${index + 1}`}
+                className='w-40 h-40 object-cover rounded-lg'
+              />
+            ) : (
+              <div>
+                <p className='text-gray-500 font-semibold'>
+                  Upload Product Image {index + 1}
+                </p>
+                <FaUpload className='text-gray-500' />
               </div>
-            ))}
+            )}
           </div>
-        </div>
+        </label>
+      </div>
+    ))}
+    </div>
 
         {/* Submit */}
         <button
