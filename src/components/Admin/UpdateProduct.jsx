@@ -92,7 +92,12 @@ const UpdateProduct = () => {
   const [selectedCategory, setSelectedCategory] = useState(
     productDetails?.category || ''
   )
-  const [selectedBrand, setSelectedBrand] = useState( productDetails?.brand || '')
+  const [selectedBrand, setSelectedBrand] = useState(
+    productDetails?.brand || ''
+  )
+
+  const [tagline, setTagline] = useState(productDetails?.tagline || '')
+
   const [selectedImages, setSelectedImages] = useState([null, null, null])
   const [previews, setPreviews] = useState([null, null, null])
 
@@ -125,6 +130,7 @@ const UpdateProduct = () => {
           <h2 className='text-[20px] font-bold'>General Information</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
             <input
+              defaultValue={productDetails?.name}
               type='text'
               name='name'
               placeholder='Product Name'
@@ -132,6 +138,7 @@ const UpdateProduct = () => {
               required
             />
             <input
+              defaultValue={productDetails?.shortDesc}
               type='text'
               name='shortDesc'
               placeholder='Short Description'
@@ -140,6 +147,7 @@ const UpdateProduct = () => {
             />
           </div>
           <textarea
+            defaultValue={productDetails?.longDesc}
             name='longDesc'
             placeholder='Brief Description'
             className='border py-2 px-3 rounded-lg w-full mt-3'
@@ -192,6 +200,7 @@ const UpdateProduct = () => {
           <h2 className='text-[20px] font-bold'>Pricing and General</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
             <input
+              defaultValue={productDetails?.price}
               type='number'
               name='price'
               placeholder='Price'
@@ -199,6 +208,7 @@ const UpdateProduct = () => {
               required
             />
             <input
+              defaultValue={productDetails?.discount}
               type='number'
               name='discount'
               placeholder='Discount %'
@@ -206,6 +216,8 @@ const UpdateProduct = () => {
               required
             />
             <select
+              value={tagline}
+              onChange={e => setTagline(e.target.value)}
               name='tagline'
               className='border py-2 px-3 rounded-lg bg-white'
               required
@@ -218,6 +230,7 @@ const UpdateProduct = () => {
               <option value='hot-product'>Hot Product</option>
             </select>
             <input
+              defaultValue={productDetails?.rating}
               type='number'
               name='rating'
               placeholder='Rating (out of 5)'
