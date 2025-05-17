@@ -125,7 +125,7 @@ const Products = () => {
               </div>
 
               <Link
-                href={'/'}
+                href={`products/${product?._id}`}
                 className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-1 text-center flex justify-center'
               >
                 <MdEditSquare className='text-[12px] md:text-base lg:text-3xl cursor-pointer font-bold text-[#111111] hover:opacity-60' />
