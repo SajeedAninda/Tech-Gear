@@ -1,14 +1,78 @@
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'next/navigation'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
 import { useQuery } from '@tanstack/react-query'
+import { FaUpload } from 'react-icons/fa'
 
 const UpdateProduct = () => {
+  const gadgetData = {
+    Smartphones: [
+      'Apple',
+      'Samsung',
+      'Xiaomi',
+      'OnePlus',
+      'Google',
+      'Oppo',
+      'Vivo',
+      'Motorola',
+      'Realme',
+      'Nokia',
+      'Asus',
+      'Sony',
+      'Huawei',
+      'Tecno',
+      'Infinix'
+    ],
+    Laptops: [
+      'Dell',
+      'HP',
+      'Lenovo',
+      'Apple',
+      'Asus',
+      'Acer',
+      'Microsoft',
+      'MSI',
+      'Razer',
+      'Samsung'
+    ],
+    Headphones: [
+      'Sony',
+      'Bose',
+      'Sennheiser',
+      'JBL',
+      'Beats by Dre',
+      'Skullcandy',
+      'Audio-Technica'
+    ],
+    Camera: ['Canon', 'Nikon', 'Sony', 'Fujifilm', 'Panasonic'],
+    Earbuds: [
+      'Apple',
+      'Samsung',
+      'OnePlus',
+      'Sony',
+      'JBL',
+      'Realme',
+      'Oppo',
+      'Nothing',
+      'Bose',
+      'Beats'
+    ],
+    Gaming: [],
+    Speakers: ['JBL', 'Bose', 'Sony', 'Marshall', 'Harman Kardon'],
+    Smartwatches: [
+      'Apple',
+      'Samsung',
+      'Garmin',
+      'Fitbit',
+      'Huawei',
+      'Amazfit',
+      'Fossil'
+    ]
+  }
   const axiosInstance = useAxiosInstance()
   const params = useParams()
   const id = params?.id
-
 
   const {
     data: productDetails,
@@ -23,14 +87,206 @@ const UpdateProduct = () => {
     enabled: !!id
   })
 
-  console.log(productDetails)
+  console.log(productDetails?.name)
 
-  if (isProductLoading) return <p>Loading...</p>
-  if (!productDetails) return <p>No product found</p>
+  const [selectedCategory, setSelectedCategory] = useState(
+    productDetails?.category || ''
+  )
+  const [selectedBrand, setSelectedBrand] = useState( productDetails?.brand || '')
+  const [selectedImages, setSelectedImages] = useState([null, null, null])
+  const [previews, setPreviews] = useState([null, null, null])
+
+  const handleCategoryChange = e => {
+    setSelectedCategory(e.target.value)
+    setSelectedBrand('')
+  }
+
+  const handleImageChange = (e, index) => {
+    const file = e.target.files[0]
+    if (file && file.type.startsWith('image/')) {
+      const updatedImages = [...selectedImages]
+      const updatedPreviews = [...previews]
+      updatedImages[index] = file
+      updatedPreviews[index] = URL.createObjectURL(file)
+      setSelectedImages(updatedImages)
+      setPreviews(updatedPreviews)
+    } else {
+      toast.error('Please upload a valid image')
+    }
+  }
+
+  const handleAddProduct = async e => {}
 
   return (
-    <div>
-      <h1>Product ID: {id}</h1>
+    <div className='mt-6'>
+      <form onSubmit={handleAddProduct} className='space-y-5'>
+        {/* General Info */}
+        <div>
+          <h2 className='text-[20px] font-bold'>General Information</h2>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
+            <input
+              type='text'
+              name='name'
+              placeholder='Product Name'
+              className='border py-2 px-3 rounded-lg'
+              required
+            />
+            <input
+              type='text'
+              name='shortDesc'
+              placeholder='Short Description'
+              className='border py-2 px-3 rounded-lg'
+              required
+            />
+          </div>
+          <textarea
+            name='longDesc'
+            placeholder='Brief Description'
+            className='border py-2 px-3 rounded-lg w-full mt-3'
+            rows='5'
+            required
+          />
+        </div>
+
+        {/* Category & Brand */}
+        <div>
+          <h2 className='text-[20px] font-bold'>Product Category</h2>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
+            <select
+              name='category'
+              className='border py-2 px-3 rounded-lg bg-white'
+              required
+              value={selectedCategory}
+              onChange={handleCategoryChange}
+            >
+              <option value=''>Choose Product Category</option>
+              {Object.keys(gadgetData).map(category => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+            <select
+              name='brand'
+              className={`border py-2 px-3 rounded-lg bg-white ${
+                !selectedCategory ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+              value={selectedBrand}
+              onChange={e => setSelectedBrand(e.target.value)}
+              disabled={!selectedCategory}
+              required
+            >
+              <option value=''>Choose Brand</option>
+              {selectedCategory &&
+                gadgetData[selectedCategory]?.map(brand => (
+                  <option key={brand} value={brand}>
+                    {brand}
+                  </option>
+                ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Pricing */}
+        <div>
+          <h2 className='text-[20px] font-bold'>Pricing and General</h2>
+          <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-3'>
+            <input
+              type='number'
+              name='price'
+              placeholder='Price'
+              className='border py-2 px-3 rounded-lg'
+              required
+            />
+            <input
+              type='number'
+              name='discount'
+              placeholder='Discount %'
+              className='border py-2 px-3 rounded-lg'
+              required
+            />
+            <select
+              name='tagline'
+              className='border py-2 px-3 rounded-lg bg-white'
+              required
+            >
+              <option value=''>Choose Product Tagline</option>
+              <option value='latest'>Latest</option>
+              <option value='best-seller'>Best Seller</option>
+              <option value='most-popular'>Most Popular</option>
+              <option value='new-comer'>New Comer</option>
+              <option value='hot-product'>Hot Product</option>
+            </select>
+            <input
+              type='number'
+              name='rating'
+              placeholder='Rating (out of 5)'
+              min='0'
+              max='5'
+              step='0.1'
+              className='border py-2 px-3 rounded-lg'
+              required
+            />
+          </div>
+        </div>
+
+        {/* Image Upload */}
+        <div>
+          <h2 className='text-[20px] font-bold'>Product Image Upload</h2>
+          <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+            {[0, 1, 2].map(index => (
+              <div className='mt-6' key={index}>
+                <input
+                  type='file'
+                  id={`fileInput${index}`}
+                  className='hidden'
+                  accept='image/*'
+                  onChange={e => handleImageChange(e, index)}
+                />
+                <label htmlFor={`fileInput${index}`} className='cursor-pointer'>
+                  <div className='w-full border-2 border-dotted border-gray-400 p-4 rounded-lg flex flex-col justify-center items-center gap-3 hover:bg-gray-200 transition-all duration-200'>
+                    {previews[index] ? (
+                      <img
+                        src={previews[index]}
+                        alt={`Preview ${index + 1}`}
+                        className='w-40 h-40 object-cover rounded-lg'
+                      />
+                    ) : (
+                      <div>
+                        <p className='text-gray-500 font-semibold'>
+                          Upload Product Image {index + 1}
+                        </p>
+                        <FaUpload className='text-gray-500' />
+                      </div>
+                    )}
+                  </div>
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Submit */}
+        <button
+          type='submit'
+          className='relative z-10 overflow-hidden border-2 rounded-full group flex justify-center items-center w-full px-10 py-2 mt-10 text-lg text-white bg-[#111111] hover:bg-[#2e2e2e]'
+        >
+          Add Product
+          <svg
+            className='w-6 h-6 ml-2 transition-transform duration-300 group-hover:rotate-90'
+            fill='none'
+            stroke='currentColor'
+            strokeWidth='2'
+            viewBox='0 0 24 24'
+          >
+            <path
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M17 8l4 4m0 0l-4 4m4-4H3'
+            />
+          </svg>
+        </button>
+      </form>
     </div>
   )
 }
