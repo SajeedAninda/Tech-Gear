@@ -117,7 +117,9 @@ const UpdateProduct = () => {
 
   const handleCategoryChange = e => {
     setSelectedCategory(e.target.value)
-    setSelectedBrand('')
+    if (e.target.value !== 'Gaming') {
+      setSelectedBrand('')
+    }
   }
 
   const handleImageChange = (e, index) => {
@@ -145,7 +147,7 @@ const UpdateProduct = () => {
     const tagline = form.tagline.value
     const rating = parseFloat(form.rating.value) || 0
     const category = selectedCategory
-    const brand = selectedBrand
+    const brand = selectedCategory === 'Gaming' ? 'N/A' : selectedBrand
 
     const loadingToast = toast.loading('Updating Product...')
 
@@ -252,24 +254,26 @@ const UpdateProduct = () => {
                 </option>
               ))}
             </select>
-            <select
-              name='brand'
-              className={`border py-2 px-3 rounded-lg bg-white ${
-                !selectedCategory ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              value={selectedBrand}
-              onChange={e => setSelectedBrand(e.target.value)}
-              disabled={!selectedCategory}
-              required
-            >
-              <option value=''>Choose Brand</option>
-              {selectedCategory &&
-                gadgetData[selectedCategory]?.map(brand => (
-                  <option key={brand} value={brand}>
-                    {brand}
-                  </option>
-                ))}
-            </select>
+            {selectedCategory !== 'Gaming' && (
+              <select
+                name='brand'
+                className={`border py-2 px-3 rounded-lg bg-white ${
+                  !selectedCategory ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                value={selectedBrand}
+                onChange={e => setSelectedBrand(e.target.value)}
+                disabled={!selectedCategory}
+                required={selectedCategory !== 'Gaming'}
+              >
+                <option value=''>Choose Brand</option>
+                {selectedCategory &&
+                  gadgetData[selectedCategory]?.map(brand => (
+                    <option key={brand} value={brand}>
+                      {brand}
+                    </option>
+                  ))}
+              </select>
+            )}
           </div>
         </div>
 

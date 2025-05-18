@@ -320,7 +320,7 @@ const AddProduct = () => {
         {/* Submit */}
         <button
           type='submit'
-          className='relative z-10 overflow-hidden border-2 rounded-full group flex justify-center items-center w-full px-10 py-2 mt-10 text-lg text-white bg-[#111111] hover:bg-[#2e2e2e]'
+          className='relative z-10 overflow-hidden border-2 rounded-full group flex justify-center items-center w-full px-10 py-2 mt-10 text-lg text-white bg-[#111111] hover:bg-[#2e2e2e] cursor-pointer'
         >
           Add Product
           <svg
