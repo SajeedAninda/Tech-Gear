@@ -107,7 +107,7 @@ const AddProduct = () => {
     const tagline = form.tagline.value
     const rating = parseFloat(form.rating.value) || 0
     const category = selectedCategory
-    const brand = selectedBrand
+    const brand = selectedCategory === 'Gaming' ? 'N/A' : selectedBrand 
 
     if (!selectedImages.filter(Boolean).length) {
       return toast.error('Please upload at least one image')
@@ -215,24 +215,26 @@ const AddProduct = () => {
                 </option>
               ))}
             </select>
-            <select
-              name='brand'
-              className={`border py-2 px-3 rounded-lg bg-white ${
-                !selectedCategory ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
-              value={selectedBrand}
-              onChange={e => setSelectedBrand(e.target.value)}
-              disabled={!selectedCategory}
-              required
-            >
-              <option value=''>Choose Brand</option>
-              {selectedCategory &&
-                gadgetData[selectedCategory]?.map(brand => (
-                  <option key={brand} value={brand}>
-                    {brand}
-                  </option>
-                ))}
-            </select>
+            {selectedCategory !== 'Gaming' && (
+              <select
+                name='brand'
+                className={`border py-2 px-3 rounded-lg bg-white ${
+                  !selectedCategory ? 'opacity-50 cursor-not-allowed' : ''
+                }`}
+                value={selectedBrand}
+                onChange={e => setSelectedBrand(e.target.value)}
+                disabled={!selectedCategory}
+                required={selectedCategory !== 'Gaming'}
+              >
+                <option value=''>Choose Brand</option>
+                {selectedCategory &&
+                  gadgetData[selectedCategory]?.map(brand => (
+                    <option key={brand} value={brand}>
+                      {brand}
+                    </option>
+                  ))}
+              </select>
+            )}
           </div>
         </div>
 
