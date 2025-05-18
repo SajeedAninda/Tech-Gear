@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
 import { FaUpload } from 'react-icons/fa'
 import toast from 'react-hot-toast'
+import { MdAddToPhotos } from 'react-icons/md'
 
 const gadgetData = {
   Smartphones: [
@@ -107,7 +108,7 @@ const AddProduct = () => {
     const tagline = form.tagline.value
     const rating = parseFloat(form.rating.value) || 0
     const category = selectedCategory
-    const brand = selectedCategory === 'Gaming' ? 'N/A' : selectedBrand 
+    const brand = selectedCategory === 'Gaming' ? 'N/A' : selectedBrand
 
     if (!selectedImages.filter(Boolean).length) {
       return toast.error('Please upload at least one image')
@@ -320,22 +321,10 @@ const AddProduct = () => {
         {/* Submit */}
         <button
           type='submit'
-          className='relative z-10 overflow-hidden border-2 rounded-full group flex justify-center items-center w-full px-10 py-2 mt-10 text-lg text-white bg-[#111111] hover:bg-[#2e2e2e] cursor-pointer'
+          className='relative z-10 overflow-hidden border-2 rounded-full group flex justify-center items-center w-full px-10 py-2 mt-10 text-lg text-white bg-[#111111] hover:bg-[#2e2e2e] cursor-pointer gap-3'
         >
           Add Product
-          <svg
-            className='w-6 h-6 ml-2 transition-transform duration-300 group-hover:rotate-90'
-            fill='none'
-            stroke='currentColor'
-            strokeWidth='2'
-            viewBox='0 0 24 24'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              d='M17 8l4 4m0 0l-4 4m4-4H3'
-            />
-          </svg>
+          <MdAddToPhotos />
         </button>
       </form>
     </div>
