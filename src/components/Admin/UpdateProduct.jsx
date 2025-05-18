@@ -87,31 +87,31 @@ const UpdateProduct = () => {
     enabled: !!id
   })
 
-  console.log(productDetails?.name)
-
-  const [selectedCategory, setSelectedCategory] = useState(
-    productDetails?.category || ''
-  )
-  const [selectedBrand, setSelectedBrand] = useState(
-    productDetails?.brand || ''
-  )
-
-  const [tagline, setTagline] = useState(productDetails?.tagline || '')
-
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedBrand, setSelectedBrand] = useState('')
+  const [tagline, setTagline] = useState('')
   const [selectedImages, setSelectedImages] = useState([null, null, null])
   const [previews, setPreviews] = useState([null, null, null])
 
   useEffect(() => {
+    if (productDetails) {
+      setSelectedCategory(productDetails.category || '')
+      setSelectedBrand(productDetails.brand || '')
+      setTagline(productDetails.tagline || '')
+    }
+  }, [productDetails])
+
+  useEffect(() => {
     if (productDetails?.productImages) {
-      const initialPreviews = [...previews];
+      const initialPreviews = [...previews]
       productDetails.productImages.forEach((imgUrl, index) => {
         if (index < 3) {
-          initialPreviews[index] = imgUrl;
+          initialPreviews[index] = imgUrl
         }
-      });
-      setPreviews(initialPreviews);
+      })
+      setPreviews(initialPreviews)
     }
-  }, [productDetails]);
+  }, [productDetails])
 
   const handleCategoryChange = e => {
     setSelectedCategory(e.target.value)
@@ -132,11 +132,22 @@ const UpdateProduct = () => {
     }
   }
 
-  const handleAddProduct = async e => {}
+  const handleUpdateProduct = async e => {
+    const form = e.target
+    const name = form.name.value
+    const shortDesc = form.shortDesc.value
+    const longDesc = form.longDesc.value
+    const price = parseFloat(form.price.value)
+    const discount = parseFloat(form.discount.value) || 0
+    const tagline = form.tagline.value
+    const rating = parseFloat(form.rating.value) || 0
+    const category = selectedCategory
+    const brand = selectedBrand
+  }
 
   return (
     <div className='mt-6'>
-      <form onSubmit={handleAddProduct} className='space-y-5'>
+      <form onSubmit={handleUpdateProduct} className='space-y-5'>
         {/* General Info */}
         <div>
           <h2 className='text-[20px] font-bold'>General Information</h2>
@@ -256,37 +267,37 @@ const UpdateProduct = () => {
         </div>
 
         {/* Image Upload */}
-         <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
-    {[0, 1, 2].map((index) => (
-      <div className='mt-6' key={index}>
-        <input
-          type='file'
-          id={`fileInput${index}`}
-          className='hidden'
-          accept='image/*'
-          onChange={(e) => handleImageChange(e, index)}
-        />
-        <label htmlFor={`fileInput${index}`} className='cursor-pointer'>
-          <div className='w-full border-2 border-dotted border-gray-400 p-4 rounded-lg flex flex-col justify-center items-center gap-3 hover:bg-gray-200 transition-all duration-200'>
-            {previews[index] ? (
-              <img
-                src={previews[index]}
-                alt={`Preview ${index + 1}`}
-                className='w-40 h-40 object-cover rounded-lg'
+        <div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
+          {[0, 1, 2].map(index => (
+            <div className='mt-6' key={index}>
+              <input
+                type='file'
+                id={`fileInput${index}`}
+                className='hidden'
+                accept='image/*'
+                onChange={e => handleImageChange(e, index)}
               />
-            ) : (
-              <div>
-                <p className='text-gray-500 font-semibold'>
-                  Upload Product Image {index + 1}
-                </p>
-                <FaUpload className='text-gray-500' />
-              </div>
-            )}
-          </div>
-        </label>
-      </div>
-    ))}
-    </div>
+              <label htmlFor={`fileInput${index}`} className='cursor-pointer'>
+                <div className='w-full border-2 border-dotted border-gray-400 p-4 rounded-lg flex flex-col justify-center items-center gap-3 hover:bg-gray-200 transition-all duration-200'>
+                  {previews[index] ? (
+                    <img
+                      src={previews[index]}
+                      alt={`Preview ${index + 1}`}
+                      className='w-40 h-40 object-cover rounded-lg'
+                    />
+                  ) : (
+                    <div>
+                      <p className='text-gray-500 font-semibold'>
+                        Upload Product Image {index + 1}
+                      </p>
+                      <FaUpload className='text-gray-500' />
+                    </div>
+                  )}
+                </div>
+              </label>
+            </div>
+          ))}
+        </div>
 
         {/* Submit */}
         <button
