@@ -1,9 +1,10 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
 import { useQuery } from '@tanstack/react-query'
 import { FaUpload } from 'react-icons/fa'
+import toast from 'react-hot-toast'
 
 const UpdateProduct = () => {
   const gadgetData = {
@@ -73,6 +74,7 @@ const UpdateProduct = () => {
   const axiosInstance = useAxiosInstance()
   const params = useParams()
   const id = params?.id
+  const router = useRouter()
 
   const {
     data: productDetails,
@@ -133,6 +135,7 @@ const UpdateProduct = () => {
   }
 
   const handleUpdateProduct = async e => {
+    e.preventDefault()
     const form = e.target
     const name = form.name.value
     const shortDesc = form.shortDesc.value
@@ -143,6 +146,58 @@ const UpdateProduct = () => {
     const rating = parseFloat(form.rating.value) || 0
     const category = selectedCategory
     const brand = selectedBrand
+
+    const loadingToast = toast.loading('Updating Product...')
+
+    try {
+      const uploadedImageUrls = await Promise.all(
+        selectedImages.map(async (image, index) => {
+          if (!image) {
+            return previews[index] || null
+          }
+          const formData = new FormData()
+          formData.append('image', image)
+          const res = await axiosInstance.post(
+            'https://api.imgbb.com/1/upload?key=cbd289d81c381c05afbab416f87e8637',
+            formData
+          )
+          return res.data.data.display_url
+        })
+      )
+
+      const filteredUrls = uploadedImageUrls.filter(Boolean)
+
+      const updatedProductData = {
+        name,
+        shortDesc,
+        longDesc,
+        price,
+        discount,
+        tagline,
+        rating,
+        category,
+        brand,
+        productImages: filteredUrls
+      }
+
+      const response = await axiosInstance.patch(
+        `/updateProduct/${productDetails?._id}`,
+        updatedProductData
+      )
+
+      toast.dismiss(loadingToast)
+
+      if (response.data.modifiedCount > 0 || response.data.matchedCount > 0) {
+        toast.success('Product updated successfully!')
+        router.push('/products')
+      } else {
+        toast.error('No changes were made to the product')
+      }
+    } catch (err) {
+      toast.dismiss(loadingToast)
+      console.error(err)
+      toast.error('Error updating product')
+    }
   }
 
   return (
@@ -304,7 +359,7 @@ const UpdateProduct = () => {
           type='submit'
           className='relative z-10 overflow-hidden border-2 rounded-full group flex justify-center items-center w-full px-10 py-2 mt-10 text-lg text-white bg-[#111111] hover:bg-[#2e2e2e]'
         >
-          Add Product
+          Update Product
           <svg
             className='w-6 h-6 ml-2 transition-transform duration-300 group-hover:rotate-90'
             fill='none'
