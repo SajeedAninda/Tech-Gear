@@ -27,8 +27,9 @@ const ProductDetails = () => {
     enabled: !!id
   })
 
-  if (isLoading) return <div className="text-center py-10">Loading...</div>
-  if (isError || !product) return <div className="text-center py-10">Product not found.</div>
+  if (isLoading) return <div className='text-center py-10'>Loading...</div>
+  if (isError || !product)
+    return <div className='text-center py-10'>Product not found.</div>
 
   const {
     name,
@@ -46,20 +47,20 @@ const ProductDetails = () => {
   const discountedPrice = price - (price * discount) / 100
 
   return (
-    <div className="w-[1200px] mx-auto px-4 py-10 flex gap-10">
+    <div className='w-[1200px] mx-auto px-4 py-10 flex gap-10'>
       {/* Image Section */}
       <div className='w-[50%]'>
-        <div className="border-2 rounded-lg overflow-hidden w-full h-[500px]">
+        <div className='border-2 rounded-lg overflow-hidden w-full h-[500px]'>
           <Image
             src={activeImg || productImages[0]}
             alt={name}
             width={600}
             height={600}
-            className="w-full object-contain rounded"
+            className='w-full object-contain rounded'
           />
         </div>
         {/* Thumbnail selector */}
-        <div className="flex justify-center gap-2 mt-4">
+        <div className='flex justify-center gap-2 mt-4'>
           {productImages.map((img, i) => (
             <Image
               key={i}
@@ -78,43 +79,64 @@ const ProductDetails = () => {
 
       {/* Details Section */}
       <div className='w-[50%]'>
-        <h2 className="text-2xl md:text-[30px] font-semibold mb-2">{name}</h2>
-        <span className="text-sm text-white bg-green-600 px-2 py-1 rounded capitalize">{tagline}</span>
+        <h2 className='text-2xl md:text-[30px] font-semibold mb-2'>{name}</h2>
+        <span className='text-sm text-white bg-green-600 px-2 py-1 rounded capitalize'>
+          {tagline}
+        </span>
 
-        <p className="text-[#111] mt-3">{shortDesc}</p>
+        <p className='text-[#111] mt-3'>{shortDesc}</p>
 
-        <div className="flex items-center gap-2 mt-2">
+        <div className='flex items-center gap-2 mt-2'>
           <Rating style={{ maxWidth: 120 }} value={rating} readOnly />
-          <span className="text-gray-500 text-[16px]">({rating})</span>
+          <span className='text-gray-500 text-[16px]'>({rating})</span>
         </div>
 
-        <div className="mt-4 space-y-1 text-[16px] text-[#111]">
-          <p><strong>Brand:</strong> {brand}</p>
-          <p><strong>Category:</strong> {category}</p>
-        </div>
-
-        <div className="mt-4">
-          <p className="text-gray-700 text-lg whitespace-pre-line">{longDesc}</p>
-        </div>
-
-        <div className="mt-4 space-y-1 text-sm text-[#111]">
-          <p><strong>Brand:</strong> {brand}</p>
-          <p><strong>Category:</strong> {category}</p>
-        </div>
-
-        <div className="mt-4">
-          <p className="text-xl font-bold text-red-500">
-            ৳ {discountedPrice.toLocaleString()}
-            <span className="text-gray-400 text-sm line-through ml-2">৳ {price.toLocaleString()}</span>
-            <span className="ml-2 text-sm text-green-600">({discount}% off)</span>
+        <div className='mt-4 space-y-1 text-[16px] text-[#111]'>
+          <p>
+            <strong>Brand:</strong> {brand}
+          </p>
+          <p>
+            <strong>Category:</strong> {category}
           </p>
         </div>
 
-        <div className="mt-6 flex gap-4">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md flex items-center gap-2 transition">
+        <div className='mt-4 space-y-2'>
+          {longDesc.split('\n').map((line, index) => {
+            if (!line.includes(':')) {
+              return (
+                <p key={index} className='text-[#111] text-lg'>
+                  {line}
+                </p>
+              )
+            }
+
+            const [key, ...rest] = line.split(':')
+            return (
+              <p key={index} className='text-[#111] text-lg'>
+                <span className='font-semibold'>{key.trim()}:</span>
+                <span> {rest.join(':').trim()}</span>
+              </p>
+            )
+          })}
+        </div>
+
+        <div className='mt-4'>
+          <p className='text-xl font-bold text-red-500'>
+            ৳ {discountedPrice.toLocaleString()}
+            <span className='text-gray-400 text-sm line-through ml-2'>
+              ৳ {price.toLocaleString()}
+            </span>
+            <span className='ml-2 text-sm text-green-600'>
+              ({discount}% off)
+            </span>
+          </p>
+        </div>
+
+        <div className='mt-6 flex gap-4'>
+          <button className='bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md flex items-center gap-2 transition'>
             <FaCartPlus /> Order Now
           </button>
-          <button className="border border-gray-400 hover:border-[#111] px-4 py-2 rounded-md flex items-center gap-2 transition">
+          <button className='border border-gray-400 hover:border-[#111] px-4 py-2 rounded-md flex items-center gap-2 transition'>
             <FaBookmark /> Bookmark
           </button>
         </div>
