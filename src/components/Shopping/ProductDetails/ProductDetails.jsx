@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { FaBookmark, FaCartPlus } from 'react-icons/fa'
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
+import { MdOutlineShoppingCartCheckout } from 'react-icons/md'
 
 const ProductDetails = () => {
   const axiosInstance = useAxiosInstance()
@@ -121,9 +122,9 @@ const ProductDetails = () => {
         </div>
 
         <div className='mt-4'>
-          <p className='text-xl font-bold text-red-500'>
+          <p className='text-[30px] font-bold text-red-500'>
             ৳ {discountedPrice.toLocaleString()}
-            <span className='text-gray-400 text-sm line-through ml-2'>
+            <span className='text-gray-400 text-[20px] line-through ml-3'>
               ৳ {price.toLocaleString()}
             </span>
             <span className='ml-2 text-sm text-green-600'>
@@ -132,13 +133,20 @@ const ProductDetails = () => {
           </p>
         </div>
 
-        <div className='mt-6 flex gap-4'>
-          <button className='bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md flex items-center gap-2 transition'>
-            <FaCartPlus /> Order Now
-          </button>
-          <button className='border border-gray-400 hover:border-[#111] px-4 py-2 rounded-md flex items-center gap-2 transition'>
-            <FaBookmark /> Bookmark
-          </button>
+        {/* BUTTONS  */}
+        <div className='flex items-center gap-4 mt-3'>
+          <div className='flex items-center gap-3 mt-4'>
+            <button className='bg-[#111111] text-[16px] flex items-center gap-2 px-6 py-3 rounded-lg text-white cursor-pointer hover:bg-[#555555] transition duration-200 font-bold'>
+              Order Now
+              <MdOutlineShoppingCartCheckout />
+            </button>
+          </div>
+          <div className='flex items-center gap-3 mt-4'>
+            <button className='bg-[#111111] text-[16px] flex items-center gap-2 px-6 py-3 rounded-lg text-white cursor-pointer hover:bg-[#555555] transition duration-200 font-bold'>
+              Add to Cart
+              <FaCartPlus />
+            </button>
+          </div>
         </div>
       </div>
     </div>
