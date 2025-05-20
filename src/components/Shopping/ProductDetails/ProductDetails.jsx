@@ -33,6 +33,7 @@ const ProductDetails = () => {
     return <div className='text-center py-10'>Product not found.</div>
 
   const {
+    _id,
     name,
     shortDesc,
     longDesc,
@@ -46,6 +47,10 @@ const ProductDetails = () => {
   } = product
 
   const discountedPrice = price - (price * discount) / 100
+
+  const handleAddToCart = product => {
+    console.log(product)
+  }
 
   return (
     <div className='w-[1200px] mx-auto px-4 py-10 flex gap-10'>
@@ -142,7 +147,12 @@ const ProductDetails = () => {
             </button>
           </div>
           <div className='flex items-center gap-3 mt-4'>
-            <button className='bg-[#111111] text-[16px] flex items-center gap-2 px-6 py-3 rounded-lg text-white cursor-pointer hover:bg-[#555555] transition duration-200 font-bold'>
+            <button
+              onClick={() => {
+                handleAddToCart(product)
+              }}
+              className='bg-[#111111] text-[16px] flex items-center gap-2 px-6 py-3 rounded-lg text-white cursor-pointer hover:bg-[#555555] transition duration-200 font-bold'
+            >
               Add to Cart
               <FaCartPlus />
             </button>
