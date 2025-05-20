@@ -10,6 +10,7 @@ import '@smastrom/react-rating/style.css'
 import { MdOutlineShoppingCartCheckout } from 'react-icons/md'
 import useCurrentUser from '@/components/Hooks/useCurrentUser'
 import toast from 'react-hot-toast'
+import { FaPlus, FaMinus } from 'react-icons/fa'
 
 const ProductDetails = () => {
   const axiosInstance = useAxiosInstance()
@@ -17,6 +18,7 @@ const ProductDetails = () => {
   const id = params?.id
   const { userData } = useCurrentUser()
   const [activeImg, setActiveImg] = useState(null)
+  const [quantity, setQuantity] = useState(1)
 
   const {
     data: product,
@@ -51,23 +53,31 @@ const ProductDetails = () => {
 
   const discountedPrice = price - (price * discount) / 100
 
-  const handleAddToCart = product => {
+  const handleAddToCart = async product => {
     if (userData?.role === 'admin') {
       return toast.error('Administrator cannot add product to cart')
     }
 
-    let cartData = {
+    const cartData = {
       userEmail: userData?.email,
       userName: userData?.name,
+      productQuantity: quantity,
       ...product
     }
-    
-    axiosInstance.post('/addToCart', cartData).then(res => {
-      console.log(res.data)
-      if (res.data.insertedId) {
-        toast.success('Added To Cart')
+
+    try {
+      const res = await axiosInstance.post('/addToCart', cartData)
+
+      if (res.data.modifiedCount > 0 || res.data.insertedId) {
+        toast.success(
+          res.data.modifiedCount > 0
+            ? 'Cart updated successfully'
+            : 'Added to cart'
+        )
       }
-    })
+    } catch {
+      toast.error('Failed to add to cart')
+    }
   }
 
   return (
@@ -156,7 +166,30 @@ const ProductDetails = () => {
           </p>
         </div>
 
-        {/* CART COUNTER  */}
+        {/* CART COUNTER */}
+        <div className='flex items-center gap-4 mt-4'>
+          <button
+            onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
+            disabled={quantity === 1}
+            className={`bg-[#111111] cursor-pointer text-white p-3 rounded-lg hover:bg-[#555555] transition duration-200 font-bold ${
+              quantity === 1 ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
+            <FaMinus />
+          </button>
+
+          <span className='text-lg font-semibold'>{quantity}</span>
+
+          <button
+            onClick={() => setQuantity(prev => Math.min(10, prev + 1))}
+            disabled={quantity === 10}
+            className={`bg-[#111111] cursor-pointer text-white p-3 rounded-lg hover:bg-[#555555] transition duration-200 font-bold ${
+              quantity === 10 ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+          >
+            <FaPlus />
+          </button>
+        </div>
 
         {/* BUTTONS  */}
         <div className='flex items-center gap-4 mt-3'>
