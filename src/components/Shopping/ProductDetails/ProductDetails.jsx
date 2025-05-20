@@ -8,11 +8,14 @@ import { FaBookmark, FaCartPlus } from 'react-icons/fa'
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { MdOutlineShoppingCartCheckout } from 'react-icons/md'
+import useCurrentUser from '@/components/Hooks/useCurrentUser'
+import toast from 'react-hot-toast'
 
 const ProductDetails = () => {
   const axiosInstance = useAxiosInstance()
   const params = useParams()
   const id = params?.id
+  const { userData } = useCurrentUser()
   const [activeImg, setActiveImg] = useState(null)
 
   const {
@@ -49,7 +52,15 @@ const ProductDetails = () => {
   const discountedPrice = price - (price * discount) / 100
 
   const handleAddToCart = product => {
-    console.log(product)
+    if (userData?.role === 'admin') {
+      return toast.error('Administrator cannot add product to cart')
+    }
+
+    let cartData = {
+      userEmail: userData?.email,
+      userName: userData?.name,
+      ...product
+    }
   }
 
   return (
