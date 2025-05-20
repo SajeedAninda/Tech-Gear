@@ -121,7 +121,7 @@ const Navbar = () => {
                               key={i}
                               className='font-bold text-[#111] mb-2 whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-200 hover:bg-[#111111] hover:text-white'
                             >
-                              <Link href={`/${gadget}/${brand}`}>{brand}</Link>
+                              <Link href={`/shop/category/${gadget}/${brand}`}>{brand}</Link>
                             </li>
                           ))}
                         </ul>

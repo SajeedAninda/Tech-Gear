@@ -1,8 +1,10 @@
+'use client'
 import React, { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
 import FilterSidebar from './FilterSidebar'
 import ProductSection from './ProductSection'
+import { useParams } from 'next/navigation'
 
 const AllProducts = () => {
   const [searchValue, setSearchValue] = useState('')
@@ -16,6 +18,9 @@ const AllProducts = () => {
   const [currentPage, setCurrentPage] = useState(1)
 
   const axiosInstance = useAxiosInstance()
+
+  let params = useParams()
+  console.log(params)
 
   const { data: productsData, isLoading } = useQuery({
     queryKey: [
