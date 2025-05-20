@@ -106,7 +106,7 @@ const Navbar = () => {
                 {Object.entries(gadgetData).map(([gadget, brands]) => (
                   <div key={gadget} className='relative group'>
                     <p className='font-bold text-[#111] mb-2 whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-200 hover:bg-[#111111] hover:text-white flex items-center'>
-                      <Link href={`/${gadget}`}>{gadget}</Link>
+                      <Link href={`/shop/${gadget}`}>{gadget}</Link>
                       {brands.length > 0 && (
                         <IoIosArrowForward className='text-[20px]' />
                       )}

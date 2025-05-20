@@ -88,7 +88,7 @@ const ProductSection = ({
                   </div>
                 </div>
 
-                <Link href={`/shop/${product?._id}`}  className='flex items-center gap-3 mt-4'>
+                <Link href={`/shop/product/${product?._id}`}  className='flex items-center gap-3 mt-4'>
                   <button className='bg-[#111111] text-[16px] flex-1 px-3 py-2 rounded-lg text-white cursor-pointer hover:bg-[#555555] transition duration-200 font-bold'>
                     Details
                   </button>
