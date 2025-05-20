@@ -61,6 +61,13 @@ const ProductDetails = () => {
       userName: userData?.name,
       ...product
     }
+    
+    axiosInstance.post('/addToCart', cartData).then(res => {
+      console.log(res.data)
+      if (res.data.insertedId) {
+        toast.success('Added To Cart')
+      }
+    })
   }
 
   return (
@@ -148,6 +155,8 @@ const ProductDetails = () => {
             </span>
           </p>
         </div>
+
+        {/* CART COUNTER  */}
 
         {/* BUTTONS  */}
         <div className='flex items-center gap-4 mt-3'>
