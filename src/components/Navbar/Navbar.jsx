@@ -9,6 +9,7 @@ import { RiShoppingCart2Fill } from 'react-icons/ri'
 import useCurrentUser from '../Hooks/useCurrentUser'
 import { RiArrowDropDownLine } from 'react-icons/ri'
 import { IoIosArrowForward } from 'react-icons/io'
+import useAuth from '../Hooks/useAuth'
 
 const gadgetData = {
   Smartphones: [
@@ -80,6 +81,7 @@ const Navbar = () => {
   const handleShowSearch = () => setShowSearch(!showSearch)
 
   const { userData } = useCurrentUser()
+  const { loggedInUser } = useAuth()
 
   return (
     <div className='bg-white shadow'>
@@ -90,12 +92,18 @@ const Navbar = () => {
         </Link>
 
         <div className='links flex gap-6 items-center relative'>
-          <Link href={'/'}  className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer'>
+          <Link
+            href={'/'}
+            className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer'
+          >
             Home
           </Link>
 
           <div className='relative'>
-            <Link href={'/shop'} className='text-[#111111] flex items-center text-[18px] font-semibold hover:opacity-65 cursor-pointer peer'>
+            <Link
+              href={'/shop'}
+              className='text-[#111111] flex items-center text-[18px] font-semibold hover:opacity-65 cursor-pointer peer'
+            >
               Shop
               <RiArrowDropDownLine className='text-[25px] animate-bounce' />
             </Link>
@@ -121,7 +129,9 @@ const Navbar = () => {
                               key={i}
                               className='font-bold text-[#111] mb-2 whitespace-nowrap cursor-pointer px-4 py-2 transition-all duration-200 hover:bg-[#111111] hover:text-white'
                             >
-                              <Link href={`/shop/category/${gadget}/${brand}`}>{brand}</Link>
+                              <Link href={`/shop/category/${gadget}/${brand}`}>
+                                {brand}
+                              </Link>
                             </li>
                           ))}
                         </ul>
@@ -140,12 +150,17 @@ const Navbar = () => {
             Contact
           </p>
 
-          {userData?.role === 'user' ? (
+          {loggedInUser && userData?.role === 'user' && (
             <p className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer'>
               Profile
             </p>
-          ) : (
-            <Link href={"/adminPanel"} className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer'>
+          )}
+
+          {loggedInUser && userData?.role === 'admin' && (
+            <Link
+              href='/adminPanel'
+              className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer'
+            >
               Admin Panel
             </Link>
           )}
