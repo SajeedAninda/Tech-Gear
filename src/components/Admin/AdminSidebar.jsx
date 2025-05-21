@@ -7,7 +7,7 @@ import { AiFillProduct } from 'react-icons/ai'
 import { MdFormatListBulletedAdd } from 'react-icons/md'
 import { ImUsers } from 'react-icons/im'
 import { IoLogOut, IoSettings } from 'react-icons/io5'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 import { toast } from 'react-hot-toast'
 import useAuth from '../Hooks/useAuth'
@@ -15,7 +15,7 @@ import useAuth from '../Hooks/useAuth'
 const AdminSidebar = () => {
   const pathname = usePathname()
   const { logOut } = useAuth()
-  
+  const router = useRouter()
 
   const handleLogout = () => {
     Swal.fire({
@@ -28,7 +28,10 @@ const AdminSidebar = () => {
       confirmButtonText: 'Yes, Log Out!'
     }).then(result => {
       if (result.isConfirmed) {
-        logOut().then(() => toast.success('Logged Out of the account'))
+        logOut().then(() => {
+          toast.success('Logged Out of the account')
+          router.push('/')
+        })
       }
     })
   }
@@ -37,7 +40,11 @@ const AdminSidebar = () => {
     { href: '/adminPanel', label: 'Dashboard', icon: <MdOutlineDashboard /> },
     { href: '/orders', label: 'Orders', icon: <BsBorderStyle /> },
     { href: '/products', label: 'Products', icon: <AiFillProduct /> },
-    { href: '/add-product', label: 'Add Product', icon: <MdFormatListBulletedAdd /> },
+    {
+      href: '/add-product',
+      label: 'Add Product',
+      icon: <MdFormatListBulletedAdd />
+    },
     { href: '/users', label: 'Users', icon: <ImUsers /> },
     { href: '/settings', label: 'Settings', icon: <IoSettings /> }
   ]
