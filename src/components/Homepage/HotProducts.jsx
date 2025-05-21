@@ -1,48 +1,22 @@
+'use client'
+
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 
 import Image from 'next/image'
 import React from 'react'
+import useAllProducts from '../Hooks/useAllProducts'
 
 const HotProducts = () => {
-  const products = [
-    {
-      name: 'Sony WH-1000XM5 Headphones',
-      price: 15000,
-      discount: 10,
-      tagline: 'Hot Product',
-      photo:
-        'https://m.media-amazon.com/images/I/51FgbLyCYOL._AC_UF1000,1000_QL80_.jpg',
-      rating: 4.8
-    },
-    {
-      name: 'JBL Flip 6 Portable Speaker',
-      price: 18000,
-      discount: 15,
-      tagline: 'Hot Product',
-      photo:
-        'https://www.startech.com.bd/image/cache/catalog/portable-speaker/Jbl/jbl-flip-6/flip-6-black-001-500x500.webp',
-      rating: 4.7
-    },
-    {
-      name: 'Canon EOS M50 Mark II Camera',
-      price: 49000,
-      discount: 12,
-      tagline: 'Hot Product',
-      photo:
-        'https://media.ldlc.com/r1600/ld/products/00/05/81/63/LD0005816350_1.jpg',
-      rating: 4.5
-    },
-    {
-      name: 'Fitbit Charge 6',
-      price: 19000,
-      discount: 8,
-      tagline: 'Hot Product',
-      photo:
-        'https://diamu.com.bd/wp-content/uploads/2022/11/Fitbit-Charge-4.jpg',
-      rating: 4.2
-    }
-  ]
+  const { products = [], isProductsLoading, refetch } = useAllProducts()
+
+  const hotProducts = products.filter(
+    product => product.tagline === 'hot-product'
+  )
+
+  const shuffledHotProducts = hotProducts
+    .sort(() => 0.5 - Math.random())
+    .slice(0, 8)
 
   return (
     <div>
@@ -50,7 +24,7 @@ const HotProducts = () => {
         <h1 className='text-[#111111] text-[26px] font-bold'>Hot Products</h1>
 
         <div className='mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10'>
-          {products.map((product, index) => (
+          {shuffledHotProducts.map((product, index) => (
             <div
               key={index}
               className='w-[280px] bg-[#E5E5E5] shadow-lg rounded-lg p-4 group cursor-pointer hover:shadow-2xl transition duration-300 relative flex flex-col justify-between'
@@ -67,7 +41,7 @@ const HotProducts = () => {
                 <div className='p-4 rounded-lg bg-white group-hover:scale-105 transition duration-300'>
                   <Image
                     className='w-full h-[200px] object-contain'
-                    src={product.photo}
+                    src={product?.photo}
                     width={300}
                     height={300}
                     alt={product.name}

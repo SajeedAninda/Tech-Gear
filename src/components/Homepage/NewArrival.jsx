@@ -10,7 +10,6 @@ import useAllProducts from '../Hooks/useAllProducts'
 const NewArrival = () => {
   const { products = [], isProductsLoading, refetch } = useAllProducts()
 
-  // Sort by newest
   const latestProducts = [...products]
     .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     .slice(0, 12)
