@@ -6,11 +6,32 @@ import { BsBorderStyle } from 'react-icons/bs'
 import { AiFillProduct } from 'react-icons/ai'
 import { MdFormatListBulletedAdd } from 'react-icons/md'
 import { ImUsers } from 'react-icons/im'
-import { IoSettings } from 'react-icons/io5'
+import { IoLogOut, IoSettings } from 'react-icons/io5'
 import { usePathname } from 'next/navigation'
+import Swal from 'sweetalert2'
+import { toast } from 'react-hot-toast'
+import useAuth from '../Hooks/useAuth'
 
 const AdminSidebar = () => {
   const pathname = usePathname()
+  const { logOut } = useAuth()
+  
+
+  const handleLogout = () => {
+    Swal.fire({
+      title: 'Are you sure you want to Logout as Admin?',
+      text: 'Click Yes if You want to Log out of the website!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#111',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Log Out!'
+    }).then(result => {
+      if (result.isConfirmed) {
+        logOut().then(() => toast.success('Logged Out of the account'))
+      }
+    })
+  }
 
   const navLinks = [
     { href: '/adminPanel', label: 'Dashboard', icon: <MdOutlineDashboard /> },
@@ -18,7 +39,7 @@ const AdminSidebar = () => {
     { href: '/products', label: 'Products', icon: <AiFillProduct /> },
     { href: '/add-product', label: 'Add Product', icon: <MdFormatListBulletedAdd /> },
     { href: '/users', label: 'Users', icon: <ImUsers /> },
-    { href: '/settings', label: 'Settings', icon: <IoSettings /> },
+    { href: '/settings', label: 'Settings', icon: <IoSettings /> }
   ]
 
   return (
@@ -38,6 +59,14 @@ const AdminSidebar = () => {
           {label}
         </Link>
       ))}
+
+      <div
+        onClick={handleLogout}
+        className='p-4 mt-2 rounded-xl flex items-center gap-2 text-[20px] font-semibold transition-all duration-300 text-white hover:bg-gray-800 cursor-pointer'
+      >
+        <IoLogOut />
+        Log Out
+      </div>
     </div>
   )
 }
