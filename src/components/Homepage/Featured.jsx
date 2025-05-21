@@ -9,6 +9,7 @@ import smartwatch from '../../images/smartwatch.png'
 import smartphone from '../../images/smartphone.png'
 import portableSpeaker from '../../images/portable_speaker.png'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const Featured = () => {
   return (
@@ -20,7 +21,7 @@ const Featured = () => {
 
         <div className='mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10'>
           {/* SMARTPHONES  */}
-          <div className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
+          <Link href={'/shop/category/Smartphones'} className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
             <Image
               className='group-hover:scale-110 transition duration-300'
               src={smartphone}
@@ -30,10 +31,10 @@ const Featured = () => {
             <h3 className='text-[#111111] text-[22px] text-center font-bold group-hover:scale-120 transition duration-300'>
               Smartphones
             </h3>
-          </div>
+          </Link>
 
           {/* LAPTOPS  */}
-          <div className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
+          <Link href={'/shop/category/Laptops'} className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
             <Image
               className='group-hover:scale-110 transition duration-300'
               src={laptop}
@@ -43,10 +44,10 @@ const Featured = () => {
             <h3 className='text-[#111111] text-[22px] text-center font-bold group-hover:scale-120 transition duration-300'>
               Laptops
             </h3>
-          </div>
+          </Link>
 
           {/* HEADPHONES  */}
-          <div className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
+          <Link href={'/shop/category/Headphones'} className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
             <Image
               className='group-hover:scale-110 transition duration-300'
               src={headphone}
@@ -56,10 +57,10 @@ const Featured = () => {
             <h3 className='text-[#111111] text-[22px] text-center font-bold group-hover:scale-120 transition duration-300'>
               Headphones
             </h3>
-          </div>
+          </Link>
 
           {/* CAMERA  */}
-          <div className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
+          <Link href={'/shop/category/Camera'} className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
             <Image
               className='group-hover:scale-110 transition duration-300'
               src={camera}
@@ -69,10 +70,10 @@ const Featured = () => {
             <h3 className='text-[#111111] text-[22px] text-center font-bold group-hover:scale-120 transition duration-300'>
               Camera
             </h3>
-          </div>
+          </Link>
 
           {/* EARBUDS  */}
-          <div className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
+          <Link href={'/shop/category/Earbuds'} className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
             <Image
               className='group-hover:scale-110 transition duration-300'
               src={earbuds}
@@ -82,10 +83,10 @@ const Featured = () => {
             <h3 className='text-[#111111] text-[22px] text-center font-bold group-hover:scale-120 transition duration-300'>
               Earbuds
             </h3>
-          </div>
+          </Link>
 
           {/* GAMING  */}
-          <div className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
+          <Link href={'/shop/category/Gaming'} className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
             <Image
               className='group-hover:scale-110 transition duration-300'
               src={gaming}
@@ -95,10 +96,10 @@ const Featured = () => {
             <h3 className='text-[#111111] text-[22px] text-center font-bold group-hover:scale-120 transition duration-300'>
               Gaming
             </h3>
-          </div>
+          </Link>
 
           {/* SPEAKERS  */}
-          <div className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
+          <Link href={'/shop/category/Speakers'} className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
             <Image
               className='group-hover:scale-110 transition duration-300'
               src={portableSpeaker}
@@ -108,10 +109,10 @@ const Featured = () => {
             <h3 className='text-[#111111] text-[22px] text-center font-bold group-hover:scale-120 transition duration-300'>
               Speakers
             </h3>
-          </div>
+          </Link>
 
           {/* Smartwatches  */}
-          <div className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
+          <Link href={'/shop/category/Smartwatches'} className='bg-[#E5E5E5] shadow-lg rounded-lg p-6 group cursor-pointer hover:shadow-2xl transition duration-300'>
             <Image
               className='group-hover:scale-110 transition duration-300'
               src={smartwatch}
@@ -121,7 +122,7 @@ const Featured = () => {
             <h3 className='text-[#111111] text-[22px] text-center font-bold group-hover:scale-120 transition duration-300'>
               Smartwatches
             </h3>
-          </div>
+          </Link>
         </div>
       </div>
     </div>
