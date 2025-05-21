@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
 import FilterSidebar from './FilterSidebar'
@@ -7,6 +7,10 @@ import ProductSection from './ProductSection'
 import { useParams } from 'next/navigation'
 
 const AllProducts = () => {
+  const params = useParams()
+  const navigatedCategory = params?.category
+  const navigatedBrand = params?.brand
+
   const [searchValue, setSearchValue] = useState('')
   const [minPrice, setMinPrice] = useState(0)
   const [maxPrice, setMaxPrice] = useState(200000)
@@ -19,8 +23,14 @@ const AllProducts = () => {
 
   const axiosInstance = useAxiosInstance()
 
-  let params = useParams()
-  console.log(params)
+  useEffect(() => {
+    if (navigatedCategory && navigatedBrand) {
+      setSelectedCategory(navigatedCategory)
+      setSelectedBrand(navigatedBrand)
+    } else if (navigatedCategory) {
+      setSelectedCategory(navigatedCategory)
+    }
+  }, [navigatedCategory, navigatedBrand])
 
   const { data: productsData, isLoading } = useQuery({
     queryKey: [
