@@ -61,12 +61,12 @@ const Users = () => {
             Image
           </div>
           <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-3 text-center'>
-            Name
+            User Name
           </div>
           <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-3 text-center'>
             Email
           </div>
-           <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-2 text-center'>
+          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-2 text-center'>
             Role
           </div>
           <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-1 text-center'>
@@ -99,7 +99,11 @@ const Users = () => {
                 {user?.email}
               </div>
 
-              <div className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-2 text-center capitalize'>
+              <div
+                className={`font-bold text-[9px] md:text-base lg:text-[18px] col-span-2 text-center capitalize ${
+                  user?.role === 'admin' ? 'text-red-600' : 'text-green-600'
+                }`}
+              >
                 {user?.role}
               </div>
 
@@ -110,8 +114,20 @@ const Users = () => {
                 <FaEye className='text-[12px] md:text-base lg:text-3xl cursor-pointer font-bold text-[#111111] hover:opacity-60' />
               </Link>
 
-              <div className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-1 text-center flex justify-center'>
-                <RiDeleteBinFill className='text-[12px] md:text-base lg:text-3xl cursor-pointer font-bold text-[#ed4747] hover:opacity-60' />
+              <div
+                className={`font-bold text-[9px] md:text-base lg:text-[18px] col-span-1 text-center flex justify-center ${
+                  user?.role === 'admin' ? 'text-red-600' : 'text-[#111111]'
+                }`}
+              >
+                <RiDeleteBinFill
+                  className={`text-[12px] md:text-base lg:text-3xl font-bold 
+      ${
+        user?.role === 'admin'
+          ? 'text-gray-400 cursor-not-allowed opacity-50'
+          : 'text-[#ed4747] cursor-pointer hover:opacity-60'
+      }`}
+                  //   onClick={user?.role === 'admin' ? null : handleDelete}
+                />
               </div>
             </div>
           </div>
