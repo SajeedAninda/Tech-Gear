@@ -95,9 +95,23 @@ const UserDetailsModal = ({ isOpen, onClose, user, refetch }) => {
         </div>
 
         <div className='mt-8 flex gap-4 justify-end'>
-          <button className='bg-[#111] cursor-pointer text-white px-5 py-3 rounded hover:bg-[#333] text-base font-semibold hover:opacity-60 transition-all duration-300'>
+          <button
+            onClick={() => {
+              if (user?.role !== 'admin') {
+                handleChangeRole()
+              }
+            }}
+            disabled={user?.role === 'admin'}
+            className={`px-5 py-3 rounded text-base font-semibold transition-all duration-300
+    ${
+      user?.role === 'admin'
+        ? 'bg-gray-400 text-white cursor-not-allowed opacity-60'
+        : 'bg-[#111] text-white hover:bg-[#333] hover:opacity-60 cursor-pointer'
+    }`}
+          >
             Change Role
           </button>
+
           <button
             onClick={() => {
               if (user?.role !== 'admin') {
