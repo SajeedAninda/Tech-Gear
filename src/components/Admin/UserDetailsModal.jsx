@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { IoIosCloseCircle } from 'react-icons/io'
 import Swal from 'sweetalert2'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
+import toast from 'react-hot-toast'
 
 const UserDetailsModal = ({ isOpen, onClose, user, refetch }) => {
   const [show, setShow] = useState(false)
@@ -58,6 +59,46 @@ const UserDetailsModal = ({ isOpen, onClose, user, refetch }) => {
     })
   }
 
+  let handleUpdateUser = id => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You are about to promote this user to admin!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#111111',
+      cancelButtonColor: '#ed4747',
+      confirmButtonText: 'Yes, proceed!'
+    }).then(firstResult => {
+      if (firstResult.isConfirmed) {
+        Swal.fire({
+          title: 'Confirm Final Promotion',
+          text: 'This user will be granted admin privileges. Continue?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#111111',
+          cancelButtonColor: '#ed4747',
+          confirmButtonText: 'Yes, make admin!'
+        }).then(secondResult => {
+          if (secondResult.isConfirmed) {
+            axiosInstance
+              .patch(`/updateUser/${id}`)
+              .then(res => {
+                if (res.data.modifiedCount > 0) {
+                  refetch()
+                  onClose()
+                  toast.success('User promoted to admin successfully')
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error)
+                toast.error('Failed to promote user')
+              })
+          }
+        })
+      }
+    })
+  }
+
   return (
     <div className='fixed inset-0 z-50 flex justify-center items-center bg-black/60 backdrop-blur-sm transition-all duration-300'>
       <div
@@ -98,7 +139,7 @@ const UserDetailsModal = ({ isOpen, onClose, user, refetch }) => {
           <button
             onClick={() => {
               if (user?.role !== 'admin') {
-                handleChangeRole()
+                handleUpdateUser(user?._id)
               }
             }}
             disabled={user?.role === 'admin'}
