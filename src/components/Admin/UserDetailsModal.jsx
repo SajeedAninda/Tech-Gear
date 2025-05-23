@@ -1,9 +1,12 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { IoIosCloseCircle } from 'react-icons/io'
+import Swal from 'sweetalert2'
+import useAxiosInstance from '../Hooks/useAxiosInstance'
 
-const UserDetailsModal = ({ isOpen, onClose, user }) => {
+const UserDetailsModal = ({ isOpen, onClose, user, refetch }) => {
   const [show, setShow] = useState(false)
+  let axiosInstance = useAxiosInstance()
 
   useEffect(() => {
     if (isOpen) {
@@ -14,6 +17,46 @@ const UserDetailsModal = ({ isOpen, onClose, user }) => {
   }, [isOpen])
 
   if (!isOpen || !user) return null
+
+  let handleDeleteUser = id => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'User can only be deleted from Database. You have to delete from Firebase separately!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#111111',
+      cancelButtonColor: '#ed4747',
+      confirmButtonText: 'Yes, proceed!'
+    }).then(firstResult => {
+      if (firstResult.isConfirmed) {
+        Swal.fire({
+          title: 'Confirm Final Deletion',
+          text: 'This action will delete the user from the database. You have to delete from Firebase separately! Continue?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#111111',
+          cancelButtonColor: '#ed4747',
+          confirmButtonText: 'Yes, delete!'
+        }).then(secondResult => {
+          if (secondResult.isConfirmed) {
+            axiosInstance
+              .delete(`/deleteUser/${id}`)
+              .then(res => {
+                if (res.data.deletedCount > 0) {
+                  refetch()
+                  onClose()
+                  toast.success('User deleted successfully')
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error)
+                toast.error('Failed to delete user')
+              })
+          }
+        })
+      }
+    })
+  }
 
   return (
     <div className='fixed inset-0 z-50 flex justify-center items-center bg-black/60 backdrop-blur-sm transition-all duration-300'>
@@ -55,7 +98,20 @@ const UserDetailsModal = ({ isOpen, onClose, user }) => {
           <button className='bg-[#111] cursor-pointer text-white px-5 py-3 rounded hover:bg-[#333] text-base font-semibold hover:opacity-60 transition-all duration-300'>
             Change Role
           </button>
-          <button className='bg-red-600 cursor-pointer text-white px-5 py-3 rounded hover:bg-red-700 text-base font-semibold hover:opacity-60 transition-all duration-300'>
+          <button
+            onClick={() => {
+              if (user?.role !== 'admin') {
+                handleDeleteUser(user?._id)
+              }
+            }}
+            disabled={user?.role === 'admin'}
+            className={`px-5 py-3 rounded text-base font-semibold transition-all duration-300
+    ${
+      user?.role === 'admin'
+        ? 'bg-gray-400 text-white cursor-not-allowed opacity-60'
+        : 'bg-red-600 text-white hover:bg-red-700 hover:opacity-60 cursor-pointer'
+    }`}
+          >
             Delete User
           </button>
         </div>

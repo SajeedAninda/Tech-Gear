@@ -3,7 +3,6 @@ import React, { useState } from 'react'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
 import { useQuery } from '@tanstack/react-query'
 import { FaEye, FaSearch } from 'react-icons/fa'
-import Link from 'next/link'
 import { RiDeleteBinFill } from 'react-icons/ri'
 import Swal from 'sweetalert2'
 import toast from 'react-hot-toast'
@@ -58,7 +57,6 @@ const Users = () => {
       confirmButtonText: 'Yes, proceed!'
     }).then(firstResult => {
       if (firstResult.isConfirmed) {
-        // Second confirmation
         Swal.fire({
           title: 'Confirm Final Deletion',
           text: 'This action will delete the user from the database. You have to delete from Firebase separately! Continue?',
@@ -201,6 +199,7 @@ const Users = () => {
         isOpen={isModalOpen}
         onClose={closeModal}
         user={selectedUser}
+        refetch={refetch}
       />
     </div>
   )
