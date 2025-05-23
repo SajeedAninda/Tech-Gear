@@ -5,6 +5,8 @@ import { useQuery } from '@tanstack/react-query'
 import { FaEye, FaSearch } from 'react-icons/fa'
 import Link from 'next/link'
 import { RiDeleteBinFill } from 'react-icons/ri'
+import Swal from 'sweetalert2'
+import toast from 'react-hot-toast'
 
 const Users = () => {
   let axiosInstance = useAxiosInstance()
@@ -30,6 +32,46 @@ const Users = () => {
     filteredUsers = userData?.filter(users =>
       users?.name.toLowerCase().includes(searchText.toLowerCase())
     )
+  }
+
+  let handleDeleteUser = id => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'User can only be deleted from Database. You have to delete from Firebase separately!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#111111',
+      cancelButtonColor: '#ed4747',
+      confirmButtonText: 'Yes, proceed!'
+    }).then(firstResult => {
+      if (firstResult.isConfirmed) {
+        // Second confirmation
+        Swal.fire({
+          title: 'Confirm Final Deletion',
+          text: 'This action will delete the user from the database. You have to delete from Firebase separately! Continue?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#111111',
+          cancelButtonColor: '#ed4747',
+          confirmButtonText: 'Yes, delete!'
+        }).then(secondResult => {
+          if (secondResult.isConfirmed) {
+            axiosInstance
+              .delete(`/deleteUser/${id}`)
+              .then(res => {
+                if (res.data.deletedCount > 0) {
+                  refetch()
+                  toast.success('User deleted successfully')
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error)
+                toast.error('Failed to delete user')
+              })
+          }
+        })
+      }
+    })
   }
 
   return (
@@ -126,7 +168,13 @@ const Users = () => {
           ? 'text-gray-400 cursor-not-allowed opacity-50'
           : 'text-[#ed4747] cursor-pointer hover:opacity-60'
       }`}
-                  //   onClick={user?.role === 'admin' ? null : handleDelete}
+                  onClick={
+                    user?.role === 'admin'
+                      ? null
+                      : () => {
+                          handleDeleteUser(user?._id)
+                        }
+                  }
                 />
               </div>
             </div>
