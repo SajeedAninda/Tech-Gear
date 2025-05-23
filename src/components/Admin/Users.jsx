@@ -7,10 +7,23 @@ import Link from 'next/link'
 import { RiDeleteBinFill } from 'react-icons/ri'
 import Swal from 'sweetalert2'
 import toast from 'react-hot-toast'
+import UserDetailsModal from './UserDetailsModal'
 
 const Users = () => {
   let axiosInstance = useAxiosInstance()
   const [searchText, setSearchText] = useState('')
+  const [selectedUser, setSelectedUser] = useState(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const openModal = user => {
+    setSelectedUser(user)
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setSelectedUser(null)
+    setIsModalOpen(false)
+  }
 
   const {
     data: userData,
@@ -149,12 +162,12 @@ const Users = () => {
                 {user?.role}
               </div>
 
-              <Link
-                href={`users/${user?._id}`}
-                className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-1 text-center flex justify-center'
+              <div
+                onClick={() => openModal(user)}
+                className='text-[#111111] font-bold text-[9px] md:text-base lg:text-[18px] col-span-1 text-center flex justify-center cursor-pointer'
               >
-                <FaEye className='text-[12px] md:text-base lg:text-3xl cursor-pointer font-bold text-[#111111] hover:opacity-60' />
-              </Link>
+                <FaEye className='text-[12px] md:text-base lg:text-3xl hover:opacity-60' />
+              </div>
 
               <div
                 className={`font-bold text-[9px] md:text-base lg:text-[18px] col-span-1 text-center flex justify-center ${
@@ -183,6 +196,12 @@ const Users = () => {
       ) : (
         <div>Loading....</div>
       )}
+
+      <UserDetailsModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        user={selectedUser}
+      />
     </div>
   )
 }
