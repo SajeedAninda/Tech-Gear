@@ -151,9 +151,9 @@ const Navbar = () => {
           </p>
 
           {loggedInUser && userData?.role === 'user' && (
-            <p className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer'>
+            <Link href={"/profile"} className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer'>
               Profile
-            </p>
+            </Link>
           )}
 
           {loggedInUser && userData?.role === 'admin' && (
