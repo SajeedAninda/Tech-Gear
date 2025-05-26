@@ -6,7 +6,7 @@ import { BsBorderStyle } from 'react-icons/bs'
 import { AiFillProduct } from 'react-icons/ai'
 import { MdFormatListBulletedAdd } from 'react-icons/md'
 import { ImUsers } from 'react-icons/im'
-import { IoLogOut, IoSettings } from 'react-icons/io5'
+import { IoHome, IoLogOut, IoSettings } from 'react-icons/io5'
 import { usePathname, useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 import { toast } from 'react-hot-toast'
@@ -37,6 +37,7 @@ const AdminSidebar = () => {
   }
 
   const navLinks = [
+    { href: '/', label: 'Home', icon: <IoHome /> },
     { href: '/adminPanel', label: 'Dashboard', icon: <MdOutlineDashboard /> },
     { href: '/orders', label: 'Orders', icon: <BsBorderStyle /> },
     { href: '/products', label: 'Products', icon: <AiFillProduct /> },
@@ -45,8 +46,7 @@ const AdminSidebar = () => {
       label: 'Add Product',
       icon: <MdFormatListBulletedAdd />
     },
-    { href: '/users', label: 'Users', icon: <ImUsers /> },
-    { href: '/settings', label: 'Settings', icon: <IoSettings /> }
+    { href: '/users', label: 'Users', icon: <ImUsers /> }
   ]
 
   return (
