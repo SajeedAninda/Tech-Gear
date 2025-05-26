@@ -4,6 +4,8 @@ import useCurrentUser from '../Hooks/useCurrentUser'
 import useAuth from '../Hooks/useAuth'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
 import { useQuery } from '@tanstack/react-query'
+import { BsBorderStyle } from 'react-icons/bs'
+import { AiFillProduct } from 'react-icons/ai'
 
 const UserProfile = () => {
   const { userData, isUserLoading } = useCurrentUser()
@@ -20,10 +22,29 @@ const UserProfile = () => {
     enabled: !!currentUserEmail
   })
 
-  console.log(cartData)
-
   return (
     <div>
+      <div className='w-full mt-4 flex justify-between items-center gap-4'>
+        <div className='flex flex-col gap-4'>
+          <div className='flex justify-between items-center gap-4'>
+            <div className='text-[24px] font-semibold text-[#111] p-6 rounded-xl shadow-lg flex flex-col gap-2'>
+              <span>Total Products in Cart</span>
+              <span className='text-[30px] font-bold flex items-center gap-4'>
+                <AiFillProduct />
+
+                {0 || cartData?.length}
+              </span>
+            </div>
+            <div className='text-[24px] font-semibold text-[#111] p-6 rounded-xl shadow-lg flex flex-col gap-2'>
+              <span>Total Orders</span>
+              <span className='text-[30px] font-bold flex items-center gap-4'>
+                <BsBorderStyle /> 20
+              </span>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
       <div
         className={`bg-white w-full mt-10 p-8 rounded-xl relative shadow-2xl transform transition-all duration-300`}
       >

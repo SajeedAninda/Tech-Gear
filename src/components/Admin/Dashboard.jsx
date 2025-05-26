@@ -3,12 +3,12 @@ import React from 'react'
 import { BsBorderStyle } from 'react-icons/bs'
 import { PiUsersThreeFill } from 'react-icons/pi'
 import useAllProducts from '../Hooks/useAllProducts'
+import { AiFillProduct } from 'react-icons/ai'
 
 const Dashboard = () => {
   let { products } = useAllProducts()
 
   let productsCount = products?.length
-
 
   return (
     <div className='w-full mt-4 flex justify-between items-center gap-4'>
@@ -16,7 +16,10 @@ const Dashboard = () => {
         <div className='flex justify-between items-center gap-4'>
           <div className='text-[24px] font-semibold text-[#111] p-6 rounded-xl shadow-lg flex flex-col gap-2'>
             <span>Total Products</span>
-            <span className='text-[30px] font-bold'>{productsCount}</span>
+            <span className='text-[30px] font-bold flex items-center gap-4'>
+              <AiFillProduct />
+              {productsCount}
+            </span>
           </div>
           <div className='text-[24px] font-semibold text-[#111] p-6 rounded-xl shadow-lg flex flex-col gap-2'>
             <span>Total Orders</span>
