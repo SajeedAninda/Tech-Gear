@@ -6,12 +6,17 @@ import useAxiosInstance from '../Hooks/useAxiosInstance'
 import { useQuery } from '@tanstack/react-query'
 import { BsBorderStyle } from 'react-icons/bs'
 import { AiFillProduct } from 'react-icons/ai'
+import { useRouter } from 'next/navigation'
+import Swal from 'sweetalert2'
+import toast from 'react-hot-toast'
 
 const UserProfile = () => {
   const { userData, isUserLoading } = useCurrentUser()
   let { loggedInUser } = useAuth()
   let currentUserEmail = loggedInUser?.email
   let axiosInstance = useAxiosInstance()
+  const { logOut } = useAuth()
+  const router = useRouter()
 
   const { data: cartData, isLoading: isCartLoading } = useQuery({
     queryKey: ['cartData', currentUserEmail],
@@ -21,6 +26,25 @@ const UserProfile = () => {
     },
     enabled: !!currentUserEmail
   })
+
+   const handleLogout = () => {
+    Swal.fire({
+      title: 'Are you sure you want to Logout as User?',
+      text: 'Click Yes if You want to Log out of the website!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#111',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, Log Out!'
+    }).then(result => {
+      if (result.isConfirmed) {
+        logOut().then(() => {
+          toast.success('Logged Out of the account')
+          router.push('/')
+        })
+      }
+    })
+  }
 
   return (
     <div>
@@ -74,6 +98,7 @@ const UserProfile = () => {
 
         <div className='mt-8 flex gap-4 justify-end'>
           <button
+          onClick={handleLogout}
             className={`px-5 py-3 rounded text-base font-semibold transition-all duration-300 bg-[#111] text-white hover:bg-[#333] hover:opacity-60 cursor-pointer`}
           >
             Log Out
