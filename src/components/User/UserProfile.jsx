@@ -31,8 +31,7 @@ const UserProfile = () => {
               <span>Total Products in Cart</span>
               <span className='text-[30px] font-bold flex items-center gap-4'>
                 <AiFillProduct />
-
-                {0 || cartData?.length}
+                {cartData?.length ?? 0}
               </span>
             </div>
             <div className='text-[24px] font-semibold text-[#111] p-6 rounded-xl shadow-lg flex flex-col gap-2'>
