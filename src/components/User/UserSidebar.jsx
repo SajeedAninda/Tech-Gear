@@ -1,25 +1,22 @@
 'use client'
-import Link from 'next/link'
-import React from 'react'
-import { MdOutlineDashboard } from 'react-icons/md'
-import { BsBorderStyle } from 'react-icons/bs'
-import { AiFillProduct } from 'react-icons/ai'
-import { MdFormatListBulletedAdd } from 'react-icons/md'
-import { ImUsers } from 'react-icons/im'
-import { IoLogOut, IoSettings } from 'react-icons/io5'
 import { usePathname, useRouter } from 'next/navigation'
-import Swal from 'sweetalert2'
-import { toast } from 'react-hot-toast'
+import React from 'react'
 import useAuth from '../Hooks/useAuth'
+import Swal from 'sweetalert2'
+import toast from 'react-hot-toast'
+import { IoHome, IoLogOut, IoPersonCircleSharp } from 'react-icons/io5'
+import { FaCartShopping } from 'react-icons/fa6'
+import Link from 'next/link'
+import { FaBoxOpen } from 'react-icons/fa'
 
-const AdminSidebar = () => {
+const UserSidebar = () => {
   const pathname = usePathname()
   const { logOut } = useAuth()
   const router = useRouter()
 
   const handleLogout = () => {
     Swal.fire({
-      title: 'Are you sure you want to Logout as Admin?',
+      title: 'Are you sure you want to Logout as User?',
       text: 'Click Yes if You want to Log out of the website!',
       icon: 'warning',
       showCancelButton: true,
@@ -35,18 +32,11 @@ const AdminSidebar = () => {
       }
     })
   }
-
   const navLinks = [
-    { href: '/adminPanel', label: 'Dashboard', icon: <MdOutlineDashboard /> },
-    { href: '/orders', label: 'Orders', icon: <BsBorderStyle /> },
-    { href: '/products', label: 'Products', icon: <AiFillProduct /> },
-    {
-      href: '/add-product',
-      label: 'Add Product',
-      icon: <MdFormatListBulletedAdd />
-    },
-    { href: '/users', label: 'Users', icon: <ImUsers /> },
-    { href: '/settings', label: 'Settings', icon: <IoSettings /> }
+    { href: '/', label: 'Home', icon: <IoHome /> },
+    { href: '/profile', label: 'Profile', icon: <IoPersonCircleSharp /> },
+    { href: '/cart', label: 'Cart', icon: <FaCartShopping /> },
+    { href: '/orders', label: 'Orders', icon: <FaBoxOpen /> }
   ]
 
   return (
@@ -78,4 +68,4 @@ const AdminSidebar = () => {
   )
 }
 
-export default AdminSidebar
+export default UserSidebar
