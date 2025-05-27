@@ -7,6 +7,8 @@ import { useQuery } from '@tanstack/react-query'
 import { RiDeleteBinFill } from 'react-icons/ri'
 import { MdEditSquare } from 'react-icons/md'
 import Link from 'next/link'
+import Swal from 'sweetalert2'
+import toast from 'react-hot-toast'
 
 const CartItems = () => {
   const { userData, isUserLoading } = useCurrentUser()
@@ -14,7 +16,11 @@ const CartItems = () => {
   let currentUserEmail = loggedInUser?.email
   let axiosInstance = useAxiosInstance()
 
-  const { data: cartData, isLoading: isCartLoading } = useQuery({
+  const {
+    data: cartData,
+    isLoading: isCartLoading,
+    refetch
+  } = useQuery({
     queryKey: ['cartData', currentUserEmail],
     queryFn: async () => {
       const response = await axiosInstance.get(`/getCart/${currentUserEmail}`)
@@ -22,6 +28,35 @@ const CartItems = () => {
     },
     enabled: !!currentUserEmail
   })
+
+  let handleDeleteProduct = id => {
+    Swal.fire({
+      title: 'Do You want to Remove this from Cart?',
+      text: 'Once Deleted, you cannot revert this!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#111111',
+      cancelButtonColor: '#ed4747',
+      confirmButtonText: 'Yes, Delete!'
+    }).then(result => {
+      if (result.isConfirmed) {
+        axiosInstance
+          .delete(`/deleteCartProduct/${id}`)
+          .then(res => {
+            console.log(res.data)
+            if (res.data.deletedCount > 0) {
+              refetch()
+              console.log(res.data)
+              toast.success('Removed from Cart')
+            }
+          })
+          .catch(error => {
+            console.error('Error :', error)
+            toast.error('Error', 'Failed to remove from Cart')
+          })
+      }
+    })
+  }
 
   return (
     <div>
@@ -60,7 +95,10 @@ const CartItems = () => {
       {cartData ? (
         cartData?.map((product, index) => (
           <div key={index} className=''>
-            <Link href={`shop/product/${product?._id}`} className='bg-[#F7FFF7] border-b-2 border-[#111111] grid grid-cols-12 px-2 md:px-6 py-4 items-center cursor-pointer hover:bg-gray-300 transition-all duration-150'>
+            <Link
+              href={`shop/product/${product?.productId}`}
+              className='bg-[#F7FFF7] border-b-2 border-[#111111] grid grid-cols-12 px-2 md:px-6 py-4 items-center cursor-pointer hover:bg-gray-300 transition-all duration-150'
+            >
               <div className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-1 text-center'>
                 {index + 1}
               </div>
@@ -86,6 +124,11 @@ const CartItems = () => {
               </div>
 
               <div
+                onClick={e => {
+                  e.stopPropagation()
+                  e.preventDefault()
+                  handleDeleteProduct(product?._id)
+                }}
                 className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-1 text-center flex justify-center'
               >
                 <RiDeleteBinFill className='text-[12px] md:text-base lg:text-3xl cursor-pointer font-bold text-[#ed4747] hover:opacity-60' />

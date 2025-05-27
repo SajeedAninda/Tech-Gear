@@ -54,31 +54,35 @@ const ProductDetails = () => {
   const discountedPrice = price - (price * discount) / 100
 
   const handleAddToCart = async product => {
-    if (userData?.role === 'admin') {
-      return toast.error('Administrator cannot add product to cart')
-    }
-
-    const cartData = {
-      userEmail: userData?.email,
-      userName: userData?.name,
-      productQuantity: quantity,
-      ...product
-    }
-
-    try {
-      const res = await axiosInstance.post('/addToCart', cartData)
-
-      if (res.data.modifiedCount > 0 || res.data.insertedId) {
-        toast.success(
-          res.data.modifiedCount > 0
-            ? 'Cart updated successfully'
-            : 'Added to cart'
-        )
-      }
-    } catch {
-      toast.error('Failed to add to cart')
-    }
+  if (userData?.role === 'admin') {
+    return toast.error('Administrator cannot add product to cart')
   }
+
+  const { _id, ...rest } = product
+
+  const cartData = {
+    userEmail: userData?.email,
+    userName: userData?.name,
+    productQuantity: quantity,
+    productId: _id,
+    ...rest
+  }
+
+  try {
+    const res = await axiosInstance.post('/addToCart', cartData)
+
+    if (res.data.modifiedCount > 0 || res.data.insertedId) {
+      toast.success(
+        res.data.modifiedCount > 0
+          ? 'Cart updated successfully'
+          : 'Added to cart'
+      )
+    }
+  } catch {
+    toast.error('Failed to add to cart')
+  }
+}
+
 
   return (
     <div className='w-[1200px] mx-auto px-4 py-10 flex gap-10'>
