@@ -49,7 +49,7 @@ const CartItems = () => {
             Price
           </div>
           <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-1 text-center'>
-            Update
+            Quantity
           </div>
           <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-1 text-center'>
             Delete
@@ -60,7 +60,7 @@ const CartItems = () => {
       {cartData ? (
         cartData?.map((product, index) => (
           <div key={index} className=''>
-            <div className='bg-[#F7FFF7] border-b-2 border-[#111111] grid grid-cols-12 px-2 md:px-6 py-4 items-center'>
+            <Link href={`shop/product/${product?._id}`} className='bg-[#F7FFF7] border-b-2 border-[#111111] grid grid-cols-12 px-2 md:px-6 py-4 items-center cursor-pointer hover:bg-gray-300 transition-all duration-150'>
               <div className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-1 text-center'>
                 {index + 1}
               </div>
@@ -81,19 +81,16 @@ const CartItems = () => {
                 ৳ {product?.price}
               </div>
 
-              <Link
-                href={`products/${product?._id}`}
-                className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-1 text-center flex justify-center'
-              >
-                <MdEditSquare className='text-[12px] md:text-base lg:text-3xl cursor-pointer font-bold text-[#111111] hover:opacity-60' />
-              </Link>
+              <div className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-1 text-center capitalize'>
+                {product?.productQuantity}
+              </div>
 
               <div
                 className='text-[#111111] font-bold  text-[9px] md:text-base lg:text-[18px] col-span-1 text-center flex justify-center'
               >
                 <RiDeleteBinFill className='text-[12px] md:text-base lg:text-3xl cursor-pointer font-bold text-[#ed4747] hover:opacity-60' />
               </div>
-            </div>
+            </Link>
           </div>
         ))
       ) : (
