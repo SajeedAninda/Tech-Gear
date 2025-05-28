@@ -33,9 +33,17 @@ const CartItems = () => {
 
   const handleQuantityChange = (productId, delta) => {
     setQuantities(prev => {
-      const currentQty = prev[productId] ?? (cartData.find(p => p._id === productId)?.productQuantity ?? 1)
+      const currentQty =
+        prev[productId] ??
+        cartData.find(p => p._id === productId)?.productQuantity ??
+        1
+
       const newQty = Math.min(10, Math.max(1, currentQty + delta))
-      console.log(`Product ID: ${productId}, New Quantity: ${newQty}`)
+
+      if (newQty !== currentQty) {
+        axiosInstance.patch(`/updateCartPrdtQty/${productId}`, { quantity: newQty })
+      }
+
       return {
         ...prev,
         [productId]: newQty
@@ -80,13 +88,27 @@ const CartItems = () => {
 
       <div className='mt-4'>
         <div className='bg-gradient-to-r from-[#111111] to-[#747373] rounded-tl-xl rounded-tr-xl grid grid-cols-12 px-2 md:px-6 py-4'>
-          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-1 text-center'>#SL</div>
-          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-1 text-center'>Image</div>
-          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-3 text-center'>Name</div>
-          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-2 text-center'>Brand</div>
-          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-2 text-center'>Price</div>
-          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-2 text-center'>Quantity</div>
-          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-1 text-center'>Delete</div>
+          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-1 text-center'>
+            #SL
+          </div>
+          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-1 text-center'>
+            Image
+          </div>
+          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-3 text-center'>
+            Name
+          </div>
+          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-2 text-center'>
+            Brand
+          </div>
+          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-2 text-center'>
+            Price
+          </div>
+          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-2 text-center'>
+            Quantity
+          </div>
+          <div className='text-white font-bold text-[9px] md:text-base lg:text-[18px] col-span-1 text-center'>
+            Delete
+          </div>
         </div>
       </div>
 
@@ -133,14 +155,16 @@ const CartItems = () => {
                         handleQuantityChange(product._id, -1)
                       }}
                       disabled={productQty <= 1}
-                      className={`bg-[#111111] text-white p-1 rounded-lg font-bold hover:bg-[#555555] transition duration-200 ${
+                      className={`bg-[#111111] text-white p-1 rounded-lg font-bold cursor-pointer hover:bg-[#555555] transition duration-200 ${
                         productQty <= 1 ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                     >
                       <FaMinus />
                     </button>
 
-                    <span className='text-[20px] font-semibold'>{productQty}</span>
+                    <span className='text-[20px] font-semibold'>
+                      {productQty}
+                    </span>
 
                     <button
                       onClick={e => {
@@ -149,7 +173,7 @@ const CartItems = () => {
                         handleQuantityChange(product._id, 1)
                       }}
                       disabled={productQty >= 10}
-                      className={`bg-[#111111] text-white p-1 rounded-lg font-bold hover:bg-[#555555] transition duration-200 ${
+                      className={`bg-[#111111] text-white p-1 rounded-lg font-bold cursor-pointer hover:bg-[#555555] transition duration-200 ${
                         productQty >= 10 ? 'opacity-50 cursor-not-allowed' : ''
                       }`}
                     >
