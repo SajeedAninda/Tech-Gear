@@ -41,7 +41,9 @@ const CartItems = () => {
       const newQty = Math.min(10, Math.max(1, currentQty + delta))
 
       if (newQty !== currentQty) {
-        axiosInstance.patch(`/updateCartPrdtQty/${productId}`, { quantity: newQty })
+        axiosInstance.patch(`/updateCartPrdtQty/${productId}`, {
+          quantity: newQty
+        })
       }
 
       return {
@@ -50,6 +52,12 @@ const CartItems = () => {
       }
     })
   }
+
+  const totalPayable =
+    cartData?.reduce((total, item) => {
+      const quantity = quantities[item._id] ?? item.productQuantity
+      return total + item.price * quantity
+    }, 0) || 0
 
   const handleDeleteProduct = id => {
     Swal.fire({
@@ -199,6 +207,12 @@ const CartItems = () => {
       ) : (
         <div>Loading....</div>
       )}
+
+      <div className='mt-8 mr-8 text-right'>
+        <h3 className='text-[22px] font-bold text-[#111]'>
+          Total Payable: ৳ {totalPayable.toLocaleString()}
+        </h3>
+      </div>
     </div>
   )
 }
