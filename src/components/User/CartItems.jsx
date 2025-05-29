@@ -56,7 +56,9 @@ const CartItems = () => {
   const totalPayable =
     cartData?.reduce((total, item) => {
       const quantity = quantities[item._id] ?? item.productQuantity
-      return total + item.price * quantity
+      const discount = item.discount || 0
+      const discountedPrice = item.price - (item.price * discount) / 100
+      return total + discountedPrice * quantity
     }, 0) || 0
 
   const handleDeleteProduct = id => {
@@ -151,7 +153,10 @@ const CartItems = () => {
                 </div>
 
                 <div className='text-[#111111] font-bold text-[9px] md:text-base lg:text-[18px] col-span-2 text-center capitalize'>
-                  ৳ {product?.price}
+                  {`৳ ${(
+                    product.price -
+                    (product.price * (product.discount || 0)) / 100
+                  ).toFixed(2)}`}
                 </div>
 
                 <div className='text-[#111111] font-bold text-[9px] md:text-base lg:text-[18px] col-span-2 text-center capitalize'>
@@ -210,7 +215,7 @@ const CartItems = () => {
 
       <div className='mt-8 mr-8 text-right'>
         <h3 className='text-[22px] font-bold text-[#111]'>
-          Total Payable: ৳ {totalPayable.toLocaleString()}
+          Total Payable: <span className='text-green-700'>৳ {totalPayable.toLocaleString()}</span>
         </h3>
       </div>
     </div>
