@@ -3,6 +3,7 @@ import "./globals.css";
 import AuthProvider from "@/components/Authentication/AuthProvider/AuthProvider";
 import { Toaster } from "react-hot-toast";
 import TanstackProvider from "@/components/TanstackProvider/TanstackProvider";
+import { CartProvider } from "@/components/Provider/CartProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,9 @@ export default function RootLayout({ children }) {
         <Toaster />
         <TanstackProvider>
           <AuthProvider>
-            {children}
+            <CartProvider>
+              {children}
+            </CartProvider>
           </AuthProvider>
         </TanstackProvider>
       </body>

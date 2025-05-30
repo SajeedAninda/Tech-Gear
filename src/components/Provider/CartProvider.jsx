@@ -1,3 +1,4 @@
+'use client'
 import { createContext, useContext } from 'react'
 import useAuth from '../Hooks/useAuth'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
