@@ -10,6 +10,8 @@ import useCurrentUser from '../Hooks/useCurrentUser'
 import { RiArrowDropDownLine } from 'react-icons/ri'
 import { IoIosArrowForward } from 'react-icons/io'
 import useAuth from '../Hooks/useAuth'
+import { useCart } from '../Provider/CartProvider'
+import CartModal from '../CartModal/CartModal'
 
 const gadgetData = {
   Smartphones: [
@@ -79,6 +81,12 @@ const gadgetData = {
 const Navbar = () => {
   const [showSearch, setShowSearch] = useState(false)
   const handleShowSearch = () => setShowSearch(!showSearch)
+  const { cartData, isCartLoading, refetch } = useCart()
+  const [isModalOpen, setModalOpen] = useState(false)
+
+  const toggleModal = () => setModalOpen(!isModalOpen)
+
+  const totalQuantity = cartData?.length
 
   const { userData } = useCurrentUser()
   const { loggedInUser } = useAuth()
@@ -151,7 +159,10 @@ const Navbar = () => {
           </p>
 
           {loggedInUser && userData?.role === 'user' && (
-            <Link href={"/profile"} className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer'>
+            <Link
+              href={'/profile'}
+              className='text-[#111111] text-[18px] font-semibold hover:opacity-65 cursor-pointer'
+            >
               Profile
             </Link>
           )}
@@ -200,7 +211,21 @@ const Navbar = () => {
             )}
           </div>
 
-          <RiShoppingCart2Fill className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer' />
+          <div className='relative' onClick={toggleModal}>
+            <RiShoppingCart2Fill className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer' />
+            <div className='w-[19px] h-[19px] bg-[#111111] rounded-full font-bold flex justify-center items-center absolute -top-3 -right-3'>
+              <p className='text-[13px] text-white'>{totalQuantity}</p>
+            </div>
+          </div>
+
+          {isModalOpen && (
+            <CartModal
+              cartData={cartData}
+              isCartLoading={isCartLoading}
+              refetch={refetch}
+              onClose={toggleModal}
+            />
+          )}
         </div>
       </div>
     </div>
