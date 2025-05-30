@@ -1,6 +1,6 @@
 'use client'
 import useAxiosInstance from '@/components/Hooks/useAxiosInstance'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'next/navigation'
 import React, { useState } from 'react'
 import Image from 'next/image'
@@ -19,6 +19,7 @@ const ProductDetails = () => {
   const { userData } = useCurrentUser()
   const [activeImg, setActiveImg] = useState(null)
   const [quantity, setQuantity] = useState(1)
+  const queryClient = useQueryClient()
 
   const {
     data: product,
@@ -54,35 +55,37 @@ const ProductDetails = () => {
   const discountedPrice = price - (price * discount) / 100
 
   const handleAddToCart = async product => {
-  if (userData?.role === 'admin') {
-    return toast.error('Administrator cannot add product to cart')
-  }
-
-  const { _id, ...rest } = product
-
-  const cartData = {
-    userEmail: userData?.email,
-    userName: userData?.name,
-    productQuantity: quantity,
-    productId: _id,
-    ...rest
-  }
-
-  try {
-    const res = await axiosInstance.post('/addToCart', cartData)
-
-    if (res.data.modifiedCount > 0 || res.data.insertedId) {
-      toast.success(
-        res.data.modifiedCount > 0
-          ? 'Cart updated successfully'
-          : 'Added to cart'
-      )
+    if (userData?.role === 'admin') {
+      return toast.error('Administrator cannot add product to cart')
     }
-  } catch {
-    toast.error('Failed to add to cart')
-  }
-}
 
+    const { _id, ...rest } = product
+
+    const cartData = {
+      userEmail: userData?.email,
+      userName: userData?.name,
+      productQuantity: quantity,
+      productId: _id,
+      ...rest
+    }
+
+    try {
+      const res = await axiosInstance.post('/addToCart', cartData)
+
+      if (res.data.modifiedCount > 0 || res.data.insertedId) {
+        toast.success(
+          res.data.modifiedCount > 0
+            ? 'Cart updated successfully'
+            : 'Added to cart'
+        )
+        queryClient.invalidateQueries({
+          queryKey: ['cartData', userData?.email]
+        })
+      }
+    } catch {
+      toast.error('Failed to add to cart')
+    }
+  }
 
   return (
     <div className='w-[1200px] mx-auto px-4 py-10 flex gap-10'>
