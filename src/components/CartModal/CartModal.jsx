@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { FiMinus, FiPlus } from 'react-icons/fi'
+import useAxiosInstance from '../Hooks/useAxiosInstance'
 
 const CartModal = ({ cartData, isCartLoading, refetch, onClose }) => {
-
   const [quantities, setQuantities] = useState({})
+  const axiosInstance = useAxiosInstance()
 
   const totalPayable =
     cartData?.reduce((total, item) => {
@@ -13,6 +14,29 @@ const CartModal = ({ cartData, isCartLoading, refetch, onClose }) => {
       const discountedPrice = item.price - (item.price * discount) / 100
       return total + discountedPrice * quantity
     }, 0) || 0
+
+  const handleQuantityChange = (productId, delta) => {
+    setQuantities(prev => {
+      const currentQty =
+        prev[productId] ??
+        cartData.find(p => p._id === productId)?.productQuantity ??
+        1
+
+      const newQty = Math.min(10, Math.max(1, currentQty + delta))
+
+      if (newQty !== currentQty) {
+        axiosInstance.patch(`/updateCartPrdtQty/${productId}`, {
+          quantity: newQty
+        })
+        refetch()
+      }
+
+      return {
+        ...prev,
+        [productId]: newQty
+      }
+    })
+  }
 
   return (
     <div
@@ -60,7 +84,9 @@ const CartModal = ({ cartData, isCartLoading, refetch, onClose }) => {
                 <div className='cartCounter flex items-center'>
                   <div
                     className='bg-[#f1f1f1] h-[48px] hover:bg-[#d3d2d2] cursor-pointer transition-colors duration-300 ease-in-out py-2 px-4 flex items-center group select-none'
-                    // onClick={() => updateQuantity(product._id, 'decrease')}
+                    onClick={e => {
+                      handleQuantityChange(product._id, -1)
+                    }}
                   >
                     <FiMinus className='text-[15px] group-hover:text-[#111]' />
                   </div>
@@ -69,7 +95,9 @@ const CartModal = ({ cartData, isCartLoading, refetch, onClose }) => {
                   </div>
                   <div
                     className='bg-[#f1f1f1] h-[48px] hover:bg-[#d3d2d2] cursor-pointer transition-colors duration-300 ease-in-out py-2 px-4 flex items-center group select-none'
-                    // onClick={() => updateQuantity(product._id, 'increase')}
+                    onClick={e => {
+                      handleQuantityChange(product._id, 1)
+                    }}
                   >
                     <FiPlus className='text-[15px] group-hover:text-[#111]' />
                   </div>
