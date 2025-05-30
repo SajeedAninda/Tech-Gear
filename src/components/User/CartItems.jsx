@@ -44,6 +44,7 @@ const CartItems = () => {
         axiosInstance.patch(`/updateCartPrdtQty/${productId}`, {
           quantity: newQty
         })
+        refetch()
       }
 
       return {
