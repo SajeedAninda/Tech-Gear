@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import { IoReturnUpBack } from 'react-icons/io5'
 import CheckoutForm from './CheckoutForm'
+import CheckoutSummary from './CheckoutSummary'
 
 const Checkout = () => {
   let router = useRouter()
@@ -22,7 +23,7 @@ const Checkout = () => {
 
         <div className='mainDiv flex flex-col lg:flex-row gap-10 justify-between items-start mt-6'>
           <CheckoutForm />
-
+          <CheckoutSummary />
         </div>
       </div>
     </div>
