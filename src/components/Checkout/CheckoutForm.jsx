@@ -58,7 +58,12 @@ const CheckoutForm = () => {
   const handleSubmit = e => {
     e.preventDefault()
     if (validateForm()) {
-      console.log(address)
+      const orderDetails = {
+        ...cartData,
+        ...address,
+        paymentMethod: selectedPaymentMethod
+      }
+      console.log(orderDetails)
     } else {
       toast.error('Please fix the errors in the form.')
     }
@@ -85,7 +90,7 @@ const CheckoutForm = () => {
             value={address.name}
             onChange={handleChange}
             error={formErrors.name}
-            placeholder='Alexei Ward'
+            placeholder='John Doe'
           />
           <InputField
             label='Email'
@@ -94,7 +99,7 @@ const CheckoutForm = () => {
             value={address.email}
             onChange={handleChange}
             error={formErrors.email}
-            placeholder='alexei@mail.com'
+            placeholder='john@gmail.com'
           />
         </div>
         <div className='flex-1 mt-3 w-[50%]'>
@@ -105,7 +110,7 @@ const CheckoutForm = () => {
             value={address.phone}
             onChange={handleChange}
             error={formErrors.phone}
-            placeholder='+1 202-555-8262'
+            placeholder='+8801826281191'
           />
         </div>
       </div>
@@ -122,7 +127,7 @@ const CheckoutForm = () => {
             value={address.address}
             onChange={handleChange}
             error={formErrors.address}
-            placeholder='1192 Faxton Street'
+            placeholder='House no. 51, Bailey Road'
           />
         </div>
         <div className='mt-3 flex justify-between items-center gap-6'>
@@ -132,7 +137,7 @@ const CheckoutForm = () => {
             value={address.zip}
             onChange={handleChange}
             error={formErrors.zip}
-            placeholder='20001'
+            placeholder='1216'
           />
           <InputField
             label='City'
@@ -140,7 +145,7 @@ const CheckoutForm = () => {
             value={address.city}
             onChange={handleChange}
             error={formErrors.city}
-            placeholder='Austin'
+            placeholder='Dhaka'
           />
         </div>
         <div className='mt-3 w-[50%]'>
@@ -150,7 +155,7 @@ const CheckoutForm = () => {
             value={address.country}
             onChange={handleChange}
             error={formErrors.country}
-            placeholder='United States'
+            placeholder='Bangladesh'
           />
         </div>
       </div>

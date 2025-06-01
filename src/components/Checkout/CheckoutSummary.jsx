@@ -62,7 +62,7 @@ const CheckoutSummary = () => {
               Total:
             </p>
             <h3 className='text-[#191919] font-bold text-[18px]'>
-              $ {totalPayable}
+              ৳ {totalPayable}
             </h3>
           </div>
 
@@ -70,7 +70,7 @@ const CheckoutSummary = () => {
             <p className='text-[17px] font-semibold text-[#00000080] uppercase'>
               Shipping:
             </p>
-            <h3 className='text-[#191919] font-bold text-[18px]'>$ 50.00</h3>
+            <h3 className='text-[#191919] font-bold text-[18px]'>৳ 50.00</h3>
           </div>
 
           <div className='mt-10 flex justify-between gap-4 items-center'>
@@ -78,7 +78,7 @@ const CheckoutSummary = () => {
               Grand Total:
             </p>
             <h3 className='text-[#111] font-bold text-[18px]'>
-              $ {(totalPayable + 50 ).toFixed(2)}
+              ৳ {(totalPayable + 50 ).toFixed(2)}
             </h3>
           </div>
         </div>
