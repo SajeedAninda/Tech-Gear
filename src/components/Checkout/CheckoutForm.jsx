@@ -4,6 +4,7 @@ import toast from 'react-hot-toast'
 import { useCart } from '../Provider/CartProvider'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
 import useCurrentUser from '../Hooks/useCurrentUser'
+import { useRouter } from 'next/navigation'
 
 const CheckoutForm = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('eMoney')
@@ -11,6 +12,7 @@ const CheckoutForm = () => {
   const { cartData, isCartLoading, refetch } = useCart()
   const axiosInstance = useAxiosInstance()
   const { userData } = useCurrentUser()
+  const router = useRouter()
 
   const [address, setAddress] = useState({
     name: '',
@@ -69,11 +71,15 @@ const CheckoutForm = () => {
         paymentMethod: selectedPaymentMethod
       }
 
+      const loadingToast = toast.loading('Completing Order...')
+
       try {
         const res = await axiosInstance.post('/createOrder', orderDetails)
 
         if (res.data.insertedId) {
+          toast.dismiss(loadingToast)
           toast.success('Order Completed Succesfully')
+          router.push("/orders")
         }
       } catch {
         toast.error('Failed to create Order')

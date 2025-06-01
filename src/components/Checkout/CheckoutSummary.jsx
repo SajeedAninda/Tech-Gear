@@ -20,7 +20,7 @@ const CheckoutSummary = () => {
       </h3>
 
       {cartData?.length === 0 ? (
-        <p className='text-[#191919] font-bold text-center text-[18px]'>
+        <p className='text-[#191919] mt-4 font-bold text-center text-[18px]'>
           Your cart is empty.
         </p>
       ) : (
