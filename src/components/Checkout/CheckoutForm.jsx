@@ -2,11 +2,15 @@ import React, { useState } from 'react'
 import { TbCash } from 'react-icons/tb'
 import toast from 'react-hot-toast'
 import { useCart } from '../Provider/CartProvider'
+import useAxiosInstance from '../Hooks/useAxiosInstance'
+import useCurrentUser from '../Hooks/useCurrentUser'
 
 const CheckoutForm = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('eMoney')
   const [formErrors, setFormErrors] = useState({})
   const { cartData, isCartLoading, refetch } = useCart()
+  const axiosInstance = useAxiosInstance()
+  const { userData } = useCurrentUser()
 
   const [address, setAddress] = useState({
     name: '',
@@ -55,15 +59,25 @@ const CheckoutForm = () => {
     return Object.keys(errors).length === 0
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
     if (validateForm()) {
       const orderDetails = {
+        userEmail: userData?.email,
         ...cartData,
         ...address,
         paymentMethod: selectedPaymentMethod
       }
-      console.log(orderDetails)
+
+      try {
+        const res = await axiosInstance.post('/createOrder', orderDetails)
+
+        if (res.data.insertedId) {
+          toast.success('Order Completed Succesfully')
+        }
+      } catch {
+        toast.error('Failed to create Order')
+      }
     } else {
       toast.error('Please fix the errors in the form.')
     }
