@@ -292,7 +292,7 @@ const InputField = ({
       onChange={onChange}
       className={`mt-2 w-full px-4 py-4 rounded-lg border ${
         error ? 'border-red-500' : 'border-[#0000003f]'
-      } placeholder:text-[#00000080] placeholder:font-bold placeholder:text-[13px] text-[#191919] text-[13px] font-bold focus:outline-none focus:border focus:border-[#111]`}
+      } placeholder:text-[#00000080] cursor-pointer placeholder:font-bold placeholder:text-[13px] text-[#191919] text-[13px] font-bold focus:outline-none focus:border focus:border-[#111]`}
       placeholder={error || placeholder}
     />
   </div>
