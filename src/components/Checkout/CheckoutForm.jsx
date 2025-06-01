@@ -79,7 +79,7 @@ const CheckoutForm = () => {
         if (res.data.insertedId) {
           toast.dismiss(loadingToast)
           toast.success('Order Completed Succesfully')
-          router.push("/orders")
+          router.push('/orders')
         }
       } catch {
         toast.error('Failed to create Order')
@@ -256,7 +256,14 @@ const CheckoutForm = () => {
 
       <button
         type='submit'
-        className='mt-10 bg-[#191919] text-white font-bold py-4 px-10 rounded-lg hover:bg-[#333]'
+        disabled={cartData?.length === 0}
+        className={`mt-10 font-bold py-4 px-10 rounded-lg transition-colors
+    ${
+      cartData?.length === 0
+        ? 'bg-gray-400 cursor-not-allowed text-white'
+        : 'bg-[#191919] text-white hover:bg-[#333]'
+    }
+  `}
       >
         Continue & Pay
       </button>
