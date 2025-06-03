@@ -3,14 +3,12 @@ import React from 'react'
 import useAxiosInstance from '../Hooks/useAxiosInstance'
 import { useQuery } from '@tanstack/react-query'
 import { FaMoneyBillWave } from 'react-icons/fa'
-import { MdOutlineLocalShipping } from 'react-icons/md'
 
 const Orders = () => {
   const axiosInstance = useAxiosInstance()
   const {
     data: orders,
-    isLoading: isOrdersLoading,
-    refetch
+    isLoading: isOrdersLoading
   } = useQuery({
     queryKey: ['orders'],
     queryFn: async () => {
@@ -28,32 +26,50 @@ const Orders = () => {
         <div className='text-center text-gray-700'>No orders found.</div>
       ) : (
         <div className='space-y-8'>
-          {orders.map((order, index) => (
-            <div
-              key={order._id}
-              className='border rounded-lg shadow-md p-6 bg-white hover:shadow-lg transition-all duration-300'
-            >
-              <div className='mb-4'>
-                <h2 className='text-lg font-semibold text-[#111] mb-2'>
-                  Order by: {order.name} ({order.email})
-                </h2>
-                <p className='text-sm text-gray-700'>
-                  Phone: {order.phone} | Address: {order.address}, {order.city},{' '}
-                  {order.zip}, {order.country}
-                </p>
-                <p className='text-sm text-gray-700 mt-1 flex items-center gap-1'>
-                  <FaMoneyBillWave className='text-green-600' />
-                  Payment Method:{' '}
-                  <span className='ml-1 font-medium capitalize'>
-                    {order.paymentMethod}
-                  </span>
-                </p>
-              </div>
+          {orders.map((order) => {
+            const products = Object.values(order).filter(
+              item => typeof item === 'object' && item?.name
+            )
 
-              <div className='grid md:grid-cols-2 gap-4'>
-                {Object.values(order)
-                  .filter(item => typeof item === 'object' && item?.name)
-                  .map((product, i) => (
+            const totalPrice = products.reduce(
+              (sum, p) => sum + p.price * p.productQuantity,
+              0
+            )
+
+            const totalDiscount = products.reduce(
+              (sum, p) =>
+                sum + ((p.price * p.discount) / 100) * p.productQuantity,
+              0
+            )
+
+            const priceAfterDiscount = totalPrice - totalDiscount
+
+            return (
+              <div
+                key={order._id}
+                className='border rounded-lg shadow-md p-6 bg-white hover:shadow-lg transition-all duration-300'
+              >
+                {/* Order Info */}
+                <div className='mb-4'>
+                  <h2 className='text-lg font-semibold text-[#111] mb-2'>
+                    Order by: {order.name} ({order.email})
+                  </h2>
+                  <p className='text-sm text-gray-700'>
+                    Phone: {order.phone} | Address: {order.address}, {order.city}, {order.zip},{' '}
+                    {order.country}
+                  </p>
+                  <p className='text-sm text-gray-700 mt-1 flex items-center gap-1'>
+                    <FaMoneyBillWave className='text-green-600' />
+                    Payment Method:{' '}
+                    <span className='ml-1 font-medium capitalize'>
+                      {order.paymentMethod}
+                    </span>
+                  </p>
+                </div>
+
+                {/* Products List */}
+                <div className='grid md:grid-cols-2 gap-4'>
+                  {products.map((product) => (
                     <div
                       key={product._id}
                       className='flex gap-4 border p-4 rounded-md shadow-sm cursor-pointer hover:bg-gray-50 transition'
@@ -74,8 +90,7 @@ const Orders = () => {
                           Quantity: {product.productQuantity}
                         </p>
                         <p className='text-sm mt-1 text-gray-600'>
-                          ৳ {product.price.toLocaleString()} -{' '}
-                          {product.discount}% off
+                          ৳ {product.price.toLocaleString()} - {product.discount}% off
                         </p>
                         <p className='text-xs text-gray-700 mt-1'>
                           Category: {product.category} | Brand: {product.brand}
@@ -83,9 +98,29 @@ const Orders = () => {
                       </div>
                     </div>
                   ))}
+                </div>
+                
+                <div className='mt-6 border-t pt-4 text-sm text-gray-800 space-y-1 text-center'>
+                  <p>
+                    <span className='font-medium'>Total Price:</span>{' '}
+                    ৳ {totalPrice.toLocaleString()}
+                  </p>
+                  <p>
+                    <span className='font-medium'>Total Discount:</span>{' '}
+                    ৳ {totalDiscount.toLocaleString(undefined, {
+                      maximumFractionDigits: 0
+                    })}
+                  </p>
+                  <p>
+                    <span className='font-medium'>Total After Discount:</span>{' '}
+                    ৳ {priceAfterDiscount.toLocaleString(undefined, {
+                      maximumFractionDigits: 0
+                    })}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
     </div>
