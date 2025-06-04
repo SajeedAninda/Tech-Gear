@@ -36,7 +36,7 @@ const UserSidebar = () => {
     { href: '/', label: 'Home', icon: <IoHome /> },
     { href: '/profile', label: 'Profile', icon: <IoPersonCircleSharp /> },
     { href: '/cart', label: 'Cart', icon: <FaCartShopping /> },
-    { href: '/orders', label: 'Orders', icon: <FaBoxOpen /> }
+    { href: '/userOrders', label: 'Orders', icon: <FaBoxOpen /> }
   ]
 
   return (
