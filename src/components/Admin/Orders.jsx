@@ -26,7 +26,7 @@ const Orders = () => {
         <div className='text-center text-gray-700'>No orders found.</div>
       ) : (
         <div className='space-y-8'>
-          {orders.map((order) => {
+          {orders?.map((order) => {
             const products = Object.values(order).filter(
               item => typeof item === 'object' && item?.name
             )
