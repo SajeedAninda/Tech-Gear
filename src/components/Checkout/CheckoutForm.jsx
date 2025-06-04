@@ -79,7 +79,7 @@ const CheckoutForm = () => {
         if (res.data.insertedId) {
           toast.dismiss(loadingToast)
           toast.success('Order Completed Succesfully')
-          router.push('/orders')
+          router.push('/userOrders')
         }
       } catch {
         toast.error('Failed to create Order')
