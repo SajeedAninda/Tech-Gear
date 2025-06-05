@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { GrSearch } from 'react-icons/gr'
 import useAllProducts from '../Hooks/useAllProducts'
 import Link from 'next/link'
 
 const SearchItems = ({ showSearch, handleShowSearch }) => {
-  const { products, isProductsLoading, refetch } = useAllProducts()
+  const { products } = useAllProducts()
   const [searchText, setSearchText] = useState('')
+  const [showDropdown, setShowDropdown] = useState(false)
+  const containerRef = useRef()
 
-  let filteredProducts
+  let filteredProducts = []
 
-  if (searchText == '') {
-    filteredProducts = products
-  } else {
+  if (searchText) {
     filteredProducts = products?.filter(
       product =>
         product?.name.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -19,10 +19,34 @@ const SearchItems = ({ showSearch, handleShowSearch }) => {
     )
   }
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setShowDropdown(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
   return (
-    <div className='relative flex items-center gap-4 overflow-visible'>
+    <div
+      className='relative flex items-center gap-4 overflow-visible'
+      ref={containerRef}
+    >
       <input
-        onChange={e => setSearchText(e.target.value)}
+        onChange={e => {
+          const text = e.target.value
+          setSearchText(text)
+          setShowDropdown(!!text)
+        }}
+        onFocus={() => {
+          if (searchText) setShowDropdown(true)
+        }}
         value={searchText}
         className={`absolute -right-[10px] top-1/2 -translate-y-1/2 w-[240px] rounded-lg bg-[#E5E5E5] py-2 px-6 transition-all duration-500 ease-in-out ${
           showSearch
@@ -33,21 +57,24 @@ const SearchItems = ({ showSearch, handleShowSearch }) => {
         name='search'
         placeholder='Search for Gears'
       />
+
       <GrSearch
         onClick={handleShowSearch}
         className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer relative z-10'
       />
 
-      {searchText && filteredProducts?.length > 0 && (
+      {showDropdown && filteredProducts?.length > 0 && (
         <div className='absolute -right-[10px] top-8 mt-2 w-[320px] max-h-[400px] bg-white rounded-md shadow-lg overflow-y-auto z-20 border'>
-          {filteredProducts?.map(product => {
+          {filteredProducts.map(product => {
             const discountedPrice = Math.round(
               product.price - (product.price * product.discount) / 100
             )
 
             return (
-              <Link href={`/shop/product/${product?._id}`}
+              <Link
+                href={`/shop/product/${product?._id}`}
                 key={product?._id}
+                onClick={() => setShowDropdown(false)}
                 className='flex items-center gap-5 p-3 hover:bg-gray-100 border-b last:border-b-0 cursor-pointer border-[#111]'
               >
                 <img
