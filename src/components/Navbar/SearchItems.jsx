@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { GrSearch } from 'react-icons/gr'
 import useAllProducts from '../Hooks/useAllProducts'
+import Link from 'next/link'
 
 const SearchItems = ({ showSearch, handleShowSearch }) => {
   const { products, isProductsLoading, refetch } = useAllProducts()
@@ -38,14 +39,14 @@ const SearchItems = ({ showSearch, handleShowSearch }) => {
       />
 
       {searchText && filteredProducts?.length > 0 && (
-        <div className='absolute -right-[10px] top-full mt-2 w-[320px] max-h-[400px] bg-white rounded-md shadow-lg overflow-y-auto z-20 border'>
+        <div className='absolute -right-[10px] top-8 mt-2 w-[320px] max-h-[400px] bg-white rounded-md shadow-lg overflow-y-auto z-20 border'>
           {filteredProducts?.map(product => {
             const discountedPrice = Math.round(
               product.price - (product.price * product.discount) / 100
             )
 
             return (
-              <div
+              <Link href={`/shop/product/${product?._id}`}
                 key={product?._id}
                 className='flex items-center gap-5 p-3 hover:bg-gray-100 border-b last:border-b-0 cursor-pointer border-[#111]'
               >
@@ -70,7 +71,7 @@ const SearchItems = ({ showSearch, handleShowSearch }) => {
                     </span>
                   </div>
                 </div>
-              </div>
+              </Link>
             )
           })}
         </div>
