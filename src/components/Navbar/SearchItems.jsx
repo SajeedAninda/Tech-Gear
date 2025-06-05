@@ -1,10 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { GrSearch } from 'react-icons/gr'
+import useAllProducts from '../Hooks/useAllProducts'
 
-const SearchItems = ({showSearch,handleShowSearch}) => {
+const SearchItems = ({ showSearch, handleShowSearch }) => {
+  const { products, isProductsLoading, refetch } = useAllProducts()
+  const [searchText, setSearchText] = useState('')
+
+  let filteredProducts
+
+  if (searchText == '') {
+    filteredProducts = products
+  } else {
+    filteredProducts = products?.filter(
+      product =>
+        product?.name.toLowerCase().includes(searchText.toLowerCase()) ||
+        product?.brand.toLowerCase().includes(searchText.toLowerCase())
+    )
+  }
+
+
   return (
     <div className='flex items-center gap-4 overflow-hidden'>
       <input
+        onChange={e => {
+          setSearchText(e.target.value)
+        }}
         className={`absolute right-[88px] top-1/2 -translate-y-1/2 w-[240px] rounded-lg bg-[#E5E5E5] py-2 px-6 transition-all duration-500 ease-in-out ${
           showSearch
             ? 'opacity-100 visible translate-x-0'
