@@ -12,6 +12,7 @@ import { IoIosArrowForward } from 'react-icons/io'
 import useAuth from '../Hooks/useAuth'
 import { useCart } from '../Provider/CartProvider'
 import CartModal from '../CartModal/CartModal'
+import SearchItems from './SearchItems'
 
 const gadgetData = {
   Smartphones: [
@@ -178,22 +179,10 @@ const Navbar = () => {
         </div>
 
         <div className='customs flex gap-6 items-center relative'>
-          <div className='flex items-center gap-4 overflow-hidden'>
-            <input
-              className={`absolute right-20 top-1/2 -translate-y-1/2 w-[240px] rounded-lg bg-[#E5E5E5] py-2 px-6 transition-all duration-500 ease-in-out ${
-                showSearch
-                  ? 'opacity-100 visible translate-x-0'
-                  : 'opacity-0 invisible -translate-x-full'
-              }`}
-              type='text'
-              name='search'
-              placeholder='Search for Gears'
-            />
-            <GrSearch
-              onClick={handleShowSearch}
-              className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer relative z-10'
-            />
-          </div>
+          <SearchItems
+            showSearch={showSearch}
+            handleShowSearch={handleShowSearch}
+          ></SearchItems>
 
           <div>
             {userData ? (
