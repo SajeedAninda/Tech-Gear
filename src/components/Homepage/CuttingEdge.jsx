@@ -1,12 +1,27 @@
+'use client'
 import React from 'react'
 import cuttingEdgeImg from '../../images/cuttingEdge.png'
 import Image from 'next/image'
 
 const CuttingEdge = () => {
   return (
-    <div>
-      <div className='my-20 w-[1200px] mx-auto px-12 bg-gradient-to-r from-[#111111] to-[#E5E5E5] rounded-lg flex justify-between items-center'>
-        <div className='text-div flex-1'>
+    <div className='my-20 w-full flex justify-center'>
+      <style jsx>{`
+        @keyframes customBounce {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+        .custom-bounce {
+          animation: customBounce 2s infinite ease-in-out;
+        }
+      `}</style>
+
+      <div className='w-[1200px] px-12 bg-gradient-to-r from-[#111111] to-[#E5E5E5] rounded-lg flex justify-between items-center'>
+        <div className='flex-1'>
           <h1 className='text-[30px] font-bold text-white'>
             Experience Cutting Edge Sound
           </h1>
@@ -15,12 +30,16 @@ const CuttingEdge = () => {
             and headphones built for true sound clarity.
           </p>
         </div>
+
         <div className='flex-1 flex justify-center'>
-          <Image
-            src={cuttingEdgeImg}
-            className='w-[300px]'
-            alt='cutting edge image'
-          ></Image>
+          <div className='custom-bounce'>
+            <Image
+              src={cuttingEdgeImg}
+              width={300}
+              height={300}
+              alt='cutting edge image'
+            />
+          </div>
         </div>
       </div>
     </div>
