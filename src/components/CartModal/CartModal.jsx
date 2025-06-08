@@ -53,13 +53,13 @@ const CartModal = ({ cartData, isCartLoading, refetch, onClose }) => {
           </h2>
         </div>
 
-        {cartData.length === 0 ? (
+        {cartData?.length === 0 ? (
           <p className='text-[#191919] font-bold text-center text-[18px]'>
             Your cart is empty.
           </p>
         ) : (
           <div className='mt-5'>
-            {cartData.map(product => (
+            {cartData?.map(product => (
               <div
                 key={product?._id}
                 className='flex justify-between items-center mb-4'

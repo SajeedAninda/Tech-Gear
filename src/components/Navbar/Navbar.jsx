@@ -208,7 +208,7 @@ const Navbar = () => {
             <div className='relative' onClick={toggleModal}>
               <RiShoppingCart2Fill className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer' />
               <div className='w-[19px] h-[19px] bg-[#111111] rounded-full font-bold flex justify-center items-center absolute -top-3 -right-3'>
-                <p className='text-[13px] text-white'>{totalQuantity}</p>
+                <p className='text-[13px] text-white'>{totalQuantity ?? 0}</p>
               </div>
             </div>
           )}
