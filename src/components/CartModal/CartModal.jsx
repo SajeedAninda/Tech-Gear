@@ -49,11 +49,11 @@ const CartModal = ({ cartData, isCartLoading, refetch, onClose }) => {
       >
         <div className='flex justify-between items-center'>
           <h2 className='text-lg font-bold mb-6 uppercase'>
-            Cart ({cartData?.length})
+            Cart ({cartData?.length ?? 0})
           </h2>
         </div>
 
-        {cartData?.length === 0 ? (
+        {!cartData || cartData.length === 0 ? (
           <p className='text-[#191919] font-bold text-center text-[18px]'>
             Your cart is empty.
           </p>
