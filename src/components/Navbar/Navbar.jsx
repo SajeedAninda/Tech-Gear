@@ -186,13 +186,15 @@ const Navbar = () => {
 
           <div>
             {userData ? (
-              <Image
-                className='rounded-full w-[30px] h-[30px] cursor-pointer hover:opacity-65'
-                src={userData?.imageUrl}
-                width={30}
-                height={30}
-                alt='User Image'
-              />
+              <Link href={userData.role === 'admin' ? '/admin-panel' : '/profile'}>
+                <Image
+                  className='rounded-full w-[30px] h-[30px] cursor-pointer hover:opacity-65'
+                  src={userData?.imageUrl}
+                  width={30}
+                  height={30}
+                  alt='User Image'
+                />
+              </Link>
             ) : (
               <Link href='/login'>
                 <IoPerson className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer' />
