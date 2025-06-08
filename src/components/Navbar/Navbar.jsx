@@ -186,7 +186,9 @@ const Navbar = () => {
 
           <div>
             {userData ? (
-              <Link href={userData.role === 'admin' ? '/admin-panel' : '/profile'}>
+              <Link
+                href={userData.role === 'admin' ? '/adminPanel' : '/profile'}
+              >
                 <Image
                   className='rounded-full w-[30px] h-[30px] cursor-pointer hover:opacity-65'
                   src={userData?.imageUrl}
@@ -202,12 +204,14 @@ const Navbar = () => {
             )}
           </div>
 
-          <div className='relative' onClick={toggleModal}>
-            <RiShoppingCart2Fill className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer' />
-            <div className='w-[19px] h-[19px] bg-[#111111] rounded-full font-bold flex justify-center items-center absolute -top-3 -right-3'>
-              <p className='text-[13px] text-white'>{totalQuantity}</p>
+          {userData?.role !== 'admin' && (
+            <div className='relative' onClick={toggleModal}>
+              <RiShoppingCart2Fill className='text-[#111111] text-[24px] font-bold hover:opacity-65 cursor-pointer' />
+              <div className='w-[19px] h-[19px] bg-[#111111] rounded-full font-bold flex justify-center items-center absolute -top-3 -right-3'>
+                <p className='text-[13px] text-white'>{totalQuantity}</p>
+              </div>
             </div>
-          </div>
+          )}
 
           {isModalOpen && (
             <CartModal
