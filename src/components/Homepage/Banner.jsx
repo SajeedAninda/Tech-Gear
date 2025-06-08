@@ -2,6 +2,7 @@ import React from 'react'
 import BannerImg from '../../images/BannerImg.png'
 import Image from 'next/image'
 import BannerTypewriter from '../Small_Components/BannerTypewriter'
+import Link from 'next/link'
 
 const Banner = () => {
   return (
@@ -14,7 +15,8 @@ const Banner = () => {
             </h1>
 
             <BannerTypewriter></BannerTypewriter>
-            <button className='flex cursor-pointer px-10 py-2 mt-10 gap-2 items-center shadow-xl text-lg text-white hover:text-gray-300 bg-[#111111]  backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-emerald-500 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10  overflow-hidden border-2 rounded-full group'>
+            <Link href={"/shop"}>
+              <button className='flex cursor-pointer px-10 py-2 mt-10 gap-2 items-center shadow-xl text-lg text-white hover:text-gray-300 bg-[#111111]  backdrop-blur-md lg:font-semibold isolation-auto border-gray-50 before:absolute before:w-full before:transition-all before:duration-700 before:hover:w-full before:-left-full before:hover:left-0 before:rounded-full before:bg-emerald-500 before:-z-10 before:aspect-square before:hover:scale-150 before:hover:duration-700 relative z-10  overflow-hidden border-2 rounded-full group'>
               Explore
               <svg
                 className='w-8 h-8  group-hover:rotate-90 group-hover:bg-gray-50 text-gray-50 ease-linear duration-300 rounded-full border border-gray-700 group-hover:border-none p-2 rotate-45'
@@ -27,6 +29,7 @@ const Banner = () => {
                 ></path>
               </svg>
             </button>
+            </Link>
           </div>
           <Image className='w-[650px]' src={BannerImg} alt='banner image' />
         </div>
