@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { FaFacebookF, FaTwitter, FaInstagram } from 'react-icons/fa'
 
 const Footer = () => {
@@ -20,30 +21,30 @@ const Footer = () => {
         {/* Company */}
         <div>
           <h3 className='text-lg font-semibold mb-4'>Company</h3>
-          <ul className='space-y-2 text-sm text-gray-300'>
-            <li>About</li>
-            <li>Contact</li>
-            <li>Blog</li>
+          <ul className='space-y-2 text-sm text-gray-300 flex flex-col gap-2'>
+            <Link className='hover:underline' href={"/"}>About</Link>
+            <Link className='hover:underline' href={"/"}>Contact</Link>
+            <Link className='hover:underline' href={"/"}>Blog</Link>
           </ul>
         </div>
 
         {/* Support */}
         <div>
           <h3 className='text-lg font-semibold mb-4'>Support</h3>
-          <ul className='space-y-2 text-sm text-gray-300'>
-            <li>Shipping</li>
-            <li>Returns</li>
-            <li>FAQs</li>
+          <ul className='space-y-2 text-sm text-gray-300 flex flex-col gap-2'>
+            <Link className='hover:underline' href={"/"}>Shipping</Link >
+            <Link className='hover:underline' href={"/"}>Returns</Link >
+            <Link className='hover:underline' href={"/"}>FAQs</Link>
           </ul>
         </div>
 
         {/* Social */}
         <div>
           <h3 className='text-lg font-semibold mb-4'>Social</h3>
-          <ul className='space-y-2 text-sm text-gray-300'>
-            <li>Facebook</li>
-            <li>Twitter</li>
-            <li>Instagram</li>
+          <ul className='space-y-2 text-sm text-gray-300 flex flex-col gap-2'>
+            <Link className='hover:underline' href={"/"}>Facebook</Link>
+            <Link className='hover:underline' href={"/"}>Twitter</Link>
+            <Link className='hover:underline' href={"/"}>Instagram</Link>
           </ul>
         </div>
         <div className='flex gap-4 text-xl mt-6'>
