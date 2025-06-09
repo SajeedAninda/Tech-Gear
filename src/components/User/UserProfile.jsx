@@ -27,7 +27,22 @@ const UserProfile = () => {
     enabled: !!currentUserEmail
   })
 
-   const handleLogout = () => {
+  const {
+    data: userOrders,
+    isLoading: isOrdersLoading,
+    refetch: OrdersRefetch
+  } = useQuery({
+    queryKey: ['userOrders', currentUserEmail],
+    queryFn: async () => {
+      const response = await axiosInstance.get(
+        `/userOrders/${currentUserEmail}`
+      )
+      return response.data
+    },
+    enabled: !!currentUserEmail
+  })
+
+  const handleLogout = () => {
     Swal.fire({
       title: 'Are you sure you want to Logout as User?',
       text: 'Click Yes if You want to Log out of the website!',
@@ -61,7 +76,7 @@ const UserProfile = () => {
             <div className='text-[24px] font-semibold text-[#111] p-6 rounded-xl shadow-lg flex flex-col gap-2'>
               <span>Total Orders</span>
               <span className='text-[30px] font-bold flex items-center gap-4'>
-                <BsBorderStyle /> 20
+                <BsBorderStyle />{userOrders?.length ?? 0}
               </span>
             </div>
           </div>
@@ -98,7 +113,7 @@ const UserProfile = () => {
 
         <div className='mt-8 flex gap-4 justify-end'>
           <button
-          onClick={handleLogout}
+            onClick={handleLogout}
             className={`px-5 py-3 rounded text-base font-semibold transition-all duration-300 bg-[#111] text-white hover:bg-[#333] hover:opacity-60 cursor-pointer`}
           >
             Log Out
