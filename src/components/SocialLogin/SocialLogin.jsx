@@ -10,6 +10,7 @@ const SocialLogin = () => {
   let { googleLogin } = useAuth()
   let axiosInstance = useAxiosInstance()
   let router = useRouter()
+  const date = new Date()
 
   let handleGoogleLogin = () => {
     googleLogin()
@@ -19,7 +20,8 @@ const SocialLogin = () => {
           name: user?.displayName,
           email: user?.email,
           imageUrl: user?.photoURL,
-          role: 'user'
+          role: 'user',
+          registerDate: date
         }
 
         axiosInstance.post('/googleLogin', userDetails).then(res => {

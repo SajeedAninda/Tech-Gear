@@ -12,6 +12,7 @@ const RegisterForm = () => {
   const [selectedImage, setSelectedImage] = useState(null)
   const [preview, setPreview] = useState(null)
   let axiosInstance = useAxiosInstance()
+  const date = new Date()
   let { signUp } = useAuth()
   let router = useRouter()
 
@@ -63,7 +64,7 @@ const RegisterForm = () => {
       let userCredential = await signUp(email, password)
       let user = userCredential.user
 
-      let userDetails = { name: fullName, email, imageUrl, role: 'user' }
+      let userDetails = { name: fullName, email, imageUrl, role: 'user', registerDate: date }
       let res = await axiosInstance.post('/registerUser', userDetails)
 
       if (res.data.insertedId) {
