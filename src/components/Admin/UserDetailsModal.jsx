@@ -99,6 +99,29 @@ const UserDetailsModal = ({ isOpen, onClose, user, refetch }) => {
     })
   }
 
+  const formatDate = isoDate => {
+    const date = new Date(isoDate)
+    const day = date.getDate()
+    const month = date.toLocaleString('en-US', { month: 'long' })
+    const year = date.getFullYear()
+
+    const getOrdinal = d => {
+      if (d > 3 && d < 21) return 'th'
+      switch (d % 10) {
+        case 1:
+          return 'st'
+        case 2:
+          return 'nd'
+        case 3:
+          return 'rd'
+        default:
+          return 'th'
+      }
+    }
+
+    return `${day}${getOrdinal(day)} ${month}, ${year}`
+  }
+
   return (
     <div className='fixed inset-0 z-50 flex justify-center items-center bg-black/60 backdrop-blur-sm transition-all duration-300'>
       <div
@@ -131,7 +154,12 @@ const UserDetailsModal = ({ isOpen, onClose, user, refetch }) => {
                 {user?.role}
               </span>
             </p>
-            <p className='mt-1 text-gray-500'>Member Since: Not Available</p>
+            <p className='mt-1 text-gray-500'>
+              Member Since:{' '}
+              {user?.registerDate
+                ? formatDate(user.registerDate)
+                : 'Not Available'}
+            </p>
           </div>
         </div>
 

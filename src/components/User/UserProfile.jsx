@@ -42,6 +42,30 @@ const UserProfile = () => {
     enabled: !!currentUserEmail
   })
 
+  const formatDate = isoDate => {
+  const date = new Date(isoDate)
+  const day = date.getDate()
+  const month = date.toLocaleString('en-US', { month: 'long' })
+  const year = date.getFullYear()
+
+  const getOrdinal = d => {
+    if (d > 3 && d < 21) return 'th'
+    switch (d % 10) {
+      case 1:
+        return 'st'
+      case 2:
+        return 'nd'
+      case 3:
+        return 'rd'
+      default:
+        return 'th'
+    }
+  }
+
+  return `${day}${getOrdinal(day)} ${month}, ${year}`
+}
+
+
   const handleLogout = () => {
     Swal.fire({
       title: 'Are you sure you want to Logout as User?',
@@ -107,7 +131,10 @@ const UserProfile = () => {
                 {userData?.role}
               </span>
             </p>
-            <p className='mt-1 text-gray-500'>Member Since: Not Available</p>
+            <p className='mt-1 text-gray-500'>
+  Member Since: {userData?.registerDate && formatDate(userData.registerDate)}
+</p>
+
           </div>
         </div>
 
