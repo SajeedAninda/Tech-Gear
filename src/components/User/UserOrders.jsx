@@ -30,6 +30,7 @@ const UserOrders = () => {
 
   return (
     <div className='mt-4'>
+      <h3 className='text-[#111111] text-[30px] font-bold mb-6'>All Orders ({userOrders?.length ?? 0})</h3>
       {userOrders?.length === 0 ? (
         <div className='text-center text-gray-700'>No orders found.</div>
       ) : (
