@@ -20,6 +20,16 @@ const Dashboard = () => {
     }
   })
 
+  const { data: userData, isLoading: isUsersLoading } = useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      const response = await axiosInstance.get(`/allUsers`)
+      return response.data
+    }
+  })
+
+  const memberUsers = userData?.filter(user => user.role === 'user')
+
   return (
     <div className='w-full mt-4 flex justify-between items-center gap-4'>
       <div className='flex flex-col gap-4'>
@@ -43,7 +53,7 @@ const Dashboard = () => {
           <span>Total Users</span>
           <span className='text-[30px] font-bold flex items-center gap-4'>
             <PiUsersThreeFill />
-            10
+            {memberUsers?.length ?? 0}
           </span>
         </div>
       </div>
