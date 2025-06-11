@@ -1,7 +1,7 @@
 'use client'
 import useAxiosInstance from '@/components/Hooks/useAxiosInstance'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { FaBookmark, FaCartPlus } from 'react-icons/fa'
@@ -20,6 +20,11 @@ const ProductDetails = () => {
   const [activeImg, setActiveImg] = useState(null)
   const [quantity, setQuantity] = useState(1)
   const queryClient = useQueryClient()
+  const router = useRouter()
+
+  const handleOrderNow = () => {
+    router.push(`/checkoutFromOrder?productId=${_id}&quantity=${quantity}`)
+  }
 
   const {
     data: product,
@@ -201,7 +206,10 @@ const ProductDetails = () => {
         {/* BUTTONS  */}
         <div className='flex items-center gap-4 mt-3'>
           <div className='flex items-center gap-3 mt-4'>
-            <button className='bg-[#111111] text-[16px] flex items-center gap-2 px-6 py-3 rounded-lg text-white cursor-pointer hover:bg-[#555555] transition duration-200 font-bold'>
+            <button
+              onClick={handleOrderNow}
+              className='bg-[#111111] text-[16px] flex items-center gap-2 px-6 py-3 rounded-lg text-white cursor-pointer hover:bg-[#555555] transition duration-200 font-bold'
+            >
               Order Now
               <MdOutlineShoppingCartCheckout />
             </button>
