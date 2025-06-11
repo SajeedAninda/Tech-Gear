@@ -2,6 +2,8 @@
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { IoReturnUpBack } from 'react-icons/io5'
+import CheckoutFromOrderForm from './CheckoutFromOrderForm'
+import CheckoutFromOrderSummary from './CheckoutFromOrderSummary'
 
 const CheckoutFromOrder = () => {
   let router = useRouter()
@@ -20,8 +22,8 @@ const CheckoutFromOrder = () => {
         </button>
 
         <div className='mainDiv flex flex-col lg:flex-row gap-10 justify-between items-start mt-6'>
-
-
+          <CheckoutFromOrderForm></CheckoutFromOrderForm>
+          <CheckoutFromOrderSummary></CheckoutFromOrderSummary>
         </div>
       </div>
     </div>
