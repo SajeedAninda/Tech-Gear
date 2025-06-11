@@ -4,6 +4,7 @@ import useCurrentUser from '../Hooks/useCurrentUser'
 import { useRouter, useSearchParams } from 'next/navigation'
 import useAllProducts from '../Hooks/useAllProducts'
 import { TbCash } from 'react-icons/tb'
+import toast from 'react-hot-toast'
 
 const CheckoutFromOrderForm = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('eMoney')
@@ -66,10 +67,63 @@ const CheckoutFromOrderForm = () => {
     setFormErrors(errors)
     return Object.keys(errors).length === 0
   }
+  if (!orderedProduct) {
+    return (
+      <div className='text-center text-red-500 mt-10'>Product not found.</div>
+    )
+  }
+
+
+  const handleSubmit = async e => {
+  e.preventDefault();
+  if (validateForm()) {
+    const orderDetails = {
+      "0": {
+        ...orderedProduct,
+        userEmail: userData?.email,
+        userName: address.name,
+        productQuantity: orderedQuantity,
+        productId: orderedProduct._id
+      },
+      userEmail: userData?.email,
+      name: address.name,
+      email: address.email,
+      phone: address.phone,
+      address: address.address,
+      zip: address.zip,
+      city: address.city,
+      country: address.country,
+      eMoneyNumber: address.eMoneyNumber,
+      eMoneyPin: address.eMoneyPin,
+      paymentMethod: selectedPaymentMethod
+    };
+
+    const loadingToast = toast.loading('Completing Order...');
+
+    try {
+      const res = await axiosInstance.post(
+        '/createOrderFromOrder',
+        orderDetails
+      );
+
+      if (res.data.insertedId) {
+        toast.dismiss(loadingToast);
+        toast.success('Order Completed Successfully');
+        router.push('/userOrders');
+      }
+    } catch (error) {
+      toast.dismiss(loadingToast);
+      toast.error('Failed to create Order');
+      console.error('Order creation error:', error);
+    }
+  } else {
+    toast.error('Please fix the errors in the form.');
+  }
+};
 
   return (
     <form
-      //   onSubmit={handleSubmit}
+      onSubmit={handleSubmit}
       className='formDiv w-full lg:w-[65%] bg-white rounded-xl py-12 px-12'
     >
       <h2 className='uppercase text-[#191919] font-bold text-[28px]'>
@@ -234,8 +288,8 @@ const CheckoutFromOrderForm = () => {
 
       <button
         type='submit'
-        disabled={orderedProduct?.length === 0}
-        className={`mt-10 font-bold py-4 px-10 rounded-lg transition-colors
+        disabled={!orderedProduct}
+        className={`mt-10 font-bold py-4 px-10 cursor-pointer rounded-lg transition-colors
            ${
              orderedProduct?.length === 0
                ? 'bg-gray-400 cursor-not-allowed text-white'
