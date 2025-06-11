@@ -257,7 +257,7 @@ const CheckoutForm = () => {
       <button
         type='submit'
         disabled={cartData?.length === 0}
-        className={`mt-10 font-bold py-4 px-10 rounded-lg transition-colors
+        className={`mt-10 font-bold py-4 px-10 cursor-pointer rounded-lg transition-colors
     ${
       cartData?.length === 0
         ? 'bg-gray-400 cursor-not-allowed text-white'
