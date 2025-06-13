@@ -5,14 +5,14 @@ import { ColorRing } from 'react-loader-spinner'
 import useCurrentUser from '../Hooks/useCurrentUser'
 import useAuth from '../Hooks/useAuth'
 
-const UserRoute = ({ children }) => {
+const AdminRoute = ({ children }) => {
   const router = useRouter()
   const { userData, isUserLoading } = useCurrentUser()
   const { loggedInUser, loading } = useAuth()
 
   useEffect(() => {
     if (!loading && !isUserLoading) {
-      if (!(userData?.role === 'user' && loggedInUser)) {
+      if (!(userData?.role === 'admin' && loggedInUser)) {
         router.replace('/login')
       }
     }
@@ -34,11 +34,11 @@ const UserRoute = ({ children }) => {
     )
   }
 
-  if (userData?.role === 'user' && loggedInUser) {
+  if (userData?.role === 'admin' && loggedInUser) {
     return children
   }
 
   return null
 }
 
-export default UserRoute
+export default AdminRoute
